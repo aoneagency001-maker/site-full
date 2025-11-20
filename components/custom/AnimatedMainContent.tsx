@@ -110,7 +110,7 @@ export function AnimatedMainContent({ content }: AnimatedMainContentProps) {
               [&_a]:text-primary [&_a]:hover:underline [&_a]:transition-colors
               [&_strong]:font-semibold [&_strong]:text-text-heading
               [&_em]:italic
-              [&_hr]:border-border [&_hr]:my-8"
+              [&_hr]:border-[var(--border)] [&_hr]:my-8"
             dangerouslySetInnerHTML={{
               __html: content.replace(
                 /<h([1-6])([^>]*)>(.*?)<\/h[1-6]>/gi,
