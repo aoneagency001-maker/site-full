@@ -20,3 +20,4 @@ export async function GET() {
     message: "API is working. Check telegram credentials above.",
   });
 }
+
