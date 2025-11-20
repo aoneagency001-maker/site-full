@@ -4,9 +4,21 @@
  * Скрипт для отправки тестового уведомления в Telegram
  */
 
-const TELEGRAM_BOT_TOKEN_TEST =
-  process.env.TELEGRAM_BOT_TOKEN || "8117404134:AAG_owRPtVGY5WDRzYlUK7y-uJJ8ak2MBWk";
-const TELEGRAM_CHAT_ID_TEST = process.env.TELEGRAM_CHAT_ID || "280192618";
+// Загрузка переменных окружения из .env.local
+import { config } from 'dotenv';
+import { resolve } from 'path';
+
+config({ path: resolve(process.cwd(), '.env.local') });
+config({ path: resolve(process.cwd(), '.env') });
+
+const TELEGRAM_BOT_TOKEN_TEST = process.env.TELEGRAM_BOT_TOKEN;
+const TELEGRAM_CHAT_ID_TEST = process.env.TELEGRAM_CHAT_ID;
+
+if (!TELEGRAM_BOT_TOKEN_TEST || !TELEGRAM_CHAT_ID_TEST) {
+  console.error("❌ Ошибка: TELEGRAM_BOT_TOKEN и TELEGRAM_CHAT_ID не установлены");
+  console.error("   Добавьте их в .env.local или передайте через переменные окружения");
+  process.exit(1);
+}
 
 const message = `
 🔔 <b>Тестовое уведомление!</b>
@@ -34,15 +46,18 @@ const message = `
 
 async function sendTestNotification() {
   try {
-    const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN_TEST}/sendMessage`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        chat_id: TELEGRAM_CHAT_ID_TEST,
-        text: message,
-        parse_mode: "HTML",
-      }),
-    });
+    const response = await fetch(
+      `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN_TEST}/sendMessage`,
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: TELEGRAM_CHAT_ID_TEST,
+          text: message,
+          parse_mode: "HTML",
+        }),
+      }
+    );
 
     const data = (await response.json()) as { ok: boolean; description?: string };
 

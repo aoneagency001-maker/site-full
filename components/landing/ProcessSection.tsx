@@ -4,6 +4,7 @@ import { SectionHeading } from "@/components/custom/SectionHeading";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
+import { useTranslations } from "next-intl";
 import { useRef } from "react";
 
 // Register ScrollTrigger plugin
@@ -20,6 +21,7 @@ interface processType {
 }
 
 const ProcessCards: React.FC = () => {
+  const t = useTranslations("process");
   const containerRef = useRef<HTMLDivElement>(null);
   const slidesRef = useRef<HTMLDivElement[]>([]);
   const headingRef = useRef<HTMLDivElement>(null);
@@ -27,50 +29,46 @@ const ProcessCards: React.FC = () => {
 
   const process: processType[] = [
     {
-      title: "Аудит и стратегия",
-      tagline: "Изучаем ваш бизнес и цели",
-      description:
-        "Начинаем с глубокого анализа вашего бизнеса, целей и проблем, которые вы решаете. Проводим детальное исследование рынка и анализ конкурентов. Выявляем уникальные возможности и определяем лучший способ позиционирования вашего продукта для долгосрочного успеха. Этот этап гарантирует, что фундамент заложен правильно перед началом работы.",
+      title: t("step1Title"),
+      tagline: t("step1Tagline"),
+      description: t("step1Description"),
       deliverables: [
-        { item: "Детальный анализ рынка" },
-        { item: "Комплексный анализ конкурентов" },
-        { item: "Победная стратегия для вашего бизнеса" },
+        { item: t("step1Deliverable1") },
+        { item: t("step1Deliverable2") },
+        { item: t("step1Deliverable3") },
       ],
       bg_image: "https://res.cloudinary.com/dieth2xb3/image/upload/v1755799085/ssimage_bxr8i6.png",
     },
     {
-      title: "Планирование и настройка",
-      tagline: "Составляем план действий",
-      description:
-        "После определения целей мы тщательно планируем, как их достичь. Наша команда создает структурированный план проекта и детальный scope, чтобы все участники точно знали, что и как будет реализовано. Этот этап устраняет неопределенность и приносит ясность во весь процесс. В итоге у вас будет четкий roadmap, соответствующий вашим целям.",
+      title: t("step2Title"),
+      tagline: t("step2Tagline"),
+      description: t("step2Description"),
       deliverables: [
-        { item: "Полный план проекта" },
-        { item: "Детальная структура кампаний" },
-        { item: "План технической реализации" },
+        { item: t("step2Deliverable1") },
+        { item: t("step2Deliverable2") },
+        { item: t("step2Deliverable3") },
       ],
       bg_image: "https://res.cloudinary.com/dieth2xb3/image/upload/v1755804235/aaaimage_zbypst.png",
     },
     {
-      title: "Запуск и оптимизация",
-      tagline: "Превращаем идеи в результат",
-      description:
-        "Здесь идеи начинают воплощаться в жизнь. Наши специалисты работают сообща, чтобы превратить ваше видение в функциональную, масштабируемую и визуально привлекательную маркетинговую систему. Каждая деталь тщательно продумана — от интуитивного пользовательского опыта до надежных систем аналитики. Мы сочетаем креативность с технологиями, чтобы создать продукт, который не только выглядит отлично, но и работает безупречно и растет вместе с вашим бизнесом.",
+      title: t("step3Title"),
+      tagline: t("step3Tagline"),
+      description: t("step3Description"),
       deliverables: [
-        { item: "Полностью настроенная рекламная система" },
-        { item: "Надежная, масштабируемая реализация" },
-        { item: "Протестированное решение, готовое к росту" },
+        { item: t("step3Deliverable1") },
+        { item: t("step3Deliverable2") },
+        { item: t("step3Deliverable3") },
       ],
       bg_image: "https://res.cloudinary.com/dieth2xb3/image/upload/v1755804376/fasimage_skodum.png",
     },
     {
-      title: "Масштабирование и рост",
-      tagline: "Выводим вас на новый уровень",
-      description:
-        "Запуск рекламы — это только начало пути. Мы обеспечиваем полную поддержку при запуске, гарантируя, что все работает гладко и ваш продукт достигает нужной аудитории. После запуска мы помогаем вам разрабатывать и совершенствовать маркетинговые стратегии, отслеживать производительность и внедрять оптимизации, которые обеспечивают устойчивый рост. Наша цель — сделать так, чтобы ваш бизнес не просто запустился, но и процветал на рынке.",
+      title: t("step4Title"),
+      tagline: t("step4Tagline"),
+      description: t("step4Description"),
       deliverables: [
-        { item: "Поддержка при запуске" },
-        { item: "Индивидуальная маркетинговая стратегия" },
-        { item: "Практические советы и постоянное сопровождение роста" },
+        { item: t("step4Deliverable1") },
+        { item: t("step4Deliverable2") },
+        { item: t("step4Deliverable3") },
       ],
       bg_image: "https://res.cloudinary.com/dieth2xb3/image/upload/v1755804235/aaaimage_zbypst.png",
     },
@@ -189,9 +187,9 @@ const ProcessCards: React.FC = () => {
     <div ref={sectionRef} className="relative space-y-4 px-4 sm:px-6 lg:px-8">
       <SectionHeading
         ref={headingRef}
-        badge="Наш проверенный процесс"
-        heading="Как мы работаем — процесс маркетингового агентства в Алматы"
-        description="Изучите наш процесс работы: от аудита до масштабирования. Мы используем проверенные методики и AI-технологии для достижения измеримых результатов для наших клиентов в Алматы и по всему Казахстану."
+        badge={t("badge")}
+        heading={t("title")}
+        description={t("description")}
         size="md"
         align="center"
         as="h2"
@@ -232,10 +230,10 @@ const ProcessCards: React.FC = () => {
                     </li>
                   ))}
                   <li className="text-heading bg-tag-bg/20 rounded-4xl px-3 py-1 text-xs tracking-wide backdrop-blur-lg sm:px-4">
-                    анализ конкурентов
+                    {t("extraTag1")}
                   </li>
                   <li className="text-heading bg-tag-bg/20 rounded-4xl px-3 py-1 text-xs tracking-wide backdrop-blur-lg sm:px-4">
-                    ваша победная стратегия
+                    {t("extraTag2")}
                   </li>
                 </ul>
               </div>

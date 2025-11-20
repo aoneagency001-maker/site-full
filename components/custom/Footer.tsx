@@ -1,31 +1,35 @@
 "use client";
 
+import { QuizModal } from "@/components/quiz/QuizModal";
 import { Marquee } from "@/components/magicui/marquee";
 import { Button } from "@/components/ui/button";
 import { ArrowUpRight } from "lucide-react";
-import { useRef } from "react";
+import { useTranslations } from "next-intl";
+import { useRef, useState } from "react";
 
 function Footer() {
+  const t = useTranslations("footer");
+  const [isQuizOpen, setIsQuizOpen] = useState(false);
   const marqueeRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLImageElement>(null);
 
   const resourceLinks = [
-    { name: "Блог", href: "/blog" },
-    { name: "О нас", href: "/about" },
-    { name: "Кейсы", href: "/cases" },
-    { name: "Контакты", href: "/contacts" },
+    { name: t("blog"), href: "/blog" },
+    { name: t("about"), href: "/about" },
+    { name: t("cases"), href: "/cases" },
+    { name: t("contacts"), href: "/contacts" },
   ];
 
   const legalLinks = [
-    { name: "Политика конфиденциальности", href: "/privacy-policy" },
-    { name: "Условия использования", href: "/terms-of-service" },
-    { name: "Политика cookies", href: "/cookie-policy" },
+    { name: t("privacy"), href: "/privacy-policy" },
+    { name: t("terms"), href: "/terms-of-service" },
+    { name: t("cookies"), href: "/cookie-policy" },
   ];
 
   const socialLinks = [
-    { name: "Instagram", href: "https://instagram.com/aoneagency" },
-    { name: "Telegram", href: "https://t.me/aoneagency" },
-    { name: "WhatsApp", href: "https://wa.me/77473854493" },
+    { name: t("instagram"), href: "https://instagram.com/aoneagency" },
+    { name: t("telegram"), href: "https://t.me/aoneagency" },
+    { name: t("whatsapp"), href: "https://wa.me/77473854493" },
   ];
 
   return (
@@ -74,23 +78,23 @@ function Footer() {
                   itemType="https://schema.org/Organization"
                 >
                   <p className="text-2xl font-bold" itemProp="name">
-                    AOne Agency
+                    {t("companyName")}
                   </p>
-                  <p className="text-sm">© 2025 AOne Agency. Все права защищены.</p>
+                  <p className="text-sm">{t("copyright")}</p>
                   <p className="text-sm">
                     <span className="sr-only">Телефон:</span>
-                    <a href="tel:+77473854493" itemProp="telephone" className="hover:underline">
-                      +7 747 385 4493
+                    <a
+                      href={`tel:${t("phone").replace(/\s/g, "")}`}
+                      itemProp="telephone"
+                      className="hover:underline"
+                    >
+                      {t("phone")}
                     </a>
                   </p>
                   <p className="text-sm">
                     <span className="sr-only">Email:</span>
-                    <a
-                      href="mailto:info@aoneagency.kz"
-                      itemProp="email"
-                      className="hover:underline"
-                    >
-                      info@aoneagency.kz
+                    <a href={`mailto:${t("email")}`} itemProp="email" className="hover:underline">
+                      {t("email")}
                     </a>
                   </p>
                   <p
@@ -99,25 +103,24 @@ function Footer() {
                     itemScope
                     itemType="https://schema.org/PostalAddress"
                   >
-                    <span itemProp="streetAddress">проспект Назарбаева 103</span>
+                    <span itemProp="streetAddress">{t("address")}</span>
                   </p>
                   <p className="text-sm">
-                    <span itemProp="addressLocality">Алматы</span>,{" "}
-                    <span itemProp="addressRegion">Алматинская область</span>{" "}
-                    <span itemProp="postalCode">050000</span>
+                    <span itemProp="addressLocality">{t("city")}</span>,{" "}
+                    <span itemProp="addressRegion">{t("region")}</span>{" "}
+                    <span itemProp="postalCode">{t("postalCode")}</span>
                   </p>
                 </div>
 
                 <div className="flex">
-                  <a href="/contacts">
-                    <Button
-                      variant="outline"
-                      className="border-primary-foreground/5 bg-white/5 cursor-pointer backdrop-blur-2xl text-white hover:bg-white/10 hover:text-white hover:backdrop-blur-2xl"
-                    >
-                      Связаться с нами
-                      <ArrowUpRight className="ml-2 h-4 w-4" />
-                    </Button>
-                  </a>
+                  <Button
+                    onClick={() => setIsQuizOpen(true)}
+                    variant="outline"
+                    className="border-primary-foreground/5 bg-white/5 cursor-pointer backdrop-blur-2xl text-white hover:bg-white/10 hover:text-white hover:backdrop-blur-2xl"
+                  >
+                    {t("ctaButton")}
+                    <ArrowUpRight className="ml-2 h-4 w-4" />
+                  </Button>
                 </div>
               </div>
             </div>
@@ -129,7 +132,7 @@ function Footer() {
                 className="mb-6 text-sm font-medium tracking-wider text-gray-400 uppercase"
                 id="footer-resources-heading"
               >
-                Ресурсы
+                {t("resourcesHeading")}
               </h3>
               <nav className="space-y-4" aria-labelledby="footer-resources-heading">
                 {resourceLinks.map((link) => (
@@ -150,7 +153,7 @@ function Footer() {
                 className="mb-6 text-sm font-medium tracking-wider text-gray-400 uppercase"
                 id="footer-connect-heading"
               >
-                Связаться
+                {t("connectHeading")}
               </h3>
               <nav className="space-y-4" aria-labelledby="footer-connect-heading">
                 {socialLinks.map((link) => (
@@ -172,7 +175,7 @@ function Footer() {
                 className="mb-6 text-sm font-medium tracking-wider text-gray-400 uppercase"
                 id="footer-legal-heading"
               >
-                Правовая информация
+                {t("legalHeading")}
               </h3>
               <nav className="space-y-4" aria-labelledby="footer-legal-heading">
                 {legalLinks.map((link) => (
@@ -190,6 +193,9 @@ function Footer() {
           </div>
         </div>
       </footer>
+
+      {/* Quiz Modal */}
+      <QuizModal isOpen={isQuizOpen} onClose={() => setIsQuizOpen(false)} />
     </div>
   );
 }

@@ -7,7 +7,18 @@
   },
   "files": {
     "ignoreUnknown": false,
-    "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "**/*.json", "**/*.jsonc"]
+    "include": ["**/*.ts", "**/*.tsx", "**/*.js", "**/*.jsx", "**/*.json", "**/*.jsonc"],
+    "ignore": [
+      "node_modules",
+      ".next",
+      "out",
+      "build",
+      "dist",
+      "docs/**",
+      "data/**",
+      "**/*.tsbuildinfo",
+      "coverage/**"
+    ]
   },
   "formatter": {
     "enabled": true,

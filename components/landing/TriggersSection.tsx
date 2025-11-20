@@ -1,8 +1,10 @@
 "use client";
 
+import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
 export function TriggersSection() {
+  const t = useTranslations("triggers");
   const [showNotification, setShowNotification] = useState(false);
 
   useEffect(() => {
@@ -24,7 +26,7 @@ export function TriggersSection() {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-3 w-3 bg-red-500"></span>
           </span>
-          Только 3 слота на этой неделе
+          {t("fomoBadge")}
         </div>
       </div>
 
@@ -37,9 +39,9 @@ export function TriggersSection() {
                 👤
               </div>
               <div>
-                <p className="font-semibold text-gray-900">Айгуль из Алматы</p>
-                <p className="text-sm text-gray-600">только что заказала таргет в Instagram</p>
-                <p className="text-xs text-gray-500">2 минуты назад</p>
+                <p className="font-semibold text-gray-900">{t("socialProofName")}</p>
+                <p className="text-sm text-gray-600">{t("socialProofAction")}</p>
+                <p className="text-xs text-gray-500">{t("socialProofTime")}</p>
               </div>
             </div>
           </div>

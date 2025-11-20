@@ -1,9 +1,11 @@
 "use client";
 
+import { QuizModal } from "@/components/quiz/QuizModal";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
 import { Plus } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -52,7 +54,9 @@ const faqData = [
 ];
 
 export function FAQSection() {
+  const t = useTranslations("faq");
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const [isQuizOpen, setIsQuizOpen] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
   const faqListRef = useRef<HTMLDivElement>(null);
@@ -110,14 +114,12 @@ export function FAQSection() {
         <div className="max-w-4xl mx-auto px-4 lg:px-8">
           <div ref={headingRef} className="text-center mb-16">
             <div className="inline-block px-4 py-2 bg-blue-100 rounded-full text-blue-700 text-sm font-semibold mb-4">
-              ❓ Часто задаваемые вопросы
+              {t("badge")}
             </div>
             <h2 id="faq-heading" className="text-4xl font-bold text-gray-900 mb-4">
-              Ответы на популярные вопросы
+              {t("title")}
             </h2>
-            <p className="text-xl text-gray-700">
-              Всё, что нужно знать о работе с маркетинговым агентством в Алматы
-            </p>
+            <p className="text-xl text-gray-700">{t("subtitle")}</p>
           </div>
 
           <div ref={faqListRef} className="space-y-4">
@@ -166,16 +168,19 @@ export function FAQSection() {
 
           {/* CTA */}
           <div className="mt-12 text-center">
-            <p className="text-gray-700 mb-6">Не нашли ответ на свой вопрос?</p>
-            <a
-              href="/contacts"
+            <p className="text-gray-700 mb-6">{t("ctaText")}</p>
+            <button
+              onClick={() => setIsQuizOpen(true)}
               className="inline-block bg-orange-500 text-white px-8 py-4 rounded-lg font-semibold hover:bg-orange-600 transform hover:scale-105 transition-all shadow-lg hover:shadow-xl"
             >
-              Получить консультацию →
-            </a>
+              {t("ctaButton")}
+            </button>
           </div>
         </div>
       </section>
+
+      {/* Quiz Modal */}
+      <QuizModal isOpen={isQuizOpen} onClose={() => setIsQuizOpen(false)} />
     </>
   );
 }

@@ -27,9 +27,16 @@ function getExistingData() {
 
 // Сохранение новых данных
 function saveData(data: Record<string, unknown>) {
-  const existingData = getExistingData();
-  existingData.push(data);
-  fs.writeFileSync(contactDataFile, JSON.stringify(existingData, null, 2), "utf-8");
+  try {
+    const existingData = getExistingData();
+    existingData.push(data);
+    fs.writeFileSync(contactDataFile, JSON.stringify(existingData, null, 2), "utf-8");
+  } catch (error) {
+    // На некоторых платформах файловая система может быть read-only
+    // Это не критично - данные все равно отправляются в Telegram
+    console.warn("[CONTACT] ⚠️ Could not save to file (may be read-only filesystem):", error);
+    // Не бросаем ошибку, чтобы не блокировать отправку в Telegram
+  }
 }
 
 export async function POST(request: NextRequest) {
@@ -68,9 +75,9 @@ export async function POST(request: NextRequest) {
     });
 
     const telegramResult = await sendToTelegram(telegramMessage);
-    
+
     if (!telegramResult.success) {
-      console.error('Не удалось отправить в Telegram:', telegramResult.error);
+      console.error("Не удалось отправить в Telegram:", telegramResult.error);
       // Продолжаем работу даже если Telegram не работает
     }
 

@@ -28,9 +28,16 @@ function getExistingData() {
 
 // Сохранение новых данных
 function saveData(data: unknown) {
-  const existingData = getExistingData();
-  existingData.push(data);
-  fs.writeFileSync(visitorsDataFile, JSON.stringify(existingData, null, 2), "utf-8");
+  try {
+    const existingData = getExistingData();
+    existingData.push(data);
+    fs.writeFileSync(visitorsDataFile, JSON.stringify(existingData, null, 2), "utf-8");
+  } catch (error) {
+    // На некоторых платформах (Vercel, некоторые серверы) файловая система может быть read-only
+    // Это не критично - данные все равно отправляются в Telegram
+    console.warn("[SAVE] ⚠️ Could not save to file (may be read-only filesystem):", error);
+    // Не бросаем ошибку, чтобы не блокировать отправку в Telegram
+  }
 }
 
 // Список известных ботов (User-Agent)
@@ -65,10 +72,21 @@ const BOT_USER_AGENTS = [
 
 // Функция определения бота
 function isBot(userAgent: string): boolean {
-  if (!userAgent) return true;
+  if (!userAgent) {
+    console.log("[TRACK] Bot detected: empty user-agent");
+    return true;
+  }
 
   const ua = userAgent.toLowerCase();
-  return BOT_USER_AGENTS.some((bot) => ua.includes(bot));
+  // Исключаем "http" из проверки, так как это слишком широко
+  const botPatterns = BOT_USER_AGENTS.filter((bot) => bot !== "http");
+  const isBotDetected = botPatterns.some((bot) => ua.includes(bot));
+
+  if (isBotDetected) {
+    console.log(`[TRACK] Bot detected: ${userAgent.substring(0, 100)}`);
+  }
+
+  return isBotDetected;
 }
 
 // Функция получения геолокации по IP
@@ -109,10 +127,18 @@ async function getGeoLocation(ip: string) {
 
 // Функция проверки IP на приватный/локальный
 function isValidIP(ip: string): boolean {
+  // Если IP неизвестен, разрешаем (может быть прокси/CDN)
+  if (ip === "unknown" || !ip) {
+    console.log("[TRACK] IP is unknown, allowing tracking");
+    return true;
+  }
+
   // Проверка на приватные IP (localhost, локальная сеть)
   const privateIPRegex = /^(10\.|172\.(1[6-9]|2[0-9]|3[01])\.|192\.168\.|127\.|::1|localhost)/i;
   if (privateIPRegex.test(ip)) {
-    return false; // Локальный IP = возможно разработка
+    console.log(`[TRACK] Private IP detected: ${ip}, allowing for development`);
+    // Разрешаем даже приватные IP, так как это может быть разработка или прокси
+    return true;
   }
 
   return true; // IP валидный
@@ -198,14 +224,25 @@ async function sendToTelegram(visitorData: {
   timeOnSite?: number;
   clicks?: number;
   conversions?: string[];
+  isFirstVisit?: boolean;
 }) {
   const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
   const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
 
   if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
-    console.warn("Telegram credentials not configured");
+    console.error("[TELEGRAM] ❌ Telegram credentials not configured");
+    console.error(`[TELEGRAM] BOT_TOKEN: ${TELEGRAM_BOT_TOKEN ? "✅ Set" : "❌ Missing"}`);
+    console.error(`[TELEGRAM] CHAT_ID: ${TELEGRAM_CHAT_ID ? "✅ Set" : "❌ Missing"}`);
     return;
   }
+
+  console.log(`[TELEGRAM] 📤 Sending notification for visitor: ${visitorData.id}`);
+  console.log(`[TELEGRAM] Visitor data summary:`, {
+    city: visitorData.city,
+    country: visitorData.country,
+    page: visitorData.page,
+    isFirstVisit: visitorData.isFirstVisit,
+  });
 
   // Определяем тип источника трафика
   const metrikaData = (
@@ -272,8 +309,13 @@ async function sendToTelegram(visitorData: {
           .join("\n   ")
       : "нет";
 
+  // Определяем тип посещения
+  const visitType = visitorData.isFirstVisit
+    ? "🆕 <b>Новый посетитель на сайте!</b>"
+    : "🔄 <b>Посетитель вернулся на сайт!</b>";
+
   const message = `
-🔔 <b>Новый посетитель на сайте!</b>
+${visitType}
 
 👤 <b>Информация:</b>
 📍 Местоположение: ${visitorData.city}, ${visitorData.country}
@@ -293,10 +335,11 @@ ${sourceInfo}
 🖱️ Кликов по кнопкам: ${visitorData.clicks || 0}
 ✅ Конверсии:
    ${conversionsText}
+${visitorData.isFirstVisit ? "" : "\n🔄 Это повторное посещение в этой сессии"}
   `.trim();
 
   try {
-    await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+    const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
@@ -305,13 +348,35 @@ ${sourceInfo}
         parse_mode: "HTML",
       }),
     });
+
+    const result = await response.json();
+
+    if (response.ok && result.ok) {
+      console.log(`[TELEGRAM] ✅ Notification sent successfully for visitor: ${visitorData.id}`);
+    } else {
+      console.error(`[TELEGRAM] ❌ Failed to send notification:`, result);
+      console.error(`[TELEGRAM] Response status: ${response.status}`);
+      console.error(`[TELEGRAM] Error description: ${result.description || "Unknown error"}`);
+    }
   } catch (error) {
-    console.error("Telegram send error:", error);
+    console.error("[TELEGRAM] ❌ Error sending notification:", error);
+    if (error instanceof Error) {
+      console.error("[TELEGRAM] Error message:", error.message);
+      console.error("[TELEGRAM] Error stack:", error.stack);
+    }
   }
 }
 
 // Главная функция API Route
 export async function POST(request: NextRequest) {
+  const requestId = Math.random().toString(36).substring(7);
+  console.log(`[TRACK-${requestId}] 📥 New tracking request received`);
+  console.log(`[TRACK-${requestId}] Headers:`, {
+    "user-agent": request.headers.get("user-agent")?.substring(0, 50),
+    "x-forwarded-for": request.headers.get("x-forwarded-for"),
+    "x-real-ip": request.headers.get("x-real-ip"),
+  });
+
   try {
     const body = (await request.json()) as {
       page?: string;
@@ -324,7 +389,12 @@ export async function POST(request: NextRequest) {
       utmCampaign?: string;
       utmTerm?: string;
       utmContent?: string;
+      isFirstVisit?: boolean;
     };
+
+    console.log(`[TRACK-${requestId}] Page: ${body.page || "/"}`);
+    console.log(`[TRACK-${requestId}] Session ID: ${body.sessionId || "none"}`);
+    console.log(`[TRACK-${requestId}] Body data:`, JSON.stringify(body, null, 2));
 
     // Получаем данные из заголовков
     const userAgent = request.headers.get("user-agent") || "";
@@ -333,16 +403,22 @@ export async function POST(request: NextRequest) {
       request.headers.get("x-real-ip") ||
       "unknown";
 
+    console.log(`[TRACK-${requestId}] IP: ${ip}`);
+    console.log(`[TRACK-${requestId}] User-Agent: ${userAgent.substring(0, 100)}`);
+
     // 1. Проверка на бота
     if (isBot(userAgent)) {
-      console.log(`Bot detected: ${userAgent}`);
-      return NextResponse.json({ tracked: false, reason: "bot" });
+      console.log(`[TRACK-${requestId}] ❌ Request rejected: bot detected`);
+      return NextResponse.json({ tracked: false, reason: "bot", requestId });
     }
 
     // 2. Проверка IP
     if (!isValidIP(ip)) {
-      return NextResponse.json({ tracked: false, reason: "invalid_ip" });
+      console.log(`[TRACK-${requestId}] ❌ Request rejected: invalid IP`);
+      return NextResponse.json({ tracked: false, reason: "invalid_ip", requestId });
     }
+
+    console.log(`[TRACK-${requestId}] ✅ Request passed validation, processing...`);
 
     // 3. Получаем геолокацию
     const geoData = await getGeoLocation(ip);
@@ -408,18 +484,49 @@ export async function POST(request: NextRequest) {
     );
 
     // 7. Сохраняем в базу данных (файл JSON)
-    saveData(visitorData);
+    console.log(`[TRACK-${requestId}] 💾 Saving visitor data: ${visitorData.id}`);
+    try {
+      saveData(visitorData);
+      console.log(`[TRACK-${requestId}] ✅ Visitor data saved`);
+    } catch (saveError) {
+      console.error(`[TRACK-${requestId}] ❌ Error saving data:`, saveError);
+      // Продолжаем работу даже если сохранение не удалось (может быть проблема с файловой системой)
+    }
 
-    // 8. Отправляем в Telegram с данными из Metrika
-    await sendToTelegram({ ...visitorData, metrikaData } as Parameters<typeof sendToTelegram>[0] & { metrikaData?: typeof metrikaData });
+    // 8. Отправляем в Telegram при каждом посещении
+    const isFirstVisit = body.isFirstVisit !== false; // Определяем для статистики
+    console.log(
+      `[TRACK-${requestId}] 📤 Preparing Telegram notification (${isFirstVisit ? "first visit" : "subsequent visit"})...`
+    );
+    console.log(`[TRACK-${requestId}] Telegram credentials check:`, {
+      hasToken: !!process.env.TELEGRAM_BOT_TOKEN,
+      hasChatId: !!process.env.TELEGRAM_CHAT_ID,
+    });
 
+    await sendToTelegram({ ...visitorData, metrikaData, isFirstVisit } as Parameters<
+      typeof sendToTelegram
+    >[0] & { metrikaData?: typeof metrikaData; isFirstVisit?: boolean });
+
+    console.log(`[TRACK-${requestId}] ✅ Visitor tracked successfully: ${visitorData.id}`);
     return NextResponse.json({
       tracked: true,
       visitorId: visitorData.id,
+      requestId,
     });
   } catch (error) {
-    console.error("Track visitor error:", error);
-    return NextResponse.json({ error: "Internal error" }, { status: 500 });
+    console.error(`[TRACK-${requestId}] ❌ Error tracking visitor:`, error);
+    if (error instanceof Error) {
+      console.error(`[TRACK-${requestId}] Error message:`, error.message);
+      console.error(`[TRACK-${requestId}] Error stack:`, error.stack);
+    }
+    return NextResponse.json(
+      {
+        error: "Internal error",
+        requestId,
+        message: error instanceof Error ? error.message : "Unknown error",
+      },
+      { status: 500 }
+    );
   }
 }
 

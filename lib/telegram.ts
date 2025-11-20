@@ -4,7 +4,7 @@
 interface TelegramMessage {
   chat_id: string;
   text: string;
-  parse_mode?: 'HTML' | 'Markdown';
+  parse_mode?: "HTML" | "Markdown";
 }
 
 /**
@@ -18,53 +18,50 @@ export async function sendToTelegram(
 ): Promise<{ success: boolean; error?: string }> {
   const botToken = process.env.TELEGRAM_BOT_TOKEN;
   const defaultChatId = process.env.TELEGRAM_CHAT_ID;
-  
+
   const targetChatId = chatId || defaultChatId;
 
   if (!botToken) {
-    console.error('TELEGRAM_BOT_TOKEN не установлен');
-    return { success: false, error: 'Bot token не настроен' };
+    console.error("TELEGRAM_BOT_TOKEN не установлен");
+    return { success: false, error: "Bot token не настроен" };
   }
 
   if (!targetChatId) {
-    console.error('TELEGRAM_CHAT_ID не установлен');
-    return { success: false, error: 'Chat ID не настроен' };
+    console.error("TELEGRAM_CHAT_ID не установлен");
+    return { success: false, error: "Chat ID не настроен" };
   }
 
   try {
     const telegramMessage: TelegramMessage = {
       chat_id: targetChatId,
       text: message,
-      parse_mode: 'HTML',
+      parse_mode: "HTML",
     };
 
-    const response = await fetch(
-      `https://api.telegram.org/bot${botToken}/sendMessage`,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(telegramMessage),
-      }
-    );
+    const response = await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(telegramMessage),
+    });
 
     const data = await response.json();
 
     if (!response.ok) {
-      console.error('Ошибка отправки в Telegram:', data);
-      return { 
-        success: false, 
-        error: data.description || 'Неизвестная ошибка' 
+      console.error("Ошибка отправки в Telegram:", data);
+      return {
+        success: false,
+        error: data.description || "Неизвестная ошибка",
       };
     }
 
     return { success: true };
   } catch (error) {
-    console.error('Ошибка при отправке в Telegram:', error);
-    return { 
-      success: false, 
-      error: error instanceof Error ? error.message : 'Неизвестная ошибка' 
+    console.error("Ошибка при отправке в Telegram:", error);
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : "Неизвестная ошибка",
     };
   }
 }
@@ -83,11 +80,11 @@ export function formatContactMessage(data: {
 
 👤 <b>Имя:</b> ${escapeHtml(data.name)}
 📧 <b>Email:</b> ${escapeHtml(data.email)}
-${data.phone ? `📞 <b>Телефон:</b> ${escapeHtml(data.phone)}\n` : ''}
+${data.phone ? `📞 <b>Телефон:</b> ${escapeHtml(data.phone)}\n` : ""}
 💬 <b>Сообщение:</b>
 ${escapeHtml(data.message)}
 
-📅 Дата: ${new Date().toLocaleString('ru-RU', { timeZone: 'Asia/Almaty' })}
+📅 Дата: ${new Date().toLocaleString("ru-RU", { timeZone: "Asia/Almaty" })}
   `.trim();
 }
 
@@ -101,7 +98,7 @@ export function formatQuizMessage(data: {
   answers: Record<string, unknown>;
   estimatedBudget?: string;
 }): string {
-  let message = '🎯 <b>Новый результат квиза!</b>\n\n';
+  let message = "🎯 <b>Новый результат квиза!</b>\n\n";
 
   if (data.name) {
     message += `👤 <b>Имя:</b> ${escapeHtml(data.name)}\n`;
@@ -113,7 +110,7 @@ export function formatQuizMessage(data: {
     message += `📧 <b>Email:</b> ${escapeHtml(data.email)}\n`;
   }
 
-  message += '\n<b>Ответы:</b>\n';
+  message += "\n<b>Ответы:</b>\n";
   for (const [question, answer] of Object.entries(data.answers)) {
     message += `• ${escapeHtml(question)}: ${escapeHtml(String(answer))}\n`;
   }
@@ -122,7 +119,7 @@ export function formatQuizMessage(data: {
     message += `\n💰 <b>Примерный бюджет:</b> ${escapeHtml(data.estimatedBudget)}`;
   }
 
-  message += `\n\n📅 Дата: ${new Date().toLocaleString('ru-RU', { timeZone: 'Asia/Almaty' })}`;
+  message += `\n\n📅 Дата: ${new Date().toLocaleString("ru-RU", { timeZone: "Asia/Almaty" })}`;
 
   return message.trim();
 }
@@ -132,10 +129,9 @@ export function formatQuizMessage(data: {
  */
 function escapeHtml(text: string): string {
   return text
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#039;');
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
-

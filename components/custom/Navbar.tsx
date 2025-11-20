@@ -3,14 +3,17 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
-import Link from "next/link";
+import { useTranslations } from "next-intl";
+import { Link } from "@/lib/i18n";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 import { Button } from "../ui/button";
 
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 function Navbar() {
+  const t = useTranslations("nav");
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeIndex, setActiveIndex] = useState(-1);
   const menuRef = useRef<HTMLDivElement>(null);
@@ -20,24 +23,24 @@ function Navbar() {
 
   const navLinks = [
     {
-      name: "Главная",
+      name: t("home"),
       href: "/",
-      description: "Вернуться на главную страницу",
+      description: "Navigate to home page",
     },
     {
-      name: "О нас",
+      name: t("about"),
       href: "/about",
-      description: "Узнать больше о нашей компании",
+      description: "Learn more about our company",
     },
     {
-      name: "Блог",
+      name: t("blog"),
       href: "/blog",
-      description: "Читать наши статьи о маркетинге и рекламе",
+      description: "Read our articles about marketing",
     },
     {
-      name: "Контакты",
+      name: t("contacts"),
       href: "/contacts",
-      description: "Связаться с нами",
+      description: "Contact us",
     },
   ];
 
@@ -242,14 +245,15 @@ function Navbar() {
               })}
             </ul>
 
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2">
+              <LanguageSwitcher />
               <Button
                 size={"sm"}
-                className="text-sm"
-                aria-label="Связаться с нами для начала работы"
+                className="text-sm hidden lg:flex"
+                aria-label="Contact us to get started"
                 asChild
               >
-                <Link href="/contacts">Связаться с нами</Link>
+                <Link href="/contacts">{t("cta")}</Link>
               </Button>
             </div>
 
@@ -325,11 +329,11 @@ function Navbar() {
                   <div className="border-t pt-4 space-y-3">
                     <Button
                       className="w-full"
-                      aria-label="Связаться с нами для начала работы"
+                      aria-label="Contact us to get started"
                       onClick={closeMenu}
                       asChild
                     >
-                      <Link href="/contacts">Связаться с нами</Link>
+                      <Link href="/contacts">{t("cta")}</Link>
                     </Button>
                   </div>
                 </div>

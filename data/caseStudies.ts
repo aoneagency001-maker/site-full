@@ -20,9 +20,6 @@ export const caseStudies = [
     ],
     test_img:
       "https://cdn.prod.website-files.com/62528d398a42424ab6390ee1/667adecbe7684da501b70952_image%2014.jpg",
-    testimonial: `"Ionio didn't disappear after the MVP was built. They continued to work with us to fix bugs and make improvements based on user feedback."`,
-    founder_name: "Ryan Samii",
-    position: "Founder & CEO",
   },
   {
     main_image_src:
@@ -46,9 +43,6 @@ export const caseStudies = [
     ],
     test_img:
       "https://cdn.prod.website-files.com/62528d398a42424ab6390ee1/667adece3c44f7ae7233676d_video%2011.jpg",
-    testimonial: `"Even though we are from the US and working with a company overseas, they made the experience very personable."`,
-    founder_name: "Reid Chong",
-    position: "Founder & CEO",
   },
   {
     main_image_src:
@@ -70,9 +64,6 @@ export const caseStudies = [
     ],
     test_img:
       "https://cdn.prod.website-files.com/62528d398a42424ab6390ee1/667adecbea18eeb8f0d91b57_video%204.jpg",
-    testimonial: `"Communication is free-flowing and Veerview can almost always get a hold of someone on Ionio’s team throughout the day."`,
-    founder_name: "TJ Gottfried",
-    position: "Founder",
   },
   {
     main_image_src:
@@ -95,9 +86,6 @@ export const caseStudies = [
     ],
     test_img:
       "https://cdn.prod.website-files.com/62528d398a42424ab6390ee1/667adecda06c8f453168901f_video%2012.jpg",
-    testimonial: `"Ionio was very professional and provided excellent support throughout the entire process."`,
-    founder_name: "Brad Milne",
-    position: "Co-Founder",
   },
   {
     main_image_src:
@@ -120,9 +108,6 @@ export const caseStudies = [
     ],
     test_img:
       "https://cdn.prod.website-files.com/62528d398a42424ab6390ee1/667adece0c823fe11cb6aa89_video%2010.jpg",
-    testimonial: `"Ionio's team was understanding about this and did not get discouraged when new bugs were found."`,
-    founder_name: "Michael Guimarin",
-    position: "Founder",
   },
 ];
 

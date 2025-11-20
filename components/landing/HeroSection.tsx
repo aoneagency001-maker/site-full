@@ -18,12 +18,14 @@ import Autoplay from "embla-carousel-autoplay";
 import gsap from "gsap";
 import { ScrollTrigger, SplitText } from "gsap/all";
 import { Sparkles } from "lucide-react";
+import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
 function HomePage() {
+  const t = useTranslations("hero");
   const heroRef = useRef<HTMLDivElement>(null);
   const caseStudiesRef = useRef(null);
   const [isQuizOpen, setIsQuizOpen] = useState(false);
@@ -70,24 +72,22 @@ function HomePage() {
       >
         <div className="space-y-6">
           <div className="inline-block px-4 py-2 bg-blue-100 rounded-full text-blue-700 text-sm font-semibold">
-            🎯 AI-маркетинговое агентство в Казахстане
+            {t("badge")}
           </div>
 
           <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 leading-tight md:mx-auto md:w-4/5">
-            AOne Agency — маркетинг, который <span className="text-blue-600">работает</span>
+            {t("title")} <span className="text-blue-600">{t("titleHighlight")}</span>
           </h1>
 
           <p className="text-xl text-gray-700 leading-relaxed md:mx-auto md:w-3/4">
-            Увеличьте продажи на <strong className="text-orange-500">30%</strong> с
-            AI-автоматизацией таргета, SEO и разработкой приложений
+            {t("description")}{" "}
+            <strong className="text-orange-500">{t("descriptionHighlight")}</strong>{" "}
+            {t("descriptionEnd")}
           </p>
         </div>
 
         {/* SEO H2 для поисковых систем */}
-        <h2 className="sr-only">
-          Маркетинговое агентство в Алматы: таргетированная реклама, контекстная реклама,
-          SEO-продвижение
-        </h2>
+        <h2 className="sr-only">{t("seoTitle")}</h2>
 
         <div
           aria-label="Кнопки призыва к действию"
@@ -99,7 +99,7 @@ function HomePage() {
             onClick={() => setIsQuizOpen(true)}
             className="cursor-pointer bg-orange-500 hover:bg-orange-600 text-white px-8 py-6 text-base font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all"
           >
-            Узнать стоимость за 60 секунд →
+            {t("ctaPrimary")}
           </Button>
           <Button
             aria-describedby="case-studies-cta-description"
@@ -108,7 +108,7 @@ function HomePage() {
             variant={"outline"}
             asChild
           >
-            <a href="#cases">Смотреть кейсы</a>
+            <a href="#cases">{t("ctaSecondary")}</a>
           </Button>
         </div>
 
@@ -124,7 +124,7 @@ function HomePage() {
                 clipRule="evenodd"
               />
             </svg>
-            <span className="text-gray-700 font-semibold">18 лет опыта</span>
+            <span className="text-gray-700 font-semibold">{t("stat1")}</span>
           </div>
           <div className="flex items-center gap-2">
             <svg className="w-6 h-6 text-green-500" fill="currentColor" viewBox="0 0 20 20">
@@ -134,7 +134,7 @@ function HomePage() {
                 clipRule="evenodd"
               />
             </svg>
-            <span className="text-gray-700 font-semibold">500+ клиентов</span>
+            <span className="text-gray-700 font-semibold">{t("stat2")}</span>
           </div>
           <div className="flex items-center gap-2">
             <svg className="w-6 h-6 text-green-500" fill="currentColor" viewBox="0 0 20 20">
@@ -144,12 +144,12 @@ function HomePage() {
                 clipRule="evenodd"
               />
             </svg>
-            <span className="text-gray-700 font-semibold">+30% заявок</span>
+            <span className="text-gray-700 font-semibold">{t("stat3")}</span>
           </div>
         </div>
 
         <div className="relative" role="region" aria-label="Наши довольные клиенты">
-          <h2 className="!sr-only">Компании, которым мы помогли вырасти</h2>
+          <h2 className="!sr-only">{t("companiesTitle")}</h2>
           <div className="pointer-events-none absolute top-0 left-0 z-10 h-full w-12 bg-gradient-to-r from-gray-50 via-gray-50/90 to-transparent md:w-48"></div>
 
           {/* Right fade gradient */}
@@ -191,7 +191,7 @@ function HomePage() {
           className="relative mt-14 w-full"
         >
           <h2 id="featured-case-studies-heading" className="!sr-only">
-            Примеры наших работ — кейсы маркетингового агентства в Алматы
+            {t("caseStudiesTitle")}
           </h2>
           <div className="pointer-events-none absolute top-0 left-0 z-5 h-full w-12 bg-gradient-to-r from-gray-50/80 via-gray-50/20 to-transparent md:w-36"></div>
 

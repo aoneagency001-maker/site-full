@@ -1,24 +1,28 @@
 "use client";
 
+import { QuizModal } from "@/components/quiz/QuizModal";
 import { SectionHeading } from "@/components/custom/SectionHeading";
 import { InteractiveGridPattern } from "@/components/magicui/interactive-grid-pattern";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { caseStudies } from "@/data/caseStudies";
+import { caseStudies, type CaseStudyType } from "@/data/caseStudies";
 import { cn } from "@/lib/utils";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
+import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 
 function ContactUs() {
+  const t = useTranslations("contact");
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
   const [currentIndex, setCurrentIndex] = useState(0);
+  const [isQuizOpen, setIsQuizOpen] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
   const imageRef = useRef<HTMLDivElement>(null);
   const logoRef = useRef<HTMLImageElement>(null);
@@ -30,7 +34,7 @@ function ContactUs() {
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
 
-  const currentCaseStudy = caseStudies[currentIndex];
+  const currentCaseStudy = caseStudies[currentIndex] as CaseStudyType;
 
   useGSAP(() => {
     if (headingRef.current) {
@@ -205,9 +209,9 @@ function ContactUs() {
         {/* Header */}
         <SectionHeading
           ref={headingRef}
-          badge="Свяжитесь с нами"
-          heading="Получите бесплатную консультацию маркетингового агентства в Алматы"
-          description="Свяжитесь с AOne Agency для обсуждения ваших маркетинговых задач. Получите бесплатную консультацию по таргетированной рекламе, SEO-продвижению и разработке приложений."
+          badge={t("badge")}
+          heading={t("title")}
+          description={t("description")}
           size="md"
           align="center"
           as="h2"
@@ -216,14 +220,24 @@ function ContactUs() {
           showDescriptionToScreenReaders={true}
         />
 
+        {/* CTA Button for Quiz */}
+        <div className="text-center mb-8">
+          <Button
+            onClick={() => setIsQuizOpen(true)}
+            className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-semibold transform hover:scale-105 transition-all shadow-lg hover:shadow-xl"
+          >
+            Узнать стоимость за 60 секунд →
+          </Button>
+        </div>
+
         <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-8 xl:gap-10">
           <div className="lg:col-span-1">
             <div ref={formRef} className="space-y-4 sm:space-y-6">
               <h3 id="contact-form-title" className="sr-only">
-                Форма обратной связи
+                {t("formTitle")}
               </h3>
               <p id="contact-form-description" className="sr-only">
-                Используйте эту форму для связи с AOne Agency. Все поля обязательны для заполнения.
+                {t("formDescription")}
               </p>
               <form
                 className="space-y-4 sm:space-y-6"
@@ -238,12 +252,12 @@ function ContactUs() {
                     htmlFor="name"
                     className="text-text-heading text-sm font-medium sm:text-base"
                   >
-                    Имя
+                    {t("nameLabel")}
                   </label>
                   <Input
                     id="name"
                     type="text"
-                    placeholder="Введите ваше имя"
+                    placeholder={t("namePlaceholder")}
                     className="focus:border-primary focus:ring-primary w-full border-gray-200 h-10 sm:h-11"
                     name="name"
                     autoComplete="name"
@@ -258,12 +272,12 @@ function ContactUs() {
                     htmlFor="email"
                     className="text-text-heading text-sm font-medium sm:text-base"
                   >
-                    Email
+                    {t("emailLabel")}
                   </label>
                   <Input
                     id="email"
                     type="email"
-                    placeholder="Введите ваш email"
+                    placeholder={t("emailPlaceholder")}
                     className="focus:border-primary focus:ring-primary w-full border-gray-200 h-10 sm:h-11"
                     name="email"
                     autoComplete="email"
@@ -279,11 +293,11 @@ function ContactUs() {
                     htmlFor="message"
                     className="text-text-heading text-sm font-medium sm:text-base"
                   >
-                    Сообщение
+                    {t("messageLabel")}
                   </label>
                   <Textarea
                     id="message"
-                    placeholder="Введите ваше сообщение..."
+                    placeholder={t("messagePlaceholder")}
                     rows={4}
                     className="focus:border-primary focus:ring-primary min-h-32 sm:min-h-40 w-full resize-none border-gray-200"
                     name="message"
@@ -303,18 +317,18 @@ function ContactUs() {
                   />
                   <div className="text-label text-xs sm:text-sm">
                     <label htmlFor="terms" className="cursor-pointer">
-                      Я принимаю{" "}
+                      {t("termsText")}{" "}
                       <a
                         href="#"
                         className="text-primary hover:text-primary/80 underline"
                         rel="noreferrer nofollow noopener"
                         target="_blank"
                       >
-                        условия обработки данных
+                        {t("termsLink")}
                       </a>
                     </label>
                     <p id="terms-description" className="sr-only">
-                      Вы должны принять условия для отправки формы.
+                      {t("termsDescription")}
                     </p>
                   </div>
                 </div>
@@ -324,14 +338,13 @@ function ContactUs() {
                     className="bg-green-50 text-green-800 px-4 py-3 rounded-lg text-sm"
                     role="alert"
                   >
-                    ✅ Спасибо! Ваше сообщение успешно отправлено. Мы свяжемся с вами в ближайшее
-                    время.
+                    {t("successMessage")}
                   </div>
                 )}
 
                 {submitStatus === "error" && (
                   <div className="bg-red-50 text-red-800 px-4 py-3 rounded-lg text-sm" role="alert">
-                    ❌ {errorMessage}
+                    {t("errorPrefix")} {errorMessage}
                   </div>
                 )}
 
@@ -341,7 +354,7 @@ function ContactUs() {
                   aria-label="Отправить форму обратной связи"
                   disabled={isSubmitting}
                 >
-                  {isSubmitting ? "Отправка..." : "Отправить заявку"}
+                  {isSubmitting ? t("submitting") : t("submitButton")}
                 </Button>
               </form>
             </div>
@@ -368,7 +381,7 @@ function ContactUs() {
                 <div className="absolute inset-0 w-full rounded-b-2xl bg-gradient-to-t from-gray-500/40 to-transparent"></div>
 
                 {/* Testimonial Section */}
-                {currentCaseStudy.testimonial && (
+                {currentCaseStudy.testimonial && currentCaseStudy.founder_name && (
                   <div
                     ref={testimonialRef}
                     className="mt-4 rounded-lg border border-white/10 bg-white/5 p-3 backdrop-blur-sm sm:mt-6 sm:p-4"
@@ -409,7 +422,7 @@ function ContactUs() {
                         <button
                           onClick={handlePrevious}
                           className="group flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-white/10 backdrop-blur-md transition-all duration-300 hover:bg-white/20 sm:h-8 sm:w-8"
-                          aria-label="Предыдущий отзыв"
+                          aria-label={t("previousTestimonial")}
                         >
                           <svg
                             className="h-4 w-4 text-white transition-transform duration-300 group-hover:scale-110 sm:h-5 sm:w-5"
@@ -428,7 +441,7 @@ function ContactUs() {
                         <button
                           onClick={handleNext}
                           className="group flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-white/10 backdrop-blur-md transition-all duration-300 hover:bg-white/20 sm:h-8 sm:w-8"
-                          aria-label="Следующий отзыв"
+                          aria-label={t("nextTestimonial")}
                         >
                           <svg
                             className="h-4 w-4 text-white transition-transform duration-300 group-hover:scale-110 sm:h-5 sm:w-5"
@@ -453,6 +466,9 @@ function ContactUs() {
           </div>
         </div>
       </section>
+
+      {/* Quiz Modal */}
+      <QuizModal isOpen={isQuizOpen} onClose={() => setIsQuizOpen(false)} />
     </>
   );
 }

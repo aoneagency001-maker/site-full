@@ -120,8 +120,8 @@ export default function CookiePolicyPage() {
               <li>Удалять все cookies при закрытии браузера</li>
             </ul>
             <p className="text-label mb-4">
-              Обратите внимание, что отключение cookies может повлиять на функциональность сайта
-              и ухудшить ваш пользовательский опыт.
+              Обратите внимание, что отключение cookies может повлиять на функциональность сайта и
+              ухудшить ваш пользовательский опыт.
             </p>
           </section>
 
@@ -226,4 +226,3 @@ export default function CookiePolicyPage() {
     </div>
   );
 }
-

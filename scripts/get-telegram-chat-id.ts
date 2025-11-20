@@ -9,8 +9,20 @@
  * 2. Запустите этот скрипт
  */
 
-const BOT_TOKEN =
-  process.env.TELEGRAM_BOT_TOKEN || "8117404134:AAG_owRPtVGY5WDRzYlUK7y-uJJ8ak2MBWk";
+// Загрузка переменных окружения из .env.local
+import { config } from 'dotenv';
+import { resolve } from 'path';
+
+config({ path: resolve(process.cwd(), '.env.local') });
+config({ path: resolve(process.cwd(), '.env') });
+
+const BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
+
+if (!BOT_TOKEN) {
+  console.error("❌ Ошибка: TELEGRAM_BOT_TOKEN не установлен");
+  console.error("   Добавьте токен в .env.local или передайте через переменную окружения");
+  process.exit(1);
+}
 
 async function getChatId() {
   try {

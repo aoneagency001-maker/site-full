@@ -39,9 +39,16 @@ function saveData(data: {
   ip: string;
   userAgent: string;
 }) {
-  const existingData = getExistingData();
-  existingData.push(data);
-  fs.writeFileSync(quizDataFile, JSON.stringify(existingData, null, 2), "utf-8");
+  try {
+    const existingData = getExistingData();
+    existingData.push(data);
+    fs.writeFileSync(quizDataFile, JSON.stringify(existingData, null, 2), "utf-8");
+  } catch (error) {
+    // На некоторых платформах файловая система может быть read-only
+    // Это не критично - данные все равно отправляются в Telegram
+    console.warn("[QUIZ] ⚠️ Could not save to file (may be read-only filesystem):", error);
+    // Не бросаем ошибку, чтобы не блокировать отправку в Telegram
+  }
 }
 
 export async function POST(request: NextRequest) {
@@ -71,18 +78,18 @@ export async function POST(request: NextRequest) {
       phone: submission.phone,
       email: submission.email,
       answers: {
-        'Цель': submission.goal || 'Не указана',
-        'Ниша': submission.niche || 'Не указана',
-        'Бюджет': submission.budget || 'Не указан',
-        'Платформы': submission.platforms?.join(', ') || 'Не указаны',
+        Цель: submission.goal || "Не указана",
+        Ниша: submission.niche || "Не указана",
+        Бюджет: submission.budget || "Не указан",
+        Платформы: submission.platforms?.join(", ") || "Не указаны",
       },
       estimatedBudget: submission.budget,
     });
 
     const telegramResult = await sendToTelegram(telegramMessage);
-    
+
     if (!telegramResult.success) {
-      console.error('Не удалось отправить в Telegram:', telegramResult.error);
+      console.error("Не удалось отправить в Telegram:", telegramResult.error);
       // Продолжаем работу даже если Telegram не работает
     }
 
@@ -103,7 +110,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: "Внутренняя ошибка сервера" }, { status: 500 });
   }
 }
-
 
 export async function GET() {
   try {

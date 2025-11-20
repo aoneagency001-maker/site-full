@@ -1,11 +1,11 @@
 "use client";
 
 import { SectionHeading } from "@/components/custom/SectionHeading";
-import type { CaseStudyType } from "@/data/caseStudies";
-import { caseStudies } from "@/data/caseStudies";
+import { caseStudies, type CaseStudyType } from "@/data/caseStudies";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
+import { useTranslations } from "next-intl";
 import { useRef } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -67,12 +67,13 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({ item, index }) => {
 };
 
 function Testimonial() {
+  const t = useTranslations("testimonials");
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
   const statsRef = useRef<HTMLElement>(null);
 
-  const testimonials = caseStudies.filter((cs) => cs.testimonial);
+  const testimonials = caseStudies.filter((cs: CaseStudyType) => cs.testimonial);
 
   useGSAP(() => {
     if (headingRef.current) {
@@ -124,9 +125,9 @@ function Testimonial() {
         {/* Header */}
         <SectionHeading
           ref={headingRef}
-          badge="Отзывы клиентов"
-          heading="Что говорят наши клиенты о маркетинговом агентстве в Алматы"
-          description="Прочитайте отзывы наших клиентов о работе с AOne Agency. Реальные результаты и измеримый рост бизнеса."
+          badge={t("badge")}
+          heading={t("title")}
+          description={t("description")}
           size="md"
           align="center"
           as="h2"
@@ -155,7 +156,7 @@ function Testimonial() {
           ref={statsRef}
         >
           <h3 id="stats-heading" className="sr-only">
-            Показатели эффективности
+            {t("statsTitle")}
           </h3>
           <div className="mx-auto max-w-7xl">
             <div className="flex flex-col divide-y divide-gray-200 sm:divide-y-0 sm:flex-row sm:divide-x">
@@ -164,11 +165,9 @@ function Testimonial() {
                 data-stat-item="true"
               >
                 <div className="text-heading text-3xl font-semibold sm:text-4xl md:text-5xl">
-                  500+
+                  {t("stat1")}
                 </div>
-                <p className="text-label mt-1 text-sm sm:mt-2 sm:text-base">
-                  Успешных проектов реализовано
-                </p>
+                <p className="text-label mt-1 text-sm sm:mt-2 sm:text-base">{t("stat1Label")}</p>
               </div>
 
               <div
@@ -176,11 +175,9 @@ function Testimonial() {
                 data-stat-item="true"
               >
                 <div className="text-heading text-3xl font-semibold sm:text-4xl md:text-5xl">
-                  18
+                  {t("stat2")}
                 </div>
-                <p className="text-label mt-1 text-sm sm:mt-2 sm:text-base">
-                  Лет опыта в маркетинге
-                </p>
+                <p className="text-label mt-1 text-sm sm:mt-2 sm:text-base">{t("stat2Label")}</p>
               </div>
 
               <div
@@ -188,11 +185,9 @@ function Testimonial() {
                 data-stat-item="true"
               >
                 <div className="text-heading text-3xl font-semibold sm:text-4xl md:text-5xl">
-                  +30%
+                  {t("stat3")}
                 </div>
-                <p className="text-label mt-1 text-sm sm:mt-2 sm:text-base">
-                  Средний рост заявок у клиентов
-                </p>
+                <p className="text-label mt-1 text-sm sm:mt-2 sm:text-base">{t("stat3Label")}</p>
               </div>
             </div>
           </div>

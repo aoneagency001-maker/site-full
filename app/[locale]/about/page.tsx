@@ -5,11 +5,13 @@ import { pageMetadata } from "@/lib/metadata";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
+import { useTranslations } from "next-intl";
 import { useRef } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const AboutPage = () => {
+  const t = useTranslations("about");
   const heroContentRef = useRef<HTMLDivElement>(null);
   const workplaceContentRef = useRef<HTMLDivElement>(null);
   const statsSectionRef = useRef<HTMLDivElement>(null);
@@ -90,19 +92,10 @@ const AboutPage = () => {
                     id="about-heading"
                     className="mb-6 text-4xl font-bold md:text-5xl lg:mb-10 lg:text-6xl"
                   >
-                    Наша история
+                    {t("heroHeading")}
                   </h1>
-                  <p className="mb-9 text-lg font-medium lg:text-xl">
-                    18 лет опыта в маркетинге и AI-инновациях
-                  </p>
-                  <p className="text-muted-foreground leading-relaxed">
-                    В AOne Agency мы верим, что великие технологии начинаются с великих людей. Наша
-                    команда объединяет любознательные умы, создателей и решателей проблем, которые
-                    превращают сложные идеи в эффективные маркетинговые решения с использованием AI.
-                    Сотрудничество, креативность и ответственность лежат в основе нашей культуры —
-                    мы тесно работаем с нашими клиентами и друг с другом, чтобы достигать
-                    результатов, которые являются как инновационными, так и практичными.
-                  </p>
+                  <p className="mb-9 text-lg font-medium lg:text-xl">{t("heroSubtitle")}</p>
+                  <p className="text-muted-foreground leading-relaxed">{t("heroDescription")}</p>
                 </header>
                 <figure
                   ref={(el) => {
@@ -114,7 +107,7 @@ const AboutPage = () => {
                 >
                   <img
                     src="https://res.cloudinary.com/dieth2xb3/image/upload/v1755799085/ssimage_bxr8i6.png"
-                    alt="Команда AOne Agency работает над маркетинговыми проектами в современном офисе"
+                    alt={t("teamImageAlt")}
                     className="aspect-[0.7] w-full rounded-lg object-cover md:w-1/2"
                     loading="eager"
                     decoding="sync"
@@ -124,7 +117,7 @@ const AboutPage = () => {
                   <div className="flex w-full flex-col items-center justify-center gap-6 md:w-1/2">
                     <img
                       src="https://res.cloudinary.com/dieth2xb3/image/upload/v1755804235/aaaimage_zbypst.png"
-                      alt="AI-технологии и рабочее пространство машинного обучения в AOne Agency"
+                      alt={t("aiImageAlt")}
                       className="aspect-[1.1] rounded-lg object-cover"
                       loading="lazy"
                       decoding="async"
@@ -133,7 +126,7 @@ const AboutPage = () => {
                     />
                     <img
                       src="https://res.cloudinary.com/dieth2xb3/image/upload/v1755804376/fasimage_skodum.png"
-                      alt="Команда AOne Agency работает над инновационными AI-решениями и разработкой технологий"
+                      alt={t("innovationImageAlt")}
                       className="aspect-[0.7] rounded-lg object-cover"
                       loading="lazy"
                       decoding="async"
@@ -154,7 +147,7 @@ const AboutPage = () => {
                 >
                   <img
                     src="https://res.cloudinary.com/dieth2xb3/image/upload/v1755799085/ssimage_bxr8i6.png"
-                    alt="Члены команды AOne Agency в совместном рабочем пространстве обсуждают AI-инновационные проекты"
+                    alt={t("teamImageAlt")}
                     className="aspect-[0.9] w-full rounded-lg object-cover md:w-1/2"
                     loading="lazy"
                     decoding="async"
@@ -164,7 +157,7 @@ const AboutPage = () => {
                   <div className="flex w-full flex-col items-center justify-center gap-6 md:w-1/2">
                     <img
                       src="https://res.cloudinary.com/dieth2xb3/image/upload/v1755804235/aaaimage_zbypst.png"
-                      alt="Современная лаборатория разработки AI с передовыми технологиями в AOne Agency"
+                      alt={t("aiImageAlt")}
                       className="aspect-[0.8] rounded-lg object-cover"
                       loading="lazy"
                       decoding="async"
@@ -173,7 +166,7 @@ const AboutPage = () => {
                     />
                     <img
                       src="https://res.cloudinary.com/dieth2xb3/image/upload/v1755804376/fasimage_skodum.png"
-                      alt="Команда AOne Agency проводит мозговой штурм инновационных AI-решений в креативном пространстве"
+                      alt={t("innovationImageAlt")}
                       className="aspect-[0.9] rounded-lg object-cover"
                       loading="lazy"
                       decoding="async"
@@ -183,17 +176,10 @@ const AboutPage = () => {
                   </div>
                 </figure>
                 <article ref={workplaceContentRef} className="px-8">
-                  <h2 className="mb-8 text-2xl font-semibold lg:mb-6">Наш офис</h2>
-                  <p className="mb-9 text-lg font-medium lg:text-xl">
-                    Наша культура построена на профессионализме, доверии и скорости
-                  </p>
+                  <h2 className="mb-8 text-2xl font-semibold lg:mb-6">{t("workplaceHeading")}</h2>
+                  <p className="mb-9 text-lg font-medium lg:text-xl">{t("workplaceSubtitle")}</p>
                   <p className="text-muted-foreground leading-relaxed">
-                    В AOne Agency мы создаем среду, где инновации процветают благодаря
-                    сотрудничеству и непрерывному обучению. Культура нашего рабочего пространства
-                    подчеркивает открытое общение, креативное решение проблем и свободу исследования
-                    передовых AI-технологий. Мы верим, что лучшие решения возникают, когда
-                    разнообразные умы объединяются с общей страстью к расширению границ возможного в
-                    маркетинге и искусственном интеллекте.
+                    {t("workplaceDescription")}
                   </p>
                 </article>
               </div>
@@ -206,7 +192,7 @@ const AboutPage = () => {
             >
               <header>
                 <h2 id="stats-heading" className="max-w-3xl text-4xl font-medium md:text-5xl">
-                  Мы превосходим в своей области, но профессионализм — не всё, что мы предлагаем.
+                  {t("statsHeading")}
                 </h2>
               </header>
               <div
@@ -220,58 +206,50 @@ const AboutPage = () => {
                   role="article"
                   aria-labelledby="stat-1"
                 >
-                  <p id="stat-1" className="text-4xl font-medium md:text-5xl" aria-label="500 плюс">
-                    500+
+                  <p id="stat-1" className="text-4xl font-medium md:text-5xl">
+                    {t("stat1Value")}
                   </p>
-                  <p className="text-muted-foreground">Успешных проектов</p>
+                  <p className="text-muted-foreground">{t("stat1Label")}</p>
                 </div>
                 <div
                   className="flex flex-col gap-6 border-b pb-8"
                   role="article"
                   aria-labelledby="stat-2"
                 >
-                  <p id="stat-2" className="text-4xl font-medium md:text-5xl" aria-label="18 лет">
-                    18
+                  <p id="stat-2" className="text-4xl font-medium md:text-5xl">
+                    {t("stat2Value")}
                   </p>
-                  <p className="text-muted-foreground">Лет опыта</p>
+                  <p className="text-muted-foreground">{t("stat2Label")}</p>
                 </div>
                 <div
                   className="flex flex-col gap-6 border-b pb-8"
                   role="article"
                   aria-labelledby="stat-3"
                 >
-                  <p
-                    id="stat-3"
-                    className="text-4xl font-medium md:text-5xl"
-                    aria-label="30 процентов"
-                  >
-                    +30%
+                  <p id="stat-3" className="text-4xl font-medium md:text-5xl">
+                    {t("stat3Value")}
                   </p>
-                  <p className="text-muted-foreground">Средний рост заявок</p>
+                  <p className="text-muted-foreground">{t("stat3Label")}</p>
                 </div>
                 <div
                   className="flex flex-col gap-6 border-b pb-8"
                   role="article"
                   aria-labelledby="stat-4"
                 >
-                  <p
-                    id="stat-4"
-                    className="text-4xl font-medium md:text-5xl"
-                    aria-label="5 миллионов"
-                  >
-                    5M+
+                  <p id="stat-4" className="text-4xl font-medium md:text-5xl">
+                    {t("stat4Value")}
                   </p>
-                  <p className="text-muted-foreground">Рекламный бюджет в управлении</p>
+                  <p className="text-muted-foreground">{t("stat4Label")}</p>
                 </div>
                 <div
                   className="flex flex-col gap-6 border-b pb-8"
                   role="article"
                   aria-labelledby="stat-5"
                 >
-                  <p id="stat-5" className="text-4xl font-medium md:text-5xl" aria-label="50 тысяч">
-                    50K+
+                  <p id="stat-5" className="text-4xl font-medium md:text-5xl">
+                    {t("stat5Value")}
                   </p>
-                  <p className="text-muted-foreground">Привлечённых лидов ежемесячно</p>
+                  <p className="text-muted-foreground">{t("stat5Label")}</p>
                 </div>
               </div>
             </section>

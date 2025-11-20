@@ -5,70 +5,70 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
 import { Code, Cog, MessageSquare, Search, Smartphone, Target } from "lucide-react";
 import Link from "next/link";
+import { useTranslations } from "next-intl";
 import { useRef } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const services = [
-  {
-    icon: Target,
-    title: "Таргетированная реклама",
-    description:
-      "Настройка и ведение рекламы в Instagram, TikTok, Facebook. AI-оптимизация кампаний.",
-    price: "200 000",
-    color: "text-orange-500",
-    bgColor: "bg-orange-50",
-    slug: "/targetirovannaya-reklama",
-  },
-  {
-    icon: Search,
-    title: "SEO-продвижение",
-    description: "Выход в ТОП-10 Google и Яндекса за 30 дней. Белые методы, гарантия результата.",
-    price: "200 000",
-    color: "text-blue-500",
-    bgColor: "bg-blue-50",
-    slug: "/seo-prodvizhenie",
-  },
-  {
-    icon: Code,
-    title: "Разработка приложений",
-    description:
-      "Мобильные приложения для iOS и Android. Flutter, React Native. От идеи до релиза.",
-    price: "250 000",
-    color: "text-purple-500",
-    bgColor: "bg-purple-50",
-    slug: "/razrabotka-prilozhenij",
-  },
-  {
-    icon: MessageSquare,
-    title: "Контекстная реклама",
-    description: "Google Ads и Yandex.Direct. Настройка, ведение, оптимизация ROI.",
-    price: "200 000",
-    color: "text-green-500",
-    bgColor: "bg-green-50",
-    slug: "/kontekstnaya-reklama",
-  },
-  {
-    icon: Cog,
-    title: "CRM-автоматизация",
-    description: "Внедрение amoCRM и Bitrix24. Интеграция с сайтом, мессенджерами, рекламой.",
-    price: "150 000",
-    color: "text-indigo-500",
-    bgColor: "bg-indigo-50",
-    slug: "/crm-avtomatizaciya",
-  },
-  {
-    icon: Smartphone,
-    title: "AI-чат-боты",
-    description: "Умные боты для Telegram, WhatsApp, Instagram. Обработка заявок 24/7.",
-    price: "150 000",
-    color: "text-pink-500",
-    bgColor: "bg-pink-50",
-    slug: "/ai-chatboty",
-  },
-];
-
 export function ServicesSection() {
+  const t = useTranslations("services");
+
+  const services = [
+    {
+      icon: Target,
+      title: t("service1Title"),
+      description: t("service1Description"),
+      price: "200 000",
+      color: "text-orange-500",
+      bgColor: "bg-orange-50",
+      slug: "/targetirovannaya-reklama",
+    },
+    {
+      icon: Search,
+      title: t("service2Title"),
+      description: t("service2Description"),
+      price: "200 000",
+      color: "text-blue-500",
+      bgColor: "bg-blue-50",
+      slug: "/seo-prodvizhenie",
+    },
+    {
+      icon: Code,
+      title: t("service3Title"),
+      description: t("service3Description"),
+      price: "250 000",
+      color: "text-purple-500",
+      bgColor: "bg-purple-50",
+      slug: "/razrabotka-prilozhenij",
+    },
+    {
+      icon: MessageSquare,
+      title: t("service4Title"),
+      description: t("service4Description"),
+      price: "200 000",
+      color: "text-green-500",
+      bgColor: "bg-green-50",
+      slug: "/kontekstnaya-reklama",
+    },
+    {
+      icon: Cog,
+      title: t("service5Title"),
+      description: t("service5Description"),
+      price: "150 000",
+      color: "text-indigo-500",
+      bgColor: "bg-indigo-50",
+      slug: "/crm-avtomatizaciya",
+    },
+    {
+      icon: Smartphone,
+      title: t("service6Title"),
+      description: t("service6Description"),
+      price: "150 000",
+      color: "text-pink-500",
+      bgColor: "bg-pink-50",
+      slug: "/ai-chatboty",
+    },
+  ];
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
@@ -102,9 +102,9 @@ export function ServicesSection() {
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div ref={headingRef} className="text-center mb-16">
           <h2 id="services-heading" className="text-4xl font-bold text-gray-900 mb-4">
-            Наши услуги
+            {t("title")}
           </h2>
-          <p className="text-xl text-gray-700">Полный цикл digital-маркетинга</p>
+          <p className="text-xl text-gray-700">{t("subtitle")}</p>
         </div>
 
         <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -134,11 +134,13 @@ export function ServicesSection() {
               <p className="text-gray-700 mb-6">{service.description}</p>
 
               {/* Price */}
-              <p className="text-orange-500 font-bold text-lg mb-4">от {service.price} ₸/мес</p>
+              <p className="text-orange-500 font-bold text-lg mb-4">
+                {t("priceFrom")} {service.price} {t("pricePerMonth")}
+              </p>
 
               {/* CTA */}
               <span className="text-blue-600 font-semibold group-hover:text-blue-700 transition-colors inline-flex items-center">
-                Узнать больше
+                {t("learnMore")}
                 <svg
                   className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform"
                   fill="none"
