@@ -24,15 +24,31 @@ export async function GET() {
         chatIdValue: chatIdValue.length > 20 ? `${chatIdValue.substring(0, 10)}...` : chatIdValue,
       },
       message: hasToken && hasChatId
-        ? "✅ Telegram настроен правильно"
-        : "❌ Telegram не настроен. Установите TELEGRAM_BOT_TOKEN и TELEGRAM_CHAT_ID в переменных окружения",
+        ? "Telegram configured correctly"
+        : "Telegram not configured. Set TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID environment variables",
+      messageRu: hasToken && hasChatId
+        ? "Telegram настроен правильно"
+        : "Telegram не настроен. Установите TELEGRAM_BOT_TOKEN и TELEGRAM_CHAT_ID в переменных окружения",
       instructions: {
         vercel: "Settings → Environment Variables → Add",
         digitalocean: "App Settings → Environment Variables → Add",
-        local: "Создайте файл .env.local с переменными",
+        local: "Create .env.local file with variables",
+        steps: [
+          "1. Go to Vercel Dashboard → Your Project → Settings → Environment Variables",
+          "2. Click 'Add New'",
+          "3. Add TELEGRAM_BOT_TOKEN (your bot token)",
+          "4. Add TELEGRAM_CHAT_ID (your chat ID)",
+          "5. Select ALL environments (Production, Preview, Development)",
+          "6. Save and REDEPLOY your project",
+        ],
       },
     },
-    { status: 200 }
+    {
+      status: 200,
+      headers: {
+        "Content-Type": "application/json; charset=utf-8",
+      },
+    }
   );
 }
 
