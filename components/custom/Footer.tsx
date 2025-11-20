@@ -16,6 +16,12 @@ function Footer() {
     { name: "Контакты", href: "/contacts" },
   ];
 
+  const legalLinks = [
+    { name: "Политика конфиденциальности", href: "/privacy-policy" },
+    { name: "Условия использования", href: "/terms-of-service" },
+    { name: "Политика cookies", href: "/cookie-policy" },
+  ];
+
   const socialLinks = [
     { name: "Instagram", href: "https://instagram.com/aoneagency" },
     { name: "Telegram", href: "https://t.me/aoneagency" },
@@ -139,7 +145,7 @@ function Footer() {
               </nav>
             </div>
 
-            <div className="md:col-span-3 lg:col-span-3">
+            <div className="md:col-span-3 lg:col-span-2">
               <h3
                 className="mb-6 text-sm font-medium tracking-wider text-gray-400 uppercase"
                 id="footer-connect-heading"
@@ -154,6 +160,27 @@ function Footer() {
                     className="block text-gray-300 transition-colors duration-200 hover:text-white"
                     rel="me noopener"
                     aria-label={`Follow us on ${link.name}`}
+                  >
+                    {link.name}
+                  </a>
+                ))}
+              </nav>
+            </div>
+
+            <div className="md:col-span-3 lg:col-span-3">
+              <h3
+                className="mb-6 text-sm font-medium tracking-wider text-gray-400 uppercase"
+                id="footer-legal-heading"
+              >
+                Правовая информация
+              </h3>
+              <nav className="space-y-4" aria-labelledby="footer-legal-heading">
+                {legalLinks.map((link) => (
+                  <a
+                    key={link.name}
+                    href={link.href}
+                    className="block text-gray-300 transition-colors duration-200 hover:text-white"
+                    aria-label={`Legal: ${link.name}`}
                   >
                     {link.name}
                   </a>
