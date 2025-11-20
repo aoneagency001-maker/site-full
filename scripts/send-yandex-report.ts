@@ -10,8 +10,8 @@
 
 const YANDEX_METRIKA_OAUTH_TOKEN = process.env.YANDEX_METRIKA_OAUTH_TOKEN;
 const COUNTER_ID = process.env.NEXT_PUBLIC_YM_ID;
-const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
-const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
+const TELEGRAM_BOT_TOKEN_REPORT = process.env.TELEGRAM_BOT_TOKEN;
+const TELEGRAM_CHAT_ID_REPORT = process.env.TELEGRAM_CHAT_ID;
 
 if (!YANDEX_METRIKA_OAUTH_TOKEN || !COUNTER_ID) {
   console.error("❌ Ошибка: Yandex.Metrika не настроен");
@@ -21,7 +21,7 @@ if (!YANDEX_METRIKA_OAUTH_TOKEN || !COUNTER_ID) {
   process.exit(1);
 }
 
-if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
+if (!TELEGRAM_BOT_TOKEN_REPORT || !TELEGRAM_CHAT_ID_REPORT) {
   console.error("❌ Ошибка: Telegram не настроен");
   process.exit(1);
 }

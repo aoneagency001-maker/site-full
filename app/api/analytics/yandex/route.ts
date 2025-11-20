@@ -149,7 +149,7 @@ export async function GET(request: NextRequest) {
     );
 
     // Обработка данных для удобного формата
-    let processedData = data.data;
+    let processedData: unknown = data.data;
     if (reportType === "traffic") {
       processedData = processTrafficSourceData(data.data);
     } else if (reportType === "search") {

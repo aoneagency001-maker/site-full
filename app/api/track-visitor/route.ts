@@ -411,7 +411,7 @@ export async function POST(request: NextRequest) {
     saveData(visitorData);
 
     // 8. Отправляем в Telegram с данными из Metrika
-    await sendToTelegram({ ...visitorData, metrikaData });
+    await sendToTelegram({ ...visitorData, metrikaData } as Parameters<typeof sendToTelegram>[0] & { metrikaData?: typeof metrikaData });
 
     return NextResponse.json({
       tracked: true,

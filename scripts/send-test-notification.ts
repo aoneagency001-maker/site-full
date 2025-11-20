@@ -4,9 +4,9 @@
  * Скрипт для отправки тестового уведомления в Telegram
  */
 
-const TELEGRAM_BOT_TOKEN =
+const TELEGRAM_BOT_TOKEN_TEST =
   process.env.TELEGRAM_BOT_TOKEN || "8117404134:AAG_owRPtVGY5WDRzYlUK7y-uJJ8ak2MBWk";
-const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID || "280192618";
+const TELEGRAM_CHAT_ID_TEST = process.env.TELEGRAM_CHAT_ID || "280192618";
 
 const message = `
 🔔 <b>Тестовое уведомление!</b>
@@ -34,11 +34,11 @@ const message = `
 
 async function sendTestNotification() {
   try {
-    const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+    const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN_TEST}/sendMessage`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        chat_id: TELEGRAM_CHAT_ID,
+        chat_id: TELEGRAM_CHAT_ID_TEST,
         text: message,
         parse_mode: "HTML",
       }),
