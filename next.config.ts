@@ -16,8 +16,8 @@ const nextConfig: NextConfig = {
     ],
   },
 
-  // Для деплоя на DigitalOcean
-  output: "standalone",
+  // Для деплоя на DigitalOcean (раскомментируйте для VPS)
+  // output: "standalone",
 
   // Экспериментальные функции
   experimental: {
