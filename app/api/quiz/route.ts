@@ -73,24 +73,42 @@ export async function POST(request: NextRequest) {
     saveData(submission);
 
     // Отправляем в Telegram
-    const telegramMessage = formatQuizMessage({
-      name: submission.name,
-      phone: submission.phone,
-      email: submission.email,
-      answers: {
-        Цель: submission.goal || "Не указана",
-        Ниша: submission.niche || "Не указана",
-        Бюджет: submission.budget || "Не указан",
-        Платформы: submission.platforms?.join(", ") || "Не указаны",
-      },
-      estimatedBudget: submission.budget,
+    const hasToken = !!process.env.TELEGRAM_BOT_TOKEN;
+    const hasChatId = !!process.env.TELEGRAM_CHAT_ID;
+    
+    console.log("[QUIZ] Telegram credentials check:", {
+      hasToken,
+      hasChatId,
+      tokenLength: process.env.TELEGRAM_BOT_TOKEN?.length || 0,
+      chatIdValue: process.env.TELEGRAM_CHAT_ID || "not set",
     });
 
-    const telegramResult = await sendToTelegram(telegramMessage);
+    let telegramResult: { success: boolean; error?: string } = { success: false, error: "Not configured" };
+    
+    if (!hasToken || !hasChatId) {
+      console.error("[QUIZ] ⚠️ WARNING: Telegram credentials not configured!");
+      console.error("[QUIZ] ⚠️ Set TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID in environment variables");
+    } else {
+      const telegramMessage = formatQuizMessage({
+        name: submission.name,
+        phone: submission.phone,
+        email: submission.email,
+        answers: {
+          Цель: submission.goal || "Не указана",
+          Ниша: submission.niche || "Не указана",
+          Бюджет: submission.budget || "Не указан",
+          Платформы: submission.platforms?.join(", ") || "Не указаны",
+        },
+        estimatedBudget: submission.budget,
+      });
 
-    if (!telegramResult.success) {
-      console.error("Не удалось отправить в Telegram:", telegramResult.error);
-      // Продолжаем работу даже если Telegram не работает
+      telegramResult = await sendToTelegram(telegramMessage);
+
+      if (!telegramResult.success) {
+        console.error("[QUIZ] ❌ Не удалось отправить в Telegram:", telegramResult.error);
+      } else {
+        console.log("[QUIZ] ✅ Результат квиза отправлен в Telegram");
+      }
     }
 
     // TODO: В будущем можно добавить отправку в amoCRM

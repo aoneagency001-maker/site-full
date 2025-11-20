@@ -498,14 +498,26 @@ export async function POST(request: NextRequest) {
     console.log(
       `[TRACK-${requestId}] 📤 Preparing Telegram notification (${isFirstVisit ? "first visit" : "subsequent visit"})...`
     );
+    
+    const hasToken = !!process.env.TELEGRAM_BOT_TOKEN;
+    const hasChatId = !!process.env.TELEGRAM_CHAT_ID;
+    
     console.log(`[TRACK-${requestId}] Telegram credentials check:`, {
-      hasToken: !!process.env.TELEGRAM_BOT_TOKEN,
-      hasChatId: !!process.env.TELEGRAM_CHAT_ID,
+      hasToken,
+      hasChatId,
+      tokenLength: process.env.TELEGRAM_BOT_TOKEN?.length || 0,
+      chatIdValue: process.env.TELEGRAM_CHAT_ID || "not set",
     });
 
-    await sendToTelegram({ ...visitorData, metrikaData, isFirstVisit } as Parameters<
-      typeof sendToTelegram
-    >[0] & { metrikaData?: typeof metrikaData; isFirstVisit?: boolean });
+    if (!hasToken || !hasChatId) {
+      console.error(`[TRACK-${requestId}] ⚠️ WARNING: Telegram credentials not configured!`);
+      console.error(`[TRACK-${requestId}] ⚠️ Set TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID in environment variables`);
+      console.error(`[TRACK-${requestId}] ⚠️ Visitor tracked but notification NOT sent to Telegram`);
+    } else {
+      await sendToTelegram({ ...visitorData, metrikaData, isFirstVisit } as Parameters<
+        typeof sendToTelegram
+      >[0] & { metrikaData?: typeof metrikaData; isFirstVisit?: boolean });
+    }
 
     console.log(`[TRACK-${requestId}] ✅ Visitor tracked successfully: ${visitorData.id}`);
     return NextResponse.json({

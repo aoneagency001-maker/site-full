@@ -86,7 +86,48 @@ YANDEX_METRIKA_OAUTH_TOKEN=your_oauth_token
 
 ## ✅ Проверка настройки
 
-### Тестирование Telegram
+### Проверка на Production (важно!)
+
+После деплоя проверьте, что переменные окружения установлены:
+
+**Откройте в браузере:**
+```
+https://ваш-сайт.com/api/telegram-check
+```
+
+Вы должны увидеть:
+```json
+{
+  "configured": true,
+  "message": "✅ Telegram настроен правильно"
+}
+```
+
+Если видите `"configured": false`, значит переменные окружения не установлены на production!
+
+### Настройка на Vercel
+
+1. Зайдите в [Vercel Dashboard](https://vercel.com/dashboard)
+2. Выберите ваш проект
+3. Settings → Environment Variables
+4. Добавьте переменные:
+   - `TELEGRAM_BOT_TOKEN` = ваш токен
+   - `TELEGRAM_CHAT_ID` = ваш chat ID
+   - `NEXT_PUBLIC_SITE_URL` = https://ваш-сайт.com
+5. Выберите **все окружения** (Production, Preview, Development)
+6. **ВАЖНО:** После добавления переменных нужно **передеплоить** проект!
+
+### Настройка на DigitalOcean
+
+1. Зайдите в [DigitalOcean Dashboard](https://cloud.digitalocean.com)
+2. Apps → ваш проект → Settings → App-Level Environment Variables
+3. Добавьте переменные:
+   - `TELEGRAM_BOT_TOKEN` = ваш токен
+   - `TELEGRAM_CHAT_ID` = ваш chat ID
+   - `NEXT_PUBLIC_SITE_URL` = https://ваш-сайт.com
+4. Сохраните и **передеплойте** приложение
+
+### Тестирование Telegram (локально)
 
 ```bash
 npm run test:telegram
@@ -134,11 +175,28 @@ npx tsx scripts/send-test-notification.ts
 2. Бот не был удален в @BotFather
 3. Вы отправили хотя бы одно сообщение боту
 
-### Сообщения не приходят в Telegram
+### Сообщения не приходят в Telegram на Production
 
-1. Проверьте Chat ID командой: `npx tsx scripts/get-telegram-chat-id.ts`
-2. Убедитесь, что вы написали боту хотя бы одно сообщение
-3. Проверьте, что бот не заблокирован
+**Это самая частая проблема!**
+
+1. **Проверьте переменные окружения:**
+   - Откройте: `https://ваш-сайт.com/api/telegram-check`
+   - Если `"configured": false` → переменные не установлены!
+
+2. **Установите переменные на production:**
+   - Vercel: Settings → Environment Variables → Add
+   - DigitalOcean: Apps → Settings → Environment Variables → Add
+   - **ВАЖНО:** После добавления **передеплойте** проект!
+
+3. **Проверьте логи сервера:**
+   - Vercel: Dashboard → Logs → Runtime Logs
+   - DigitalOcean: Apps → Runtime Logs
+   - Ищите сообщения: `[TELEGRAM] ⚠️ WARNING: Telegram credentials not configured!`
+
+4. **Проверьте локально:**
+   - Chat ID: `npx tsx scripts/get-telegram-chat-id.ts`
+   - Убедитесь, что вы написали боту хотя бы одно сообщение
+   - Проверьте, что бот не заблокирован
 
 ---
 
