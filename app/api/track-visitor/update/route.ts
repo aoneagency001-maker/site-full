@@ -16,7 +16,18 @@ function getExistingData() {
 
 // Сохранение данных
 function saveData(data: unknown[]) {
-  fs.writeFileSync(visitorsDataFile, JSON.stringify(data, null, 2), "utf-8");
+  try {
+    // Создаем директорию, если её нет
+    if (!fs.existsSync(dataDir)) {
+      fs.mkdirSync(dataDir, { recursive: true });
+    }
+    fs.writeFileSync(visitorsDataFile, JSON.stringify(data, null, 2), "utf-8");
+  } catch (error) {
+    // На некоторых платформах (Vercel, некоторые серверы) файловая система может быть read-only
+    // Это не критично - данные все равно отправляются в Telegram
+    console.warn("[UPDATE] ⚠️ Could not save to file (may be read-only filesystem):", error);
+    // Не бросаем ошибку, чтобы не блокировать работу
+  }
 }
 
 // Обновление данных посетителя
@@ -39,8 +50,18 @@ export async function POST(request: NextRequest) {
     const visitors = getExistingData();
     const visitorIndex = visitors.findIndex((v: { id: string }) => v.id === body.visitorId);
 
+    // Если посетитель не найден - это не критично, просто возвращаем успех
+    // Это может произойти если данные еще не сохранились или на read-only файловой системе
     if (visitorIndex === -1) {
-      return NextResponse.json({ error: "Посетитель не найден" }, { status: 404 });
+      console.log(`[UPDATE] Visitor ${body.visitorId} not found, skipping update (non-critical)`);
+      return NextResponse.json(
+        {
+          success: true,
+          message: "Visitor not found, update skipped",
+          visitor: null,
+        },
+        { status: 200 } // ✅ Явно указываем статус 200, не 404!
+      );
     }
 
     const visitor = visitors[visitorIndex] as {

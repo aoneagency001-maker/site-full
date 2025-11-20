@@ -189,7 +189,27 @@ export function VisitorTracker() {
                   conversions: behaviorData.conversions || conversionsRef.current,
                   pagesViewed: pagesRef.current.length,
                 }),
-              }).catch((err) => console.error("Update behavior error:", err));
+              })
+                .then((res) => {
+                  // Проверяем статус перед парсингом
+                  if (!res.ok) {
+                    // Если статус не 200, но это не критично - просто игнорируем
+                    return res.json().catch(() => ({ success: false, error: "Network error" }));
+                  }
+                  return res.json();
+                })
+                .then((result) => {
+                  if (!result.success && result.error) {
+                    // Игнорируем ошибку "Посетитель не найден" - это не критично
+                    if (result.error !== "Посетитель не найден" && result.error !== "Visitor not found, update skipped") {
+                      console.warn("[VISITOR-TRACKER] Update warning:", result.error);
+                    }
+                  }
+                })
+                .catch((err) => {
+                  // Игнорируем ошибки сети - это не критично для работы сайта
+                  console.debug("[VISITOR-TRACKER] Update error (non-critical):", err);
+                });
             },
             trackClick: (element, type) => {
               clicksRef.current++;
@@ -204,7 +224,19 @@ export function VisitorTracker() {
                   clicks: clicksRef.current,
                   clickEvents: [{ element, type, timestamp: new Date().toISOString() }],
                 }),
-              }).catch((err) => console.error("Track click error:", err));
+              })
+                .then((res) => {
+                  // Проверяем статус перед парсингом
+                  if (!res.ok) {
+                    // Если статус не 200, но это не критично - просто игнорируем
+                    return res.json().catch(() => ({ success: false, error: "Network error" }));
+                  }
+                  return res.json();
+                })
+                .catch((err) => {
+                  // Игнорируем ошибки - это не критично
+                  console.debug("[VISITOR-TRACKER] Track click error (non-critical):", err);
+                });
             },
             trackConversion: (type, conversionData) => {
               if (!conversionsRef.current.includes(type)) {
@@ -227,7 +259,19 @@ export function VisitorTracker() {
                     },
                   ],
                 }),
-              }).catch((err) => console.error("Track conversion error:", err));
+              })
+                .then((res) => {
+                  // Проверяем статус перед парсингом
+                  if (!res.ok) {
+                    // Если статус не 200, но это не критично - просто игнорируем
+                    return res.json().catch(() => ({ success: false, error: "Network error" }));
+                  }
+                  return res.json();
+                })
+                .catch((err) => {
+                  // Игнорируем ошибки - это не критично
+                  console.debug("[VISITOR-TRACKER] Track conversion error (non-critical):", err);
+                });
             },
           };
         } else {
@@ -316,6 +360,7 @@ export function VisitorTracker() {
       if (window.visitorTracker && visitorIdRef.current) {
         const timeOnSite = Math.floor((Date.now() - startTimeRef.current) / 1000);
         // Используем sendBeacon для надежной отправки
+        // sendBeacon автоматически обрабатывает ошибки, поэтому не нужно try-catch
         const data = JSON.stringify({
           visitorId: visitorIdRef.current,
           timeOnSite,
@@ -323,6 +368,7 @@ export function VisitorTracker() {
           conversions: conversionsRef.current,
           pagesViewed: pagesRef.current.length,
         });
+        // sendBeacon не возвращает Promise и не показывает ошибки в консоли
         navigator.sendBeacon("/api/track-visitor/update", data);
       }
     };
