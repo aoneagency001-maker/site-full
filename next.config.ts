@@ -4,12 +4,6 @@ const nextConfig: NextConfig = {
   // Оптимизация для production
   compress: true,
   poweredByHeader: false,
-  
-  // Отключаем минификацию CSS для совместимости с cssnano
-  swcMinify: true,
-  compiler: {
-    removeConsole: process.env.NODE_ENV === "production" ? { exclude: ["error", "warn"] } : false,
-  },
 
   // Настройки изображений
   images: {
