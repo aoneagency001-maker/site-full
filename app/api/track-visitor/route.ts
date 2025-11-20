@@ -212,6 +212,11 @@ async function getYandexMetrikaVisitorData(referrer: string | null, utmSource: s
  */
 function isNewVisitor(ip: string): boolean {
   try {
+    // Пропускаем проверку для неизвестных IP (CDN, прокси)
+    if (ip === "unknown" || !ip || ip === "") {
+      return true; // Считаем новым, если IP неизвестен
+    }
+    
     const existingData = getExistingData();
     // Проверяем, есть ли уже запись с таким IP
     const hasVisitedBefore = existingData.some((v: { ip?: string }) => v.ip === ip);
