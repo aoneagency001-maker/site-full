@@ -206,25 +206,41 @@ async function getYandexMetrikaVisitorData(referrer: string | null, utmSource: s
 }
 
 // Функция отправки в Telegram
+/**
+ * Проверяет, был ли уже такой посетитель (по IP)
+ * Возвращает true если это новый посетитель, false если повторный
+ */
+function isNewVisitor(ip: string): boolean {
+  try {
+    const existingData = getExistingData();
+    // Проверяем, есть ли уже запись с таким IP
+    const hasVisitedBefore = existingData.some((v: { ip?: string }) => v.ip === ip);
+    return !hasVisitedBefore;
+  } catch (error) {
+    // Если не можем проверить, считаем новым
+    console.warn("[TELEGRAM] Could not check visitor history, assuming new:", error);
+    return true;
+  }
+}
+
 async function sendToTelegram(visitorData: {
   id: string;
   city: string;
   country: string;
   ip: string;
-  device: string;
-  os: string;
-  browser: string;
-  screen_resolution: string;
   referrer: string | null;
   utm_source: string | null;
   utm_campaign: string | null;
   utm_term: string | null;
   page: string;
   timestamp: string;
-  timeOnSite?: number;
-  clicks?: number;
-  conversions?: string[];
-  isFirstVisit?: boolean;
+  metrikaData?: {
+    trafficType: "paid" | "organic";
+    source?: string;
+    referer?: string;
+    searchQuery?: string;
+    searchEngine?: string;
+  } | null;
 }) {
   const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
   const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
@@ -236,25 +252,14 @@ async function sendToTelegram(visitorData: {
     return;
   }
 
-  console.log(`[TELEGRAM] 📤 Sending notification for visitor: ${visitorData.id}`);
-  console.log(`[TELEGRAM] Visitor data summary:`, {
-    city: visitorData.city,
-    country: visitorData.country,
-    page: visitorData.page,
-    isFirstVisit: visitorData.isFirstVisit,
-  });
+  // Определяем, новый это посетитель или повторный
+  const isNew = isNewVisitor(visitorData.ip);
+  const visitType = isNew ? "🆕 <b>Новый посетитель</b>" : "🔄 <b>Повторный визит</b>";
+
+  console.log(`[TELEGRAM] 📤 Sending notification for visitor: ${visitorData.id} (${isNew ? "new" : "returning"})`);
 
   // Определяем тип источника трафика
-  const metrikaData = (
-    visitorData as {
-      metrikaData?: {
-        trafficType: "paid" | "organic";
-        source?: string;
-        searchQuery?: string;
-        searchEngine?: string;
-      };
-    }
-  ).metrikaData;
+  const metrikaData = visitorData.metrikaData;
 
   const isPaidTraffic =
     metrikaData?.trafficType === "paid" ||
@@ -267,75 +272,51 @@ async function sendToTelegram(visitorData: {
       visitorData.referrer &&
       (visitorData.referrer.includes("google.com") || visitorData.referrer.includes("yandex.ru")));
 
+  // Получаем source из metrikaData (может быть в source или referer)
+  const metrikaSource = metrikaData?.source || metrikaData?.referer;
+
   const trafficType = isPaidTraffic
     ? "💰 Платная реклама"
     : isOrganicTraffic
       ? "🔍 Органический поиск (SEO)"
       : "🌐 Прямой заход / Другое";
 
-  // Формируем информацию об источнике
+  // Формируем информацию об источнике (только важное)
   let sourceInfo = "";
   if (isPaidTraffic) {
-    sourceInfo = `📢 Контекст: ${metrikaData?.source || visitorData.utm_source || "не указан"}\n`;
-    sourceInfo += `📋 UTM Campaign: ${visitorData.utm_campaign || "нет"}\n`;
-    sourceInfo += `🔑 UTM Term (ключевое слово): ${visitorData.utm_term || "нет"}\n`;
-    sourceInfo += `📊 Referrer: ${visitorData.referrer || "не указан"}`;
+    if (visitorData.utm_campaign) {
+      sourceInfo += `📋 Кампания: ${visitorData.utm_campaign}\n`;
+    }
+    if (visitorData.utm_term) {
+      sourceInfo += `🔑 Ключевое слово: ${visitorData.utm_term}\n`;
+    }
+    if (metrikaSource) {
+      sourceInfo += `📢 Источник: ${metrikaSource}`;
+    } else if (visitorData.referrer) {
+      sourceInfo += `🔗 ${visitorData.referrer}`;
+    }
   } else if (isOrganicTraffic) {
-    sourceInfo = `🔍 Поисковая система: ${metrikaData?.searchEngine || (visitorData.referrer?.includes("google") ? "Google" : visitorData.referrer?.includes("yandex") ? "Yandex" : "Другая")}\n`;
-    sourceInfo += `🔎 Поисковый запрос: ${metrikaData?.searchQuery || "не определен"}\n`;
-    sourceInfo += `📊 Referrer: ${visitorData.referrer || "не указан"}`;
+    const searchEngine = metrikaData?.searchEngine || 
+      (visitorData.referrer?.includes("google") ? "Google" : 
+       visitorData.referrer?.includes("yandex") ? "Yandex" : "Другая");
+    sourceInfo += `🔍 ${searchEngine}`;
+    if (metrikaData?.searchQuery) {
+      sourceInfo += `\n🔎 Запрос: ${metrikaData.searchQuery}`;
+    }
   } else {
-    sourceInfo = `📊 Referrer: ${visitorData.referrer || "Прямой заход"}`;
+    sourceInfo = visitorData.referrer || "Прямой заход";
   }
 
-  // Форматируем время на сайте
-  const timeOnSite = visitorData.timeOnSite || 0;
-  const timeFormatted =
-    timeOnSite > 60
-      ? `${Math.floor(timeOnSite / 60)} мин ${timeOnSite % 60} сек`
-      : `${timeOnSite} сек`;
-
-  // Форматируем конверсии
-  const conversions = visitorData.conversions || [];
-  const conversionsText =
-    conversions.length > 0
-      ? conversions
-          .map((c) => {
-            if (c.startsWith("form_")) return `📝 ${c.replace("form_", "Форма: ")}`;
-            if (c === "quiz_completed") return "🎯 Прошел квиз";
-            if (c === "cta_clicked") return "🖱️ Кликнул CTA";
-            return `✅ ${c}`;
-          })
-          .join("\n   ")
-      : "нет";
-
-  // Определяем тип посещения
-  const visitType = visitorData.isFirstVisit
-    ? "🆕 <b>Новый посетитель на сайте!</b>"
-    : "🔄 <b>Посетитель вернулся на сайт!</b>";
-
+  // Упрощенное сообщение - только важная информация
   const message = `
 ${visitType}
 
-👤 <b>Информация:</b>
-📍 Местоположение: ${visitorData.city}, ${visitorData.country}
-🌐 IP: ${visitorData.ip}
-💻 Устройство: ${visitorData.device} (${visitorData.os})
-🌍 Браузер: ${visitorData.browser}
-📱 Разрешение: ${visitorData.screen_resolution}
+📍 ${visitorData.city}, ${visitorData.country}
+📄 Страница: ${visitorData.page}
 
-🔗 <b>Источник трафика:</b>
-${trafficType}
-${sourceInfo}
-
-📄 <b>Поведение:</b>
-📖 Страница: ${visitorData.page}
-⏱ Время визита: ${new Date(visitorData.timestamp).toLocaleString("ru-RU", { timeZone: "Asia/Almaty" })}
-⏳ Время на сайте: ${timeFormatted}
-🖱️ Кликов по кнопкам: ${visitorData.clicks || 0}
-✅ Конверсии:
-   ${conversionsText}
-${visitorData.isFirstVisit ? "" : "\n🔄 Это повторное посещение в этой сессии"}
+🔗 <b>Источник:</b> ${trafficType}
+${sourceInfo ? `${sourceInfo}\n` : ""}
+⏱ ${new Date(visitorData.timestamp).toLocaleString("ru-RU", { timeZone: "Asia/Almaty" })}
   `.trim();
 
   try {
@@ -493,11 +474,8 @@ export async function POST(request: NextRequest) {
       // Продолжаем работу даже если сохранение не удалось (может быть проблема с файловой системой)
     }
 
-    // 8. Отправляем в Telegram при каждом посещении
+    // 8. Отправляем в Telegram ТОЛЬКО при первом посещении в сессии
     const isFirstVisit = body.isFirstVisit !== false; // Определяем для статистики
-    console.log(
-      `[TRACK-${requestId}] 📤 Preparing Telegram notification (${isFirstVisit ? "first visit" : "subsequent visit"})...`
-    );
     
     const hasToken = !!process.env.TELEGRAM_BOT_TOKEN;
     const hasChatId = !!process.env.TELEGRAM_CHAT_ID;
@@ -505,18 +483,32 @@ export async function POST(request: NextRequest) {
     console.log(`[TRACK-${requestId}] Telegram credentials check:`, {
       hasToken,
       hasChatId,
-      tokenLength: process.env.TELEGRAM_BOT_TOKEN?.length || 0,
-      chatIdValue: process.env.TELEGRAM_CHAT_ID || "not set",
+      isFirstVisit,
+      willSendNotification: isFirstVisit && hasToken && hasChatId,
     });
 
     if (!hasToken || !hasChatId) {
       console.error(`[TRACK-${requestId}] ⚠️ WARNING: Telegram credentials not configured!`);
       console.error(`[TRACK-${requestId}] ⚠️ Set TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID in environment variables`);
       console.error(`[TRACK-${requestId}] ⚠️ Visitor tracked but notification NOT sent to Telegram`);
+    } else if (isFirstVisit) {
+      // Отправляем уведомление ТОЛЬКО при первом посещении в сессии
+      console.log(`[TRACK-${requestId}] 📤 Sending Telegram notification (first visit in session)...`);
+      await sendToTelegram({
+        id: visitorData.id,
+        city: visitorData.city,
+        country: visitorData.country,
+        ip: visitorData.ip,
+        referrer: visitorData.referrer,
+        utm_source: visitorData.utm_source,
+        utm_campaign: visitorData.utm_campaign,
+        utm_term: visitorData.utm_term,
+        page: visitorData.page,
+        timestamp: visitorData.timestamp,
+        metrikaData,
+      });
     } else {
-      await sendToTelegram({ ...visitorData, metrikaData, isFirstVisit } as Parameters<
-        typeof sendToTelegram
-      >[0] & { metrikaData?: typeof metrikaData; isFirstVisit?: boolean });
+      console.log(`[TRACK-${requestId}] ⏭️ Skipping Telegram notification (subsequent visit in session)`);
     }
 
     console.log(`[TRACK-${requestId}] ✅ Visitor tracked successfully: ${visitorData.id}`);
