@@ -190,12 +190,7 @@ body {
 
   /* Subtle card gradient that matches theme */
   .testimonial-card-bg {
-    background: linear-gradient(
-      180deg,
-      color-mix(in oklch, var(--color-card) 92%, var(--color-border) 8%) 0%,
-      color-mix(in oklch, var(--color-card) 88%, var(--color-muted) 12%) 60%,
-      color-mix(in oklch, var(--color-card) 85%, var(--color-muted) 15%) 100%
-    );
+    background: var(--card);
     box-shadow: var(--shadow-sm);
   }
 
@@ -234,15 +229,15 @@ pre > code {
   counter-reset: line;
 }
 
-code[data-theme*=" "],
-code[data-theme*=" "] span {
+code[data-theme],
+code[data-theme] span {
   color: var(--shiki-light);
   background-color: var(--shiki-light-bg);
 }
 
 @media (prefers-color-scheme: dark) {
-  code[data-theme*=" "],
-  code[data-theme*=" "] span {
+  code[data-theme],
+  code[data-theme] span {
     color: var(--shiki-dark);
     background-color: var(--shiki-dark-bg);
   }
