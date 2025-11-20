@@ -233,12 +233,19 @@ async function sendToTelegram(visitorData: {
   city: string;
   country: string;
   ip: string;
+  device: string;
+  os: string;
+  browser: string;
+  screen_resolution: string;
   referrer: string | null;
   utm_source: string | null;
+  utm_medium?: string | null;
   utm_campaign: string | null;
   utm_term: string | null;
+  utm_content?: string | null;
   page: string;
   timestamp: string;
+  isFirstVisit?: boolean;
   metrikaData?: {
     trafficType: "paid" | "organic";
     source?: string;
@@ -312,16 +319,65 @@ async function sendToTelegram(visitorData: {
     sourceInfo = visitorData.referrer || "Прямой заход";
   }
 
-  // Упрощенное сообщение - только важная информация
+  // Формируем информацию об устройстве (обязательно)
+  const deviceType = visitorData.device === "mobile" 
+    ? "📱 Мобильное" 
+    : visitorData.device === "tablet" 
+      ? "📱 Планшет" 
+      : "🖥️ Десктоп";
+  
+  const deviceInfo = `${deviceType}\n🖥️ ОС: ${visitorData.os}\n🌍 Браузер: ${visitorData.browser}\n📱 Разрешение: ${visitorData.screen_resolution}`;
+
+  // Формируем информацию об источнике с UTM-метками (обязательно)
+  let utmInfo = "";
+  const hasUtm = visitorData.utm_source || visitorData.utm_medium || visitorData.utm_campaign || visitorData.utm_term || visitorData.utm_content;
+  
+  if (hasUtm) {
+    if (visitorData.utm_source) {
+      utmInfo += `📊 Source: ${visitorData.utm_source}\n`;
+    }
+    if (visitorData.utm_medium) {
+      utmInfo += `📢 Medium: ${visitorData.utm_medium}\n`;
+    }
+    if (visitorData.utm_campaign) {
+      utmInfo += `📋 Campaign: ${visitorData.utm_campaign}\n`;
+    }
+    if (visitorData.utm_term) {
+      utmInfo += `🔑 Term: ${visitorData.utm_term}\n`;
+    }
+    if (visitorData.utm_content) {
+      utmInfo += `📝 Content: ${visitorData.utm_content}\n`;
+    }
+  }
+  
+  // Если нет UTM, показываем referrer или прямой заход
+  if (!hasUtm) {
+    if (visitorData.referrer) {
+      utmInfo = `🔗 Referrer: ${visitorData.referrer}\n`;
+    } else {
+      utmInfo = "🔗 Прямой заход\n";
+    }
+  }
+
+  // Полное сообщение с обязательными полями
   const message = `
 ${visitType}
 
-📍 ${visitorData.city}, ${visitorData.country}
-📄 Страница: ${visitorData.page}
+👤 <b>Информация:</b>
+📍 Местоположение: ${visitorData.city}, ${visitorData.country}
+🌐 IP: ${visitorData.ip}
 
-🔗 <b>Источник:</b> ${trafficType}
-${sourceInfo ? `${sourceInfo}\n` : ""}
-⏱ ${new Date(visitorData.timestamp).toLocaleString("ru-RU", { timeZone: "Asia/Almaty" })}
+💻 <b>Устройство:</b>
+${deviceInfo}
+
+🔗 <b>Источник трафика:</b>
+${trafficType}
+${utmInfo}${sourceInfo ? `${sourceInfo}\n` : ""}
+
+📄 <b>Поведение:</b>
+📖 Страница: ${visitorData.page}
+⏱ Время визита: ${new Date(visitorData.timestamp).toLocaleString("ru-RU", { timeZone: "Asia/Almaty" })}
+${visitorData.isFirstVisit ? "" : "\n🔄 Это повторное посещение в этой сессии"}
   `.trim();
 
   try {
@@ -496,24 +552,29 @@ export async function POST(request: NextRequest) {
       console.error(`[TRACK-${requestId}] ⚠️ WARNING: Telegram credentials not configured!`);
       console.error(`[TRACK-${requestId}] ⚠️ Set TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID in environment variables`);
       console.error(`[TRACK-${requestId}] ⚠️ Visitor tracked but notification NOT sent to Telegram`);
-    } else if (isFirstVisit) {
-      // Отправляем уведомление ТОЛЬКО при первом посещении в сессии
-      console.log(`[TRACK-${requestId}] 📤 Sending Telegram notification (first visit in session)...`);
+    } else {
+      // Отправляем уведомление при каждом посещении
+      console.log(`[TRACK-${requestId}] 📤 Sending Telegram notification (${isFirstVisit ? 'first visit' : 'subsequent visit'})...`);
       await sendToTelegram({
         id: visitorData.id,
         city: visitorData.city,
         country: visitorData.country,
         ip: visitorData.ip,
+        device: visitorData.device,
+        os: visitorData.os,
+        browser: visitorData.browser,
+        screen_resolution: visitorData.screen_resolution,
         referrer: visitorData.referrer,
         utm_source: visitorData.utm_source,
+        utm_medium: visitorData.utm_medium,
         utm_campaign: visitorData.utm_campaign,
         utm_term: visitorData.utm_term,
+        utm_content: visitorData.utm_content,
         page: visitorData.page,
         timestamp: visitorData.timestamp,
+        isFirstVisit,
         metrikaData,
       });
-    } else {
-      console.log(`[TRACK-${requestId}] ⏭️ Skipping Telegram notification (subsequent visit in session)`);
     }
 
     console.log(`[TRACK-${requestId}] ✅ Visitor tracked successfully: ${visitorData.id}`);
