@@ -42,7 +42,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({ item, index }) => {
         >
           <p id={`testimonial-${index}-title`}>{item.testimonial}</p>
         </blockquote>
-        <div className="mt-auto space-y-1 sm:space-y-1.5" aria-label="Client details">
+        <div className="mt-auto space-y-1 sm:space-y-1.5" aria-label="Детали клиента">
           <div className="flex items-center">
             <img
               src={item.logo_src}
@@ -124,9 +124,9 @@ function Testimonial() {
         {/* Header */}
         <SectionHeading
           ref={headingRef}
-          badge="Testimonials"
-          heading="Meet our happy clients"
-          description="Read what our clients say about working with Ionio."
+          badge="Отзывы клиентов"
+          heading="Что говорят наши клиенты о маркетинговом агентстве в Алматы"
+          description="Прочитайте отзывы наших клиентов о работе с AOne Agency. Реальные результаты и измеримый рост бизнеса."
           size="md"
           align="center"
           as="h2"
@@ -139,7 +139,7 @@ function Testimonial() {
           className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 md:gap-8 lg:grid-cols-3 xl:gap-10"
           ref={gridRef}
           role="list"
-          aria-label="Client testimonials"
+          aria-label="Отзывы клиентов"
         >
           {testimonials.map((item, index) => (
             <div role="listitem" key={`${item.name}-${index}`}>
@@ -155,7 +155,7 @@ function Testimonial() {
           ref={statsRef}
         >
           <h3 id="stats-heading" className="sr-only">
-            Impact metrics
+            Показатели эффективности
           </h3>
           <div className="mx-auto max-w-7xl">
             <div className="flex flex-col divide-y divide-gray-200 sm:divide-y-0 sm:flex-row sm:divide-x">
@@ -164,10 +164,10 @@ function Testimonial() {
                 data-stat-item="true"
               >
                 <div className="text-heading text-3xl font-semibold sm:text-4xl md:text-5xl">
-                  120+
+                  500+
                 </div>
                 <p className="text-label mt-1 text-sm sm:mt-2 sm:text-base">
-                  AI-powered projects delivered
+                  Успешных проектов реализовано
                 </p>
               </div>
 
@@ -176,10 +176,10 @@ function Testimonial() {
                 data-stat-item="true"
               >
                 <div className="text-heading text-3xl font-semibold sm:text-4xl md:text-5xl">
-                  50+
+                  18
                 </div>
                 <p className="text-label mt-1 text-sm sm:mt-2 sm:text-base">
-                  Global clients we've partnered with
+                  Лет опыта в маркетинге
                 </p>
               </div>
 
@@ -188,10 +188,10 @@ function Testimonial() {
                 data-stat-item="true"
               >
                 <div className="text-heading text-3xl font-semibold sm:text-4xl md:text-5xl">
-                  $50k+
+                  +30%
                 </div>
                 <p className="text-label mt-1 text-sm sm:mt-2 sm:text-base">
-                  Monthly recurring revenue generated
+                  Средний рост заявок у клиентов
                 </p>
               </div>
             </div>

@@ -1,29 +1,32 @@
 import type { Metadata } from "next";
 
 export const siteConfig = {
-  name: "Ionio",
-  description: "AI innovation company driven by people and powered by technology to deliver impactful AI solutions",
-  url: "https://ionio.com",
-  ogImage: "https://res.cloudinary.com/dieth2xb3/image/upload/v1755799085/ssimage_bxr8i6.png",
-  logo: "https://ionio.com/logo.png",
+  name: "AOne Agency",
+  description:
+    "AI-маркетинговое агентство в Казахстане. Таргетированная реклама, контекстная реклама, SEO-продвижение, разработка приложений, CRM-автоматизация. От 200 000 ₸/месяц.",
+  url: "https://aoneagency.kz",
+  ogImage: "https://aoneagency.kz/og-image.jpg",
+  logo: "https://aoneagency.kz/logo.png",
   keywords: [
-    "AI innovation",
-    "artificial intelligence",
-    "machine learning",
-    "technology solutions",
-    "AI consulting",
-    "machine learning engineering",
-    "LLM development",
-    "AI strategy"
+    "таргетированная реклама Казахстан",
+    "контекстная реклама Алматы",
+    "SEO продвижение Казахстан",
+    "разработка приложений Алматы",
+    "CRM автоматизация",
+    "AI маркетинг",
+    "таргет Instagram",
+    "реклама TikTok",
+    "Google Ads Казахстан",
+    "Yandex Direct",
   ],
   authors: [
     {
-      name: "Ionio Team",
-      url: "https://ionio.com",
+      name: "AOne Agency Team",
+      url: "https://aoneagency.kz",
     },
   ],
-  creator: "Ionio",
-  publisher: "Ionio",
+  creator: "AOne Agency",
+  publisher: "AOne Agency",
   robots: {
     index: true,
     follow: true,
@@ -37,11 +40,12 @@ export const siteConfig = {
   },
   openGraph: {
     type: "website",
-    locale: "en_US",
-    url: "https://ionio.com",
-    siteName: "Ionio",
-    title: "Ionio - AI Innovation & Technology Solutions",
-    description: "AI innovation company driven by people and powered by technology to deliver impactful AI solutions",
+    locale: "ru_KZ",
+    url: "https://aoneagency.kz",
+    siteName: "AOne Agency",
+    title: "AOne Agency - AI-маркетинговое агентство в Казахстане",
+    description:
+      "Таргетированная реклама, контекстная реклама, SEO-продвижение, разработка приложений. От 200 000 ₸/месяц. Гарантия результата.",
     images: [
       {
         url: "https://res.cloudinary.com/dieth2xb3/image/upload/v1755799085/ssimage_bxr8i6.png",
@@ -53,124 +57,144 @@ export const siteConfig = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "Ionio - AI Innovation & Technology Solutions",
-    description: "AI innovation company driven by people and powered by technology to deliver impactful AI solutions",
-    images: ["https://res.cloudinary.com/dieth2xb3/image/upload/v1755799085/ssimage_bxr8i6.png"],
-    creator: "@ionio",
+    title: "AOne Agency - AI-маркетинговое агентство в Казахстане",
+    description:
+      "Таргетированная реклама, контекстная реклама, SEO-продвижение. От 200 000 ₸/месяц. Гарантия результата.",
+    images: ["https://aoneagency.kz/og-image.jpg"],
+    creator: "@aoneagency",
   },
   verification: {
-    google: "your-google-verification-code", 
+    google: "your-google-verification-code",
+    yandex: "your-yandex-verification-code",
   },
   alternates: {
-    canonical: "https://ionio.com",
+    canonical: "https://aoneagency.kz",
+    languages: {
+      ru: "https://aoneagency.kz",
+      kk: "https://aoneagency.kz/kk",
+    },
   },
   category: "technology",
 };
 
-
 export const pageMetadata = {
   home: {
-    title: "Ionio - AI Innovation & Technology Solutions",
-    description: "Transform your business with cutting-edge AI solutions. Ionio delivers innovative artificial intelligence technologies that drive growth and efficiency.",
+    title: "AOne Agency - AI-маркетинговое агентство в Казахстане | От 200 000 ₸/мес",
+    description:
+      "Таргетированная реклама в Instagram, TikTok, Facebook. Контекстная реклама Google Ads и Yandex.Direct. SEO-продвижение. Разработка приложений. CRM-автоматизация. Гарантия +30% заявок. Консультация бесплатно.",
     keywords: [
-      "AI solutions",
-      "artificial intelligence consulting",
-      "machine learning services",
-      "AI innovation",
-      "technology transformation",
-      "business AI",
-      "AI strategy"
+      "маркетинговое агентство Казахстан",
+      "таргетированная реклама Алматы",
+      "контекстная реклама Астана",
+      "SEO продвижение сайта",
+      "разработка мобильных приложений",
+      "CRM автоматизация бизнеса",
+      "AI маркетинг Казахстан",
     ],
     openGraph: {
-      title: "Ionio - AI Innovation & Technology Solutions",
-      description: "Transform your business with cutting-edge AI solutions. Ionio delivers innovative artificial intelligence technologies that drive growth and efficiency.",
-      url: "https://ionio.com",
+      title: "AOne Agency - AI-маркетинговое агентство в Казахстане",
+      description:
+        "Таргетированная реклама, контекстная реклама, SEO-продвижение. От 200 000 ₸/месяц. Гарантия результата.",
+      url: "https://aoneagency.kz",
       type: "website",
     },
     twitter: {
-      title: "Ionio - AI Innovation & Technology Solutions",
-      description: "Transform your business with cutting-edge AI solutions. Ionio delivers innovative artificial intelligence technologies that drive growth and efficiency.",
+      title: "AOne Agency - AI-маркетинговое агентство в Казахстане",
+      description:
+        "Таргетированная реклама, контекстная реклама, SEO-продвижение. От 200 000 ₸/месяц.",
     },
     alternates: {
-      canonical: "https://ionio.com",
+      canonical: "https://aoneagency.kz",
     },
   },
   about: {
-    title: "About Ionio - AI Innovation & Technology Solutions",
-    description: "Learn about Ionio's story, culture, and expertise in AI innovation. We are driven by people and powered by AI technology to deliver impactful solutions.",
+    title: "О нас - AOne Agency | Маркетинговое агентство в Казахстане",
+    description:
+      "AOne Agency - AI-маркетинговое агентство в Казахстане. 18 лет опыта в маркетинге. 500+ успешных проектов. Команда экспертов по таргетированной рекламе, SEO, разработке приложений.",
     keywords: [
-      "Ionio",
-      "AI innovation",
-      "technology solutions",
-      "artificial intelligence",
-      "machine learning",
-      "company culture",
-      "team expertise",
-      "AI company story"
+      "маркетинговое агентство Казахстан",
+      "AOne Agency",
+      "команда маркетологов",
+      "опыт работы",
+      "кейсы клиентов",
+      "маркетинг Алматы",
+      "маркетинг Астана",
     ],
     openGraph: {
-      title: "About Ionio - AI Innovation & Technology Solutions",
-      description: "Learn about Ionio's story, culture, and expertise in AI innovation. We are driven by people and powered by AI technology to deliver impactful solutions.",
-      url: "https://ionio.com/about",
+      title: "О нас - AOne Agency | Маркетинговое агентство в Казахстане",
+      description:
+        "AOne Agency - AI-маркетинговое агентство. 18 лет опыта. 500+ проектов. Команда экспертов.",
+      url: "https://aoneagency.kz/about",
       type: "website",
     },
     twitter: {
-      title: "About Ionio - AI Innovation & Technology Solutions",
-      description: "Learn about Ionio's story, culture, and expertise in AI innovation. We are driven by people and powered by AI technology to deliver impactful solutions.",
+      title: "О нас - AOne Agency | Маркетинговое агентство в Казахстане",
+      description: "AOne Agency - AI-маркетинговое агентство. 18 лет опыта. 500+ проектов.",
     },
     alternates: {
-      canonical: "https://ionio.com/about",
+      canonical: "https://aoneagency.kz/about",
     },
     structuredData: {
       "@context": "https://schema.org",
       "@type": "Organization",
-      "name": "Ionio",
-      "description": "AI innovation company driven by people and powered by technology to deliver impactful AI solutions",
-      "url": "https://ionio.com",
-      "logo": "https://ionio.com/logo.png",
-      "foundingDate": "2016",
-      "numberOfEmployees": "50-100",
-      "address": {
+      name: "AOne Agency",
+      description:
+        "AI-маркетинговое агентство в Казахстане. Таргетированная реклама, контекстная реклама, SEO-продвижение, разработка приложений.",
+      url: "https://aoneagency.kz",
+      logo: "https://aoneagency.kz/logo.png",
+      foundingDate: "2006",
+      numberOfEmployees: "20-50",
+      address: {
         "@type": "PostalAddress",
-        "addressCountry": "US"
+        streetAddress: "проспект Назарбаева 103",
+        addressLocality: "Алматы",
+        addressRegion: "Алматинская область",
+        postalCode: "050000",
+        addressCountry: "KZ",
       },
-      "sameAs": [
-        "https://linkedin.com/company/ionio",
-        "https://twitter.com/ionio"
+      telephone: "+7 747 385 4493",
+      email: "info@aoneagency.kz",
+      sameAs: [
+        "https://instagram.com/aoneagency",
+        "https://t.me/aoneagency",
+        "https://wa.me/77473854493",
       ],
-      "knowsAbout": [
-        "Artificial Intelligence",
-        "Machine Learning",
-        "AI Solutions",
-        "Technology Innovation"
-      ]
-    }
+      knowsAbout: [
+        "Таргетированная реклама",
+        "Контекстная реклама",
+        "SEO продвижение",
+        "Разработка приложений",
+        "CRM автоматизация",
+        "AI маркетинг",
+      ],
+    },
   },
   blog: {
-    title: "AI Insights & Research - Ionio Blog",
-    description: "Stay updated with the latest trends, research, and insights in artificial intelligence, machine learning, and emerging technologies that are shaping the future of business.",
+    title: "Блог о маркетинге и рекламе - AOne Agency",
+    description:
+      "Полезные статьи о таргетированной рекламе, контекстной рекламе, SEO-продвижении, разработке приложений. Кейсы, гайды, советы для бизнеса в Казахстане.",
     keywords: [
-      "AI blog",
-      "artificial intelligence insights",
-      "machine learning research",
-      "AI trends",
-      "technology insights",
-      "AI articles",
-      "ML engineering",
-      "LLM development"
+      "блог о маркетинге",
+      "статьи о рекламе",
+      "таргетированная реклама гайд",
+      "SEO советы",
+      "маркетинг Казахстан",
+      "кейсы маркетинга",
+      "разработка приложений",
     ],
     openGraph: {
-      title: "AI Insights & Research - Ionio Blog",
-      description: "Stay updated with the latest trends, research, and insights in artificial intelligence, machine learning, and emerging technologies that are shaping the future of business.",
-      url: "https://ionio.com/blog",
+      title: "Блог о маркетинге и рекламе - AOne Agency",
+      description:
+        "Полезные статьи о таргетированной рекламе, SEO-продвижении, разработке приложений. Кейсы и гайды.",
+      url: "https://aoneagency.kz/blog",
       type: "website",
     },
     twitter: {
-      title: "AI Insights & Research - Ionio Blog",
-      description: "Stay updated with the latest trends, research, and insights in artificial intelligence, machine learning, and emerging technologies that are shaping the future of business.",
+      title: "Блог о маркетинге и рекламе - AOne Agency",
+      description: "Полезные статьи о таргетированной рекламе, SEO-продвижении. Кейсы и гайды.",
     },
     alternates: {
-      canonical: "https://ionio.com/blog",
+      canonical: "https://aoneagency.kz/blog",
     },
   },
 };
@@ -180,7 +204,7 @@ export function generatePageMetadata(
   customMetadata?: Partial<Metadata>
 ): Metadata {
   const baseMetadata = pageMetadata[page];
-  
+
   return {
     title: baseMetadata.title,
     description: baseMetadata.description,
@@ -200,7 +224,6 @@ export function generatePageMetadata(
   };
 }
 
-
 export function generateBlogPostMetadata(
   title: string,
   description: string,
@@ -208,17 +231,17 @@ export function generateBlogPostMetadata(
   slug: string,
   image?: string
 ): Metadata {
-  const blogUrl = `https://ionio.com/blog/${slug}`;
+  const blogUrl = `https://aoneagency.kz/blog/${slug}`;
   const ogImage = image || siteConfig.ogImage;
 
   return {
-    title: `${title} - Ionio Blog`,
+    title: `${title} - AOne Agency Blog`,
     description,
     keywords: [
       ...siteConfig.keywords,
       "AI blog post",
       "artificial intelligence article",
-      "machine learning insights"
+      "machine learning insights",
     ],
     openGraph: {
       ...siteConfig.openGraph,
@@ -249,7 +272,6 @@ export function generateBlogPostMetadata(
   };
 }
 
-
 export function generateBlogPostStructuredData(
   title: string,
   description: string,
@@ -264,14 +286,14 @@ export function generateBlogPostStructuredData(
     datePublished: publishedTime,
     dateModified: publishedTime,
     description,
-    url: `https://ionio.com/blog/${slug}`,
+    url: `https://aoneagency.kz/blog/${slug}`,
     author: {
       "@type": "Person",
-      name: author || "Ionio Team",
+      name: author || "AOne Agency Team",
     },
     publisher: {
       "@type": "Organization",
-      name: "Ionio",
+      name: "AOne Agency",
       logo: {
         "@type": "ImageObject",
         url: siteConfig.logo,
@@ -283,7 +305,6 @@ export function generateBlogPostStructuredData(
     },
   };
 }
-
 
 export const defaultMetadata: Metadata = {
   metadataBase: new URL(siteConfig.url),

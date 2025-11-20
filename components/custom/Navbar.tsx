@@ -3,7 +3,6 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
-import { Github } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
@@ -21,20 +20,25 @@ function Navbar() {
 
   const navLinks = [
     {
-      name: "Home",
+      name: "Главная",
       href: "/",
-      description: "Return to homepage",
+      description: "Вернуться на главную страницу",
     },
     {
-      name: "About",
+      name: "О нас",
       href: "/about",
-      description: "Learn more about our company",
+      description: "Узнать больше о нашей компании",
     },
     {
-      name: "Blog",
+      name: "Блог",
       href: "/blog",
-      description: "Read our latest AI insights and research",
-    }
+      description: "Читать наши статьи о маркетинге и рекламе",
+    },
+    {
+      name: "Контакты",
+      href: "/contacts",
+      description: "Связаться с нами",
+    },
   ];
 
   const toggleMenu = () => {
@@ -197,19 +201,12 @@ function Navbar() {
               <Link
                 href="/"
                 className="focus:ring-ring flex items-center gap-2 rounded-md transition-opacity hover:opacity-80 focus:ring-2 focus:ring-offset-2 focus:outline-none"
-                aria-label="Ionio - Return to homepage"
+                aria-label="AOne Agency - Вернуться на главную страницу"
                 aria-describedby="logo-description"
               >
-                <img
-                  src="https://cdn.prod.website-files.com/62528d398a42424ab6390ee1/62528d398a42424d6e390f57_horizontal-logo-transperant.png"
-                  alt="Ionio Logo"
-                  className="h-8 w-auto"
-                  width="120"
-                  height="32"
-                  aria-hidden="true"
-                />
+                <span className="text-xl font-bold text-foreground">AOne Agency</span>
                 <span id="logo-description" className="sr-only">
-                  Ionio - Leading digital solutions provider
+                  AOne Agency - AI-маркетинговое агентство в Казахстане
                 </span>
               </Link>
             </div>
@@ -246,23 +243,13 @@ function Navbar() {
             </ul>
 
             <div className="flex items-center gap-3">
-              {/* GitHub Icon */}
-              <Link
-                href="https://github.com/pinak3748"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="focus:ring-ring flex items-center justify-center rounded-md p-2 transition-colors hover:bg-accent"
-                aria-label="Visit our GitHub repository"
-              >
-                <Github className="h-5 w-5 text-primary" />
-              </Link>
-
               <Button
                 size={"sm"}
                 className="text-sm"
-                aria-label="Contact us to start working together"
+                aria-label="Связаться с нами для начала работы"
+                asChild
               >
-                Work with us
+                <Link href="/contacts">Связаться с нами</Link>
               </Button>
             </div>
 
@@ -336,25 +323,13 @@ function Navbar() {
                     })}
                   </ul>
                   <div className="border-t pt-4 space-y-3">
-                    {/* GitHub Link */}
-                    <Link
-                      href="https://github.com/ionio"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="flex items-center justify-center gap-2 rounded-md px-3 py-2 text-base font-medium transition-colors hover:bg-accent hover:text-accent-foreground focus:outline-none"
-                      aria-label="Visit our GitHub repository"
-                      onClick={closeMenu}
-                    >
-                      <Github className="h-5 w-5 text-primary" />
-                      GitHub
-                    </Link>
-                    
                     <Button
                       className="w-full"
-                      aria-label="Contact us to start working together"
+                      aria-label="Связаться с нами для начала работы"
                       onClick={closeMenu}
+                      asChild
                     >
-                      Work with us
+                      <Link href="/contacts">Связаться с нами</Link>
                     </Button>
                   </div>
                 </div>

@@ -19,7 +19,7 @@ export function BackButton() {
       className="flex items-center gap-2 text-white/80 backdrop-blur-sm hover:bg-white/10 hover:text-white"
     >
       <ArrowLeft className="h-4 w-4" />
-      Back to Blog
+      Вернуться к блогу
     </Button>
   );
 }

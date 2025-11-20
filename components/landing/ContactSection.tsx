@@ -26,6 +26,10 @@ function ContactUs() {
   const testimonialRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLDivElement>(null);
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
+  const [errorMessage, setErrorMessage] = useState("");
+
   const currentCaseStudy = caseStudies[currentIndex];
 
   useGSAP(() => {
@@ -126,6 +130,62 @@ function ContactUs() {
     });
   };
 
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus("idle");
+    setErrorMessage("");
+
+    const formData = new FormData(e.currentTarget);
+    const data = {
+      name: formData.get("name") as string,
+      email: formData.get("email") as string,
+      message: formData.get("message") as string,
+    };
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        setSubmitStatus("success");
+        const form = e.currentTarget;
+        if (form) {
+          form.reset();
+        }
+
+        // Отправка события в Yandex.Metrika
+        if (typeof window !== "undefined" && (window as any).ym) {
+          (window as any).ym(process.env.NEXT_PUBLIC_YM_ID, "reachGoal", "contact_form_submit");
+        }
+
+        // Отправка события в Google Analytics
+        if (typeof window !== "undefined" && (window as any).gtag) {
+          (window as any).gtag("event", "form_submit", {
+            event_category: "contact",
+            event_label: "Contact Form",
+          });
+        }
+      } else {
+        setSubmitStatus("error");
+        setErrorMessage(result.error || "Произошла ошибка при отправке");
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      setSubmitStatus("error");
+      setErrorMessage("Произошла ошибка. Попробуйте позже.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   useEffect(() => {
     if (currentIndex >= 0) {
       animateIn();
@@ -145,9 +205,9 @@ function ContactUs() {
         {/* Header */}
         <SectionHeading
           ref={headingRef}
-          badge="Contact Us"
-          heading="Get in Touch"
-          description="Contact Ionio to discuss your AI transformation needs."
+          badge="Свяжитесь с нами"
+          heading="Получите бесплатную консультацию маркетингового агентства в Алматы"
+          description="Свяжитесь с AOne Agency для обсуждения ваших маркетинговых задач. Получите бесплатную консультацию по таргетированной рекламе, SEO-продвижению и разработке приложений."
           size="md"
           align="center"
           as="h2"
@@ -160,10 +220,10 @@ function ContactUs() {
           <div className="lg:col-span-1">
             <div ref={formRef} className="space-y-4 sm:space-y-6">
               <h3 id="contact-form-title" className="sr-only">
-                Contact us form
+                Форма обратной связи
               </h3>
               <p id="contact-form-description" className="sr-only">
-                Use this form to contact Ionio. All fields are required.
+                Используйте эту форму для связи с AOne Agency. Все поля обязательны для заполнения.
               </p>
               <form
                 className="space-y-4 sm:space-y-6"
@@ -171,18 +231,19 @@ function ContactUs() {
                 aria-describedby="contact-form-description"
                 itemScope
                 itemType="https://schema.org/ContactPoint"
+                onSubmit={handleSubmit}
               >
                 <div className="space-y-2">
                   <label
                     htmlFor="name"
                     className="text-text-heading text-sm font-medium sm:text-base"
                   >
-                    Name
+                    Имя
                   </label>
                   <Input
                     id="name"
                     type="text"
-                    placeholder="Enter your name"
+                    placeholder="Введите ваше имя"
                     className="focus:border-primary focus:ring-primary w-full border-gray-200 h-10 sm:h-11"
                     name="name"
                     autoComplete="name"
@@ -202,7 +263,7 @@ function ContactUs() {
                   <Input
                     id="email"
                     type="email"
-                    placeholder="Enter your email"
+                    placeholder="Введите ваш email"
                     className="focus:border-primary focus:ring-primary w-full border-gray-200 h-10 sm:h-11"
                     name="email"
                     autoComplete="email"
@@ -218,11 +279,11 @@ function ContactUs() {
                     htmlFor="message"
                     className="text-text-heading text-sm font-medium sm:text-base"
                   >
-                    Message
+                    Сообщение
                   </label>
                   <Textarea
                     id="message"
-                    placeholder="Type your message..."
+                    placeholder="Введите ваше сообщение..."
                     rows={4}
                     className="focus:border-primary focus:ring-primary min-h-32 sm:min-h-40 w-full resize-none border-gray-200"
                     name="message"
@@ -242,28 +303,45 @@ function ContactUs() {
                   />
                   <div className="text-label text-xs sm:text-sm">
                     <label htmlFor="terms" className="cursor-pointer">
-                      I accept the{" "}
+                      Я принимаю{" "}
                       <a
                         href="#"
                         className="text-primary hover:text-primary/80 underline"
                         rel="noreferrer nofollow noopener"
                         target="_blank"
                       >
-                        Terms
+                        условия обработки данных
                       </a>
                     </label>
                     <p id="terms-description" className="sr-only">
-                      You must accept the terms to submit the form.
+                      Вы должны принять условия для отправки формы.
                     </p>
                   </div>
                 </div>
 
+                {submitStatus === "success" && (
+                  <div
+                    className="bg-green-50 text-green-800 px-4 py-3 rounded-lg text-sm"
+                    role="alert"
+                  >
+                    ✅ Спасибо! Ваше сообщение успешно отправлено. Мы свяжемся с вами в ближайшее
+                    время.
+                  </div>
+                )}
+
+                {submitStatus === "error" && (
+                  <div className="bg-red-50 text-red-800 px-4 py-3 rounded-lg text-sm" role="alert">
+                    ❌ {errorMessage}
+                  </div>
+                )}
+
                 <Button
                   type="submit"
-                  className="bg-primary hover:bg-primary/90 w-full py-3 sm:py-4 font-medium text-white text-sm sm:text-base"
-                  aria-label="Submit contact form"
+                  className="bg-primary hover:bg-primary/90 w-full py-3 sm:py-4 font-medium text-white text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
+                  aria-label="Отправить форму обратной связи"
+                  disabled={isSubmitting}
                 >
-                  Submit
+                  {isSubmitting ? "Отправка..." : "Отправить заявку"}
                 </Button>
               </form>
             </div>
@@ -331,7 +409,7 @@ function ContactUs() {
                         <button
                           onClick={handlePrevious}
                           className="group flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-white/10 backdrop-blur-md transition-all duration-300 hover:bg-white/20 sm:h-8 sm:w-8"
-                          aria-label="Previous testimonial"
+                          aria-label="Предыдущий отзыв"
                         >
                           <svg
                             className="h-4 w-4 text-white transition-transform duration-300 group-hover:scale-110 sm:h-5 sm:w-5"
@@ -350,7 +428,7 @@ function ContactUs() {
                         <button
                           onClick={handleNext}
                           className="group flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-white/10 backdrop-blur-md transition-all duration-300 hover:bg-white/20 sm:h-8 sm:w-8"
-                          aria-label="Next testimonial"
+                          aria-label="Следующий отзыв"
                         >
                           <svg
                             className="h-4 w-4 text-white transition-transform duration-300 group-hover:scale-110 sm:h-5 sm:w-5"

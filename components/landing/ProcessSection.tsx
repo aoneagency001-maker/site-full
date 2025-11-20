@@ -27,50 +27,50 @@ const ProcessCards: React.FC = () => {
 
   const process: processType[] = [
     {
-      title: "Discovery & Strategy",
-      tagline: "Getting to Know Your Big Idea",
+      title: "Аудит и стратегия",
+      tagline: "Изучаем ваш бизнес и цели",
       description:
-        "We begin by diving deep into your vision, your goals, and the problem you’re solving. This stage is all about uncovering the story behind your idea and understanding why it matters. Through thorough market research and a detailed competitor analysis, we identify unique opportunities and define the best way to position your product for long-term success. This step ensures that your foundation is solid before any building begins.",
+        "Начинаем с глубокого анализа вашего бизнеса, целей и проблем, которые вы решаете. Проводим детальное исследование рынка и анализ конкурентов. Выявляем уникальные возможности и определяем лучший способ позиционирования вашего продукта для долгосрочного успеха. Этот этап гарантирует, что фундамент заложен правильно перед началом работы.",
       deliverables: [
-        { item: "Detailed market insights" },
-        { item: "Comprehensive competitor breakdown" },
-        { item: "A winning strategy tailored to your product" },
+        { item: "Детальный анализ рынка" },
+        { item: "Комплексный анализ конкурентов" },
+        { item: "Победная стратегия для вашего бизнеса" },
       ],
       bg_image: "https://res.cloudinary.com/dieth2xb3/image/upload/v1755799085/ssimage_bxr8i6.png",
     },
     {
-      title: "Planning & Wireframes",
-      tagline: "Mapping Out Your Vision",
+      title: "Планирование и настройка",
+      tagline: "Составляем план действий",
       description:
-        "Once we know where you want to go, we carefully map out how to get there. Our team creates structured wireframes and a detailed project scope so that everyone involved knows exactly what’s being built and how. This stage eliminates guesswork and brings clarity to the entire process. By the end, you’ll have a well-defined roadmap that aligns with your vision and keeps the project on track from start to finish.",
+        "После определения целей мы тщательно планируем, как их достичь. Наша команда создает структурированный план проекта и детальный scope, чтобы все участники точно знали, что и как будет реализовано. Этот этап устраняет неопределенность и приносит ясность во весь процесс. В итоге у вас будет четкий roadmap, соответствующий вашим целям.",
       deliverables: [
-        { item: "Complete project blueprint" },
-        { item: "High-fidelity wireframes" },
-        { item: "Technical implementation plan" },
+        { item: "Полный план проекта" },
+        { item: "Детальная структура кампаний" },
+        { item: "План технической реализации" },
       ],
       bg_image: "https://res.cloudinary.com/dieth2xb3/image/upload/v1755804235/aaaimage_zbypst.png",
     },
     {
-      title: "Design & Development",
-      tagline: "Building Your Dream Into Reality",
+      title: "Запуск и оптимизация",
+      tagline: "Превращаем идеи в результат",
       description:
-        "This is where ideas start to take shape. Our designers and developers work hand in hand to turn your vision into a functional, scalable, and visually stunning platform. Every detail is thoughtfully crafted — from intuitive user experiences to reliable back-end systems. We combine creativity with technology to deliver a product that not only looks beautiful but also performs seamlessly and grows with your business.",
+        "Здесь идеи начинают воплощаться в жизнь. Наши специалисты работают сообща, чтобы превратить ваше видение в функциональную, масштабируемую и визуально привлекательную маркетинговую систему. Каждая деталь тщательно продумана — от интуитивного пользовательского опыта до надежных систем аналитики. Мы сочетаем креативность с технологиями, чтобы создать продукт, который не только выглядит отлично, но и работает безупречно и растет вместе с вашим бизнесом.",
       deliverables: [
-        { item: "A fully designed user-friendly platform" },
-        { item: "Robust, scalable development" },
-        { item: "End-to-end tested product ready for growth" },
+        { item: "Полностью настроенная рекламная система" },
+        { item: "Надежная, масштабируемая реализация" },
+        { item: "Протестированное решение, готовое к росту" },
       ],
       bg_image: "https://res.cloudinary.com/dieth2xb3/image/upload/v1755804376/fasimage_skodum.png",
     },
     {
-      title: "Launch & Growth",
-      tagline: "Getting You Out There",
+      title: "Масштабирование и рост",
+      tagline: "Выводим вас на новый уровень",
       description:
-        "Bringing your platform to life is just the beginning of the journey. We provide full support for launch, making sure everything runs smoothly and your product reaches the right audience. Beyond launch day, we help you craft and refine marketing strategies, track performance, and implement optimizations that fuel sustainable growth. Our focus is on making sure your business doesn’t just go live, but thrives in the market.",
+        "Запуск рекламы — это только начало пути. Мы обеспечиваем полную поддержку при запуске, гарантируя, что все работает гладко и ваш продукт достигает нужной аудитории. После запуска мы помогаем вам разрабатывать и совершенствовать маркетинговые стратегии, отслеживать производительность и внедрять оптимизации, которые обеспечивают устойчивый рост. Наша цель — сделать так, чтобы ваш бизнес не просто запустился, но и процветал на рынке.",
       deliverables: [
-        { item: "Hands-on launch support" },
-        { item: "Tailored marketing strategy" },
-        { item: "Actionable tips and ongoing growth guidance" },
+        { item: "Поддержка при запуске" },
+        { item: "Индивидуальная маркетинговая стратегия" },
+        { item: "Практические советы и постоянное сопровождение роста" },
       ],
       bg_image: "https://res.cloudinary.com/dieth2xb3/image/upload/v1755804235/aaaimage_zbypst.png",
     },
@@ -189,9 +189,9 @@ const ProcessCards: React.FC = () => {
     <div ref={sectionRef} className="relative space-y-4 px-4 sm:px-6 lg:px-8">
       <SectionHeading
         ref={headingRef}
-        badge="Our Proven Process"
-        heading="How We Bring Ideas to Life"
-        description="Explore our latest projects featuring AI-powered platforms, business solutions, and innovative designs that have driven measurable growth for our clients."
+        badge="Наш проверенный процесс"
+        heading="Как мы работаем — процесс маркетингового агентства в Алматы"
+        description="Изучите наш процесс работы: от аудита до масштабирования. Мы используем проверенные методики и AI-технологии для достижения измеримых результатов для наших клиентов в Алматы и по всему Казахстану."
         size="md"
         align="center"
         as="h2"
@@ -232,11 +232,10 @@ const ProcessCards: React.FC = () => {
                     </li>
                   ))}
                   <li className="text-heading bg-tag-bg/20 rounded-4xl px-3 py-1 text-xs tracking-wide backdrop-blur-lg sm:px-4">
-                    competitor breakdown
+                    анализ конкурентов
                   </li>
                   <li className="text-heading bg-tag-bg/20 rounded-4xl px-3 py-1 text-xs tracking-wide backdrop-blur-lg sm:px-4">
-                    {" "}
-                    your winning strategy
+                    ваша победная стратегия
                   </li>
                 </ul>
               </div>

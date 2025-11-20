@@ -1,0 +1,263 @@
+# AOneAgency.kz — AI Marketing Agency Website
+# Cursor AI Development Rules & Instructions
+
+## 🎯 PROJECT MISSION
+
+Build **aoneagency.kz** — a high-performance, SEO-optimized marketing agency website for Kazakhstan market.
+
+**Target:** Rank in top 10 Google/Yandex for target keywords within 30 days.
+
+**Services:**
+1. Targeted advertising (Instagram, TikTok, Facebook)
+2. Contextual advertising (Google Ads, Yandex.Direct)
+3. SEO promotion (Google & Yandex)
+4. Mobile app development (iOS, Android, Flutter)
+5. CRM automation (amoCRM, Bitrix24)
+6. AI chatbots & automation
+
+**Audience:** Business owners in Kazakhstan (Astana, Almaty, Shymkent, Atyrau, Karaganda).
+
+**Languages:** Russian (primary), Kazakh (secondary with hreflang).
+
+**Business Model:**
+- From 200,000 ₸/month for marketing services
+- From 250,000 ₸ for website development
+- From 150,000 ₸ for CRM automation
+
+---
+
+## ⚙️ TECH STACK & BEST PRACTICES
+
+### Core Technologies
+- **Next.js 15** (App Router, Server Components)
+- **TypeScript** (strict mode)
+- **Tailwind CSS** (utility-first styling)
+- **shadcn/ui** (component library)
+- **GSAP** (animations)
+
+### Next.js Rules
+1. **Always use App Router** (`app/` directory).
+2. **Server Components by default** — only add `'use client'` when needed:
+   - Forms with state
+   - Animations
+   - Event handlers
+   - useEffect, useState
+3. **File naming:**
+   - Components: `hero.tsx`, `contact-form.tsx`
+   - Pages: `page.tsx`, `layout.tsx`
+   - API Routes: `route.ts`
+4. **Use named exports** over default exports when possible.
+
+### TypeScript Rules
+- **Always type props** with interfaces
+- **Avoid `any`** — use `unknown` or specific types
+- **Use type inference** when obvious
+
+### Tailwind CSS Rules
+- Use **utility classes** in JSX, avoid custom CSS unless needed
+- Use `cn()` utility for conditional classes
+
+---
+
+## 🚀 SEO OPTIMIZATION (CRITICAL!)
+
+### Metadata (Every Page Must Have)
+- Unique Title (50-60 characters, include city + service)
+- Meta Description (150-160 characters, include CTA)
+- H1 with primary keyword (only ONE H1 per page)
+- H2-H4 structure (logical hierarchy)
+- Schema.org markup (LocalBusiness, Service, Article, BreadcrumbList)
+- Alt text for all images
+- Internal links (3-5 per page)
+- Canonical URL
+- OG and Twitter cards
+- hreflang for Russian/Kazakh versions
+
+### SEO Requirements for Every Page
+1. ✅ Unique Title (50-60 chars, city + service)
+2. ✅ Meta Description (150-160 chars, CTA)
+3. ✅ ONE H1 with primary keyword
+4. ✅ H2-H4 logical structure
+5. ✅ Schema.org markup
+6. ✅ Alt text for ALL images
+7. ✅ 3-5 internal links
+8. ✅ Canonical URL
+9. ✅ OG and Twitter cards
+10. ✅ Mobile-responsive
+
+---
+
+## 📝 CONTENT STRATEGY
+
+### Blog Post Structure (MDX)
+- Frontmatter with: title, description, publishedAt, author, category, tags, image
+- Use custom MDX components: Callout, CodeBlock, CaseCard
+- Minimum 2000 words per post
+- Include FAQ section
+- Internal links to service pages
+
+---
+
+## 🏗️ PAGE TEMPLATES
+
+### Homepage Sections (in order):
+1. **Hero** (H1: "AI-маркетинговое агентство в Казахстане")
+2. **Pain Points** ("Реклама не работает?" → "Мы настроим AI-таргет")
+3. **Services** (6 cards: Таргет, Контекст, SEO, Разработка, CRM, AI)
+4. **Why Us** ("18 лет опыта", "500+ клиентов", "+30% заявок")
+5. **Cases** (3-4 featured case studies)
+6. **Quiz** (Interactive quiz)
+7. **Pricing** (From 200,000 ₸/month)
+8. **FAQ** (6-8 questions with Schema.org FAQPage)
+9. **CTA** ("Готовы начать?" → Form/WhatsApp)
+
+### Service Page Template
+- Hero section with H1
+- What is it (description)
+- Who needs it (target audience)
+- Process (5 steps)
+- Cases (2-3 case studies)
+- Pricing
+- FAQ
+- CTA
+
+### City Page Template (Local SEO)
+- City name in H1, first paragraph, H2 sections (5-7 mentions total)
+- Local address, phone, map
+- Local cases (clients from this city)
+- Schema.org LocalBusiness (not just Service)
+
+---
+
+## 🔧 API INTEGRATIONS
+
+### Contact Form → amoCRM
+- Validate: name, phone required
+- Send to amoCRM API
+- Return success/error status
+
+### IndexNow (Yandex Fast Indexing)
+- Send URLs to Yandex IndexNow after publishing
+- Use for blog posts and new pages
+
+---
+
+## 📊 ANALYTICS & TRACKING
+
+### Google Analytics 4 + Yandex.Metrika
+- Add scripts in root layout
+- Use environment variables for IDs
+- Track conversions (form submissions, CTA clicks)
+
+---
+
+## 🌐 BILINGUAL SUPPORT (Russian + Kazakh)
+
+- Keep Russian as primary language
+- Add Kazakh translations for key pages
+- Use hreflang tags
+- Structure: `/almaty/target` (Russian), `/kk/almaty/target` (Kazakh)
+
+---
+
+## 🚢 DEPLOYMENT & CI/CD
+
+### Environment Variables
+- NEXT_PUBLIC_SITE_URL=https://aoneagency.kz
+- NEXT_PUBLIC_GA_ID=G-XXXXXXXXXX
+- NEXT_PUBLIC_YM_ID=12345678
+- AMO_CRM_TOKEN=your_token_here
+- AMO_CRM_SUBDOMAIN=yourcompany
+- INDEXNOW_KEY=your_key_here
+
+### DigitalOcean Deployment
+- Use Node.js 18+
+- Build command: `npm run build`
+- Start command: `npm start`
+- Or use static export for better performance
+
+---
+
+## 🎨 DESIGN SYSTEM
+
+### Colors
+- Use existing Tailwind config
+- Primary color: brand blue/purple
+- Keep accessibility in mind (WCAG AA)
+
+### Typography
+- Headings: Inter or Montserrat
+- Body: Inter
+- H1: 48-64px (mobile: 32-40px)
+- H2: 36-48px
+- H3: 24-32px
+- Body: 16-18px
+
+---
+
+## 📋 DEVELOPMENT WORKFLOW
+
+### Phase 1: Structure
+1. ✅ Review existing structure
+2. ✅ Add service pages (5 services)
+3. ✅ Add city pages (4 cities × 3 services = 12 pages)
+4. ✅ Set up MDX blog infrastructure
+5. ✅ Add SEO components
+
+### Phase 2: Content
+1. ✅ Write homepage copy
+2. ✅ Write service pages
+3. ✅ Write city pages
+4. ✅ Write blog posts
+5. ✅ Create case studies
+
+### Phase 3: Integrations
+1. ✅ Set up amoCRM integration
+2. ✅ Add IndexNow for Yandex
+3. ✅ Install Google Analytics 4
+4. ✅ Install Yandex.Metrika
+5. ✅ Add contact form
+
+### Phase 4: SEO & Optimization
+1. ✅ Add Schema.org to all pages
+2. ✅ Optimize images (WebP, lazy loading)
+3. ✅ Generate sitemap
+4. ✅ Add robots.txt
+5. ✅ Test Core Web Vitals
+
+---
+
+## 🤖 CURSOR AI USAGE TIPS
+
+### How to Work with Me (Cursor)
+
+**Give clear, specific prompts:**
+
+✅ **GOOD:**
+> "Create a city page for Almaty targeted advertising. Include: H1 with 'Алматы' keyword, Hero section, description (300 words, mention Almaty 5 times), process (5 steps), 2 cases from Almaty clients, FAQ, contact form, Schema.org LocalBusiness with Almaty address."
+
+❌ **BAD:**
+> "Make a page for Almaty."
+
+**Iterate in small steps:**
+1. First: "Create page structure"
+2. Then: "Add SEO metadata"
+3. Then: "Add Schema.org"
+4. Then: "Add content sections"
+
+---
+
+## 🔥 FINAL NOTES
+
+**Philosophy:**
+- **Speed matters:** Fast sites rank better
+- **Content is king:** Write for humans, optimize for bots
+- **Local is powerful:** City pages = easy wins
+- **Test everything:** A/B test CTAs, hero copy, forms
+
+**Remember:**
+- Follow these rules for EVERY page, component, feature
+- Always prioritize SEO (metadata, Schema.org, speed)
+- Test on mobile first
+- Monitor GSC and Yandex.Webmaster weekly
+

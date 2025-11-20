@@ -10,14 +10,16 @@ function Footer() {
   const imageRef = useRef<HTMLImageElement>(null);
 
   const resourceLinks = [
-    { name: "Blogs", href: "blog" },
-    { name: "About", href: "about" },
+    { name: "Блог", href: "/blog" },
+    { name: "О нас", href: "/about" },
+    { name: "Кейсы", href: "/cases" },
+    { name: "Контакты", href: "/contacts" },
   ];
 
   const socialLinks = [
-    { name: "X", href: "https://x.com/Pinak72813632" },
-    { name: "LinkedIn", href: "https://www.linkedin.com/in/pinakfaldu/" },
-    { name: "Github", href: "https://github.com/pinak3748" },
+    { name: "Instagram", href: "https://instagram.com/aoneagency" },
+    { name: "Telegram", href: "https://t.me/aoneagency" },
+    { name: "WhatsApp", href: "https://wa.me/77473854493" },
   ];
 
   return (
@@ -38,9 +40,9 @@ function Footer() {
           className="pointer-events-none absolute -bottom-10 z-10 w-full select-none sm:-bottom-16 md:-bottom-24 lg:-bottom-32"
         >
           <Marquee className="[--duration:5s]">
-            {["I", "O", "N", "I", "O"].map((char, idx) => (
+            {["A", "O", "N", "E", " ", "A", "G", "E", "N", "C", "Y"].map((char, idx) => (
               <span
-                key={`ionio-outline-${idx}`}
+                key={`aone-outline-${idx}`}
                 className={`text-primary-foreground/80 footer-slang font-extrabold uppercase`}
               >
                 {char}
@@ -66,13 +68,23 @@ function Footer() {
                   itemType="https://schema.org/Organization"
                 >
                   <p className="text-2xl font-bold" itemProp="name">
-                    Ionio LLC
+                    AOne Agency
                   </p>
-                  <p className="text-sm">Copyrights © All Rights Reserved by Ionio.io</p>
+                  <p className="text-sm">© 2025 AOne Agency. Все права защищены.</p>
                   <p className="text-sm">
-                    <span className="sr-only">Phone:</span>
-                    <a href="tel:+19103150746" itemProp="telephone" className="hover:underline">
-                      +1-910-315-0746
+                    <span className="sr-only">Телефон:</span>
+                    <a href="tel:+77473854493" itemProp="telephone" className="hover:underline">
+                      +7 747 385 4493
+                    </a>
+                  </p>
+                  <p className="text-sm">
+                    <span className="sr-only">Email:</span>
+                    <a
+                      href="mailto:info@aoneagency.kz"
+                      itemProp="email"
+                      className="hover:underline"
+                    >
+                      info@aoneagency.kz
                     </a>
                   </p>
                   <p
@@ -81,22 +93,22 @@ function Footer() {
                     itemScope
                     itemType="https://schema.org/PostalAddress"
                   >
-                    <span itemProp="streetAddress">2055 Limestone Rd STE 200C IN Wilmington</span>
+                    <span itemProp="streetAddress">проспект Назарбаева 103</span>
                   </p>
                   <p className="text-sm">
-                    <span itemProp="addressLocality">Wilmington</span>,{" "}
-                    <span itemProp="addressRegion">DE</span>{" "}
-                    <span itemProp="postalCode">19808</span>
+                    <span itemProp="addressLocality">Алматы</span>,{" "}
+                    <span itemProp="addressRegion">Алматинская область</span>{" "}
+                    <span itemProp="postalCode">050000</span>
                   </p>
                 </div>
 
                 <div className="flex">
-                  <a href="#work-with-us">
+                  <a href="/contacts">
                     <Button
                       variant="outline"
                       className="border-primary-foreground/5 bg-white/5 cursor-pointer backdrop-blur-2xl text-white hover:bg-white/10 hover:text-white hover:backdrop-blur-2xl"
                     >
-                      Work with us
+                      Связаться с нами
                       <ArrowUpRight className="ml-2 h-4 w-4" />
                     </Button>
                   </a>
@@ -111,7 +123,7 @@ function Footer() {
                 className="mb-6 text-sm font-medium tracking-wider text-gray-400 uppercase"
                 id="footer-resources-heading"
               >
-                Resources
+                Ресурсы
               </h3>
               <nav className="space-y-4" aria-labelledby="footer-resources-heading">
                 {resourceLinks.map((link) => (
@@ -132,7 +144,7 @@ function Footer() {
                 className="mb-6 text-sm font-medium tracking-wider text-gray-400 uppercase"
                 id="footer-connect-heading"
               >
-                Connect
+                Связаться
               </h3>
               <nav className="space-y-4" aria-labelledby="footer-connect-heading">
                 {socialLinks.map((link) => (

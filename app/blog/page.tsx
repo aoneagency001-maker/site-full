@@ -13,95 +13,90 @@ import { useRef, useState } from "react";
 const blogPosts = [
   {
     id: 1,
-    title: "Enhancing Model Performance: The Impact of Fine-tuning with LoRA & QLoRA",
+    title: "Как AI-автоматизация увеличивает продажи на 30%",
     excerpt:
-      "Explore how artificial intelligence is transforming modern business operations and what it means for your company's future.",
+      "Узнайте, как искусственный интеллект трансформирует современный бизнес и маркетинг в Казахстане.",
     image: "https://res.cloudinary.com/dieth2xb3/image/upload/v1755804235/aaaimage_zbypst.png",
-    date: "Aug 16, 2025",
-    tag: "AI Strategy",
-    slug: "optimize-lora-qlora",
+    date: "16 ноя, 2025",
+    tag: "AI-стратегии",
+    slug: "ai-automatizaciya-prodazh",
     isTopPick: true,
   },
   {
     id: 2,
-    title: "Enhancing Model Performance: The Impact of Fine-tuning with LoRA & QLoRA",
+    title: "Таргетированная реклама в Instagram: гайд 2025",
     excerpt:
-      "Explore how artificial intelligence is transforming modern business operations and what it means for your company's future.",
+      "Полное руководство по настройке таргета в Instagram и TikTok для бизнеса в Казахстане.",
     image: "https://res.cloudinary.com/dieth2xb3/image/upload/v1755804235/aaaimage_zbypst.png",
-    date: "Aug 16, 2025",
-    tag: "SaaS",
-    slug: "optimize-lora-qlora",
+    date: "14 ноя, 2025",
+    tag: "Таргет",
+    slug: "target-instagram-2025",
     isTopPick: true,
   },
   {
     id: 3,
-    title: "Enhancing Model Performance: The Impact of Fine-tuning with LoRA & QLoRA",
-    excerpt:
-      "Explore how artificial intelligence is transforming modern business operations and what it means for your company's future.",
+    title: "SEO-продвижение в Яндексе: топ-10 за 30 дней",
+    excerpt: "Пошаговая стратегия выхода в ТОП-10 Яндекса для локального бизнеса в Алматы.",
     image: "https://res.cloudinary.com/dieth2xb3/image/upload/v1755804235/aaaimage_zbypst.png",
-    date: "Aug 16, 2025",
-    tag: "AI",
-    slug: "optimize-lora-qlora",
+    date: "12 ноя, 2025",
+    tag: "SEO",
+    slug: "seo-yandex-top-10",
     isTopPick: true,
   },
   {
     id: 4,
-    title: "Enhancing Model Performance: The Impact of Fine-tuning with LoRA & QLoRA",
+    title: "Разработка мобильных приложений на Flutter",
     excerpt:
-      "Explore how artificial intelligence is transforming modern business operations and what it means for your company's future.",
+      "Почему Flutter — лучший выбор для разработки кроссплатформенных приложений в 2025 году.",
     image: "https://res.cloudinary.com/dieth2xb3/image/upload/v1755804235/aaaimage_zbypst.png",
-    date: "Aug 16, 2025",
-    tag: "Mobile",
-    slug: "optimize-lora-qlora",
+    date: "10 ноя, 2025",
+    tag: "Разработка",
+    slug: "flutter-mobile-apps",
     isTopPick: false,
   },
   {
     id: 5,
-    title: "Enhancing Model Performance: The Impact of Fine-tuning with LoRA & QLoRA",
-    excerpt:
-      "Explore how artificial intelligence is transforming modern business operations and what it means for your company's future.",
+    title: "CRM-автоматизация: от заявки до сделки",
+    excerpt: "Как настроить amoCRM для автоматической обработки заявок с сайта и соцсетей.",
     image: "https://res.cloudinary.com/dieth2xb3/image/upload/v1755804235/aaaimage_zbypst.png",
-    date: "Aug 16, 2025",
-    tag: "Optimation",
-    slug: "optimize-lora-qlora",
+    date: "8 ноя, 2025",
+    tag: "AI-стратегии",
+    slug: "crm-automatizaciya",
     isTopPick: false,
   },
   {
     id: 6,
-    title: "Enhancing Model Performance: The Impact of Fine-tuning with LoRA & QLoRA",
-    excerpt:
-      "Explore how artificial intelligence is transforming modern business operations and what it means for your company's future.",
+    title: "Google Ads vs Yandex.Direct: что выбрать?",
+    excerpt: "Сравнение двух крупнейших платформ контекстной рекламы для рынка Казахстана.",
     image: "https://res.cloudinary.com/dieth2xb3/image/upload/v1755804235/aaaimage_zbypst.png",
-    date: "Aug 16, 2025",
-    tag: "AI Strategy",
-    slug: "optimize-lora-qlora",
+    date: "6 ноя, 2025",
+    tag: "Таргет",
+    slug: "google-ads-vs-yandex",
     isTopPick: false,
   },
   {
     id: 7,
-    title: "Enhancing Model Performance: The Impact of Fine-tuning with LoRA & QLoRA",
-    excerpt:
-      "Explore how artificial intelligence is transforming modern business operations and what it means for your company's future.",
+    title: "Чат-боты для бизнеса: кейсы и ROI",
+    excerpt: "Как AI-чат-боты увеличивают конверсию на 40% и снижают нагрузку на поддержку.",
     image: "https://res.cloudinary.com/dieth2xb3/image/upload/v1755804235/aaaimage_zbypst.png",
-    date: "Aug 16, 2025",
-    tag: "AI Strategy",
-    slug: "optimize-lora-qlora",
+    date: "4 ноя, 2025",
+    tag: "AI-стратегии",
+    slug: "chatboty-dlya-biznesa",
     isTopPick: false,
   },
   {
     id: 8,
-    title: "Enhancing Model Performance: The Impact of Fine-tuning with LoRA & QLoRA",
-    excerpt:
-      "Explore how artificial intelligence is transforming modern business operations and what it means for your company's future.",
+    title: "Локальное SEO: как продвигаться в Алматы",
+    excerpt: "Стратегия локального SEO для выхода в топ по запросам с географической привязкой.",
     image: "https://res.cloudinary.com/dieth2xb3/image/upload/v1755804235/aaaimage_zbypst.png",
-    date: "Aug 16, 2025",
-    tag: "AI Strategy",
-    slug: "optimize-lora-qlora",
+    date: "2 ноя, 2025",
+    tag: "SEO",
+    slug: "lokalnoe-seo-almaty",
     isTopPick: false,
   },
 ];
 
-const blogTags = ["All", "AI Strategy", "ML Engineering", "LLM Development"];
+const blogTags = ["Все", "AI-стратегии", "Таргет", "SEO", "Разработка"];
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -114,7 +109,7 @@ function BlogPage() {
 
   // Filter blog posts based on selected tag
   const filteredPosts =
-    selectedTag === "All"
+    selectedTag === "Все"
       ? blogPosts.filter((post) => !post.isTopPick)
       : blogPosts.filter((post) => !post.isTopPick && post.tag === selectedTag);
 
@@ -180,18 +175,18 @@ function BlogPage() {
                 <span className="mt-1.5 mr-2 inline-block self-center" aria-hidden="true">
                   📝
                 </span>
-                AI Insights & Research
+                Исследования и инсайты по AI-маркетингу
               </p>
             </div>
 
             <h1 className="blog-heading text-h1 text-text-heading !text-center font-semibold md:mx-auto md:w-2/3">
-              Latest AI Research & Insights
+              Блог о маркетинге и AI-технологиях
             </h1>
 
             <p className="text-caption text-label md:mx-auto md:w-2/3">
-              Stay updated with the latest trends, research, and insights in artificial
-              intelligence, machine learning, and emerging technologies that are shaping the future
-              of business.
+              Будьте в курсе последних трендов, исследований и инсайтов в области искусственного
+              интеллекта, машинного обучения и новых технологий, которые формируют будущее бизнеса и
+              маркетинга в Казахстане.
             </p>
           </section>
 
@@ -204,7 +199,7 @@ function BlogPage() {
           >
             <div className="mb-8">
               <h2 id="top-picks-heading" className="text-h2 text-text-heading font-semibold mb-2">
-                Top Picks
+                Топ статьи
               </h2>
               <div className="h-px bg-border"></div>
             </div>
@@ -270,7 +265,7 @@ function BlogPage() {
                 id="research-blogs-heading"
                 className="text-h2 text-text-heading font-semibold mb-6"
               >
-                Research/Blogs
+                Статьи и исследования
               </h2>
 
               {/* Filter Tags */}
@@ -357,14 +352,14 @@ function BlogPage() {
             {/* No results message */}
             {filteredPosts.length === 0 && (
               <div className="text-center py-12" role="status" aria-live="polite">
-                <p className="text-label text-lg">No blog posts found for the selected category.</p>
+                <p className="text-label text-lg">Статьи не найдены для выбранной категории.</p>
                 <Button
                   variant="outline"
                   className="mt-4"
-                  onClick={() => setSelectedTag("All")}
-                  aria-label="Clear filter and show all blog posts"
+                  onClick={() => setSelectedTag("Все")}
+                  aria-label="Очистить фильтр и показать все статьи"
                 >
-                  Show All Posts
+                  Показать все статьи
                 </Button>
               </div>
             )}

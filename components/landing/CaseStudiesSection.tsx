@@ -71,11 +71,11 @@ const CaseStudyCard: React.FC<CaseStudyCardProps> = ({ caseStudy, index }) => {
           </div>
 
           <div className="space-y-4">
-            <h4 className="sr-only">Key Features</h4>
+            <h4 className="sr-only">Ключевые результаты</h4>
             <ul
               className="list-disc space-y-3 pl-4"
               role="list"
-              aria-label="Project features and achievements"
+              aria-label="Особенности проекта и достижения"
             >
               {caseStudy.features.map((feature, featureIndex) => (
                 <li key={featureIndex} className="text-label text-sm">
@@ -92,12 +92,12 @@ const CaseStudyCard: React.FC<CaseStudyCardProps> = ({ caseStudy, index }) => {
           aria-describedby={`case-study-${index}-description`}
           type="button"
         >
-          View case study
-          <span className="sr-only"> for {caseStudy.name}</span>
+          Посмотреть кейс
+          <span className="sr-only"> для {caseStudy.name}</span>
         </Button>
 
         <p id={`case-study-${index}-description`} className="sr-only">
-          Learn more about the {caseStudy.name} project and its implementation details
+          Узнать больше о проекте {caseStudy.name} и деталях его реализации
         </p>
       </div>
 
@@ -163,9 +163,9 @@ const CaseStudies: React.FC = () => {
         {/* Header */}
         <SectionHeading
           ref={headingRef}
-          badge="Designs That Drive Growth"
-          heading="Recent case studies"
-          description="Explore our latest projects featuring AI-powered platforms, business solutions, and innovative designs that have driven measurable growth for our clients."
+          badge="Кейсы с измеримыми результатами"
+          heading="Примеры наших работ — кейсы маркетингового агентства в Алматы"
+          description="Изучите наши последние проекты: таргетированная реклама, контекстная реклама, SEO-продвижение и разработка приложений, которые привели к измеримому росту для наших клиентов в Алматы и по всему Казахстану."
           size="md"
           align="center"
           as="h2"
@@ -174,7 +174,7 @@ const CaseStudies: React.FC = () => {
         />
 
         {/* Case Studies */}
-        <div className="space-y-8 md:space-y-24" role="main" aria-label="Case studies collection">
+        <div className="space-y-8 md:space-y-24" role="main" aria-label="Коллекция кейсов">
           {caseStudies.slice(0, 3).map((caseStudy, index) => (
             <div key={`${caseStudy.name}-${index}`}>
               <CaseStudyCard caseStudy={caseStudy} index={index} />
@@ -187,7 +187,7 @@ const CaseStudies: React.FC = () => {
           href="#main-navigation"
           className="sr-only z-50 rounded-md bg-blue-600 px-4 py-2 text-white focus:not-sr-only focus:absolute focus:top-4 focus:left-4"
         >
-          Skip to main navigation
+          Перейти к главной навигации
         </a>
       </section>
     </>

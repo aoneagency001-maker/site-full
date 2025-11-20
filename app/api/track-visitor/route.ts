@@ -1,0 +1,442 @@
+import fs from "fs";
+import path from "path";
+import { type NextRequest, NextResponse } from "next/server";
+import { UAParser } from "ua-parser-js";
+import { v4 as uuidv4 } from "uuid";
+
+// Создаем директорию для данных, если её нет
+const dataDir = path.join(process.cwd(), "data");
+const visitorsDataFile = path.join(dataDir, "visitors.json");
+
+// Инициализация файла с данными
+function initDataFile() {
+  if (!fs.existsSync(dataDir)) {
+    fs.mkdirSync(dataDir, { recursive: true });
+  }
+
+  if (!fs.existsSync(visitorsDataFile)) {
+    fs.writeFileSync(visitorsDataFile, JSON.stringify([]), "utf-8");
+  }
+}
+
+// Получение существующих данных
+function getExistingData() {
+  initDataFile();
+  const fileContent = fs.readFileSync(visitorsDataFile, "utf-8");
+  return JSON.parse(fileContent);
+}
+
+// Сохранение новых данных
+function saveData(data: unknown) {
+  const existingData = getExistingData();
+  existingData.push(data);
+  fs.writeFileSync(visitorsDataFile, JSON.stringify(existingData, null, 2), "utf-8");
+}
+
+// Список известных ботов (User-Agent)
+const BOT_USER_AGENTS = [
+  "googlebot",
+  "bingbot",
+  "yandexbot",
+  "baiduspider",
+  "facebookexternalhit",
+  "twitterbot",
+  "linkedinbot",
+  "slackbot",
+  "discordbot",
+  "whatsapp",
+  "telegrambot",
+  "crawl",
+  "spider",
+  "bot",
+  "headless",
+  "phantom",
+  "selenium",
+  "puppeteer",
+  "playwright",
+  "webdriver",
+  "curl",
+  "wget",
+  "python-requests",
+  "go-http-client",
+  "java/",
+  "http",
+];
+
+// Функция определения бота
+function isBot(userAgent: string): boolean {
+  if (!userAgent) return true;
+
+  const ua = userAgent.toLowerCase();
+  return BOT_USER_AGENTS.some((bot) => ua.includes(bot));
+}
+
+// Функция получения геолокации по IP
+async function getGeoLocation(ip: string) {
+  try {
+    // Используем бесплатный сервис ip-api.com
+    const response = await fetch(`http://ip-api.com/json/${ip}?lang=ru`);
+    const data = (await response.json()) as {
+      status: string;
+      country?: string;
+      city?: string;
+      regionName?: string;
+      timezone?: string;
+      isp?: string;
+    };
+
+    if (data.status === "success") {
+      return {
+        country: data.country || "Unknown",
+        city: data.city || "Unknown",
+        region: data.regionName || "Unknown",
+        timezone: data.timezone || "Unknown",
+        isp: data.isp || "Unknown",
+      };
+    }
+  } catch (error) {
+    console.error("Geo location error:", error);
+  }
+
+  return {
+    country: "Unknown",
+    city: "Unknown",
+    region: "Unknown",
+    timezone: "Unknown",
+    isp: "Unknown",
+  };
+}
+
+// Функция проверки IP на приватный/локальный
+function isValidIP(ip: string): boolean {
+  // Проверка на приватные IP (localhost, локальная сеть)
+  const privateIPRegex = /^(10\.|172\.(1[6-9]|2[0-9]|3[01])\.|192\.168\.|127\.|::1|localhost)/i;
+  if (privateIPRegex.test(ip)) {
+    return false; // Локальный IP = возможно разработка
+  }
+
+  return true; // IP валидный
+}
+
+// Функция получения данных из Yandex.Metrika для посетителя
+async function getYandexMetrikaVisitorData(referrer: string | null, utmSource: string | null) {
+  const oauthToken = process.env.YANDEX_METRIKA_OAUTH_TOKEN;
+  const counterId = process.env.NEXT_PUBLIC_YM_ID;
+
+  if (!oauthToken || !counterId) {
+    return null;
+  }
+
+  try {
+    // Пытаемся получить данные об источнике из Metrika
+    const today = new Date().toISOString().split("T")[0];
+    const yesterday = new Date();
+    yesterday.setDate(yesterday.getDate() - 1);
+    const yesterdayStr = yesterday.toISOString().split("T")[0];
+
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/api/analytics/yandex/traffic?date1=${yesterdayStr}&date2=${today}&includeSearch=true`
+    );
+
+    if (response.ok) {
+      const data = (await response.json()) as {
+        paidTraffic?: { sources: Array<{ sourceName: string; referer?: string }> };
+        organicTraffic?: { sources: Array<{ searchEngine: string }> };
+        searchQueries?: Array<{ query: string; searchEngine: string; visits: number }>;
+      };
+
+      // Ищем совпадение по referrer или UTM
+      if (utmSource && data.paidTraffic) {
+        const matchingSource = data.paidTraffic.sources.find(
+          (s) => s.referer?.includes(utmSource) || s.sourceName.includes(utmSource)
+        );
+        if (matchingSource) {
+          return {
+            trafficType: "paid" as const,
+            source: matchingSource.sourceName,
+            referer: matchingSource.referer,
+          };
+        }
+      }
+
+      // Ищем поисковый запрос если это органический трафик
+      if (referrer && (referrer.includes("google.com") || referrer.includes("yandex.ru"))) {
+        if (data.searchQueries && data.searchQueries.length > 0) {
+          // Берем самый популярный запрос за период
+          const topQuery = data.searchQueries.sort((a, b) => b.visits - a.visits)[0];
+          return {
+            trafficType: "organic" as const,
+            searchEngine: referrer.includes("google.com") ? "Google" : "Yandex",
+            searchQuery: topQuery.query,
+          };
+        }
+      }
+    }
+  } catch (error) {
+    console.error("Error fetching Yandex.Metrika data:", error);
+  }
+
+  return null;
+}
+
+// Функция отправки в Telegram
+async function sendToTelegram(visitorData: {
+  id: string;
+  city: string;
+  country: string;
+  ip: string;
+  device: string;
+  os: string;
+  browser: string;
+  screen_resolution: string;
+  referrer: string | null;
+  utm_source: string | null;
+  utm_campaign: string | null;
+  utm_term: string | null;
+  page: string;
+  timestamp: string;
+  timeOnSite?: number;
+  clicks?: number;
+  conversions?: string[];
+}) {
+  const TELEGRAM_BOT_TOKEN = process.env.TELEGRAM_BOT_TOKEN;
+  const TELEGRAM_CHAT_ID = process.env.TELEGRAM_CHAT_ID;
+
+  if (!TELEGRAM_BOT_TOKEN || !TELEGRAM_CHAT_ID) {
+    console.warn("Telegram credentials not configured");
+    return;
+  }
+
+  // Определяем тип источника трафика
+  const metrikaData = (
+    visitorData as {
+      metrikaData?: {
+        trafficType: "paid" | "organic";
+        source?: string;
+        searchQuery?: string;
+        searchEngine?: string;
+      };
+    }
+  ).metrikaData;
+
+  const isPaidTraffic =
+    metrikaData?.trafficType === "paid" ||
+    (visitorData.utm_source &&
+      (visitorData.utm_source.includes("yandex") || visitorData.utm_source.includes("google")));
+
+  const isOrganicTraffic =
+    metrikaData?.trafficType === "organic" ||
+    (!visitorData.utm_source &&
+      visitorData.referrer &&
+      (visitorData.referrer.includes("google.com") || visitorData.referrer.includes("yandex.ru")));
+
+  const trafficType = isPaidTraffic
+    ? "💰 Платная реклама"
+    : isOrganicTraffic
+      ? "🔍 Органический поиск (SEO)"
+      : "🌐 Прямой заход / Другое";
+
+  // Формируем информацию об источнике
+  let sourceInfo = "";
+  if (isPaidTraffic) {
+    sourceInfo = `📢 Контекст: ${metrikaData?.source || visitorData.utm_source || "не указан"}\n`;
+    sourceInfo += `📋 UTM Campaign: ${visitorData.utm_campaign || "нет"}\n`;
+    sourceInfo += `🔑 UTM Term (ключевое слово): ${visitorData.utm_term || "нет"}\n`;
+    sourceInfo += `📊 Referrer: ${visitorData.referrer || "не указан"}`;
+  } else if (isOrganicTraffic) {
+    sourceInfo = `🔍 Поисковая система: ${metrikaData?.searchEngine || (visitorData.referrer?.includes("google") ? "Google" : visitorData.referrer?.includes("yandex") ? "Yandex" : "Другая")}\n`;
+    sourceInfo += `🔎 Поисковый запрос: ${metrikaData?.searchQuery || "не определен"}\n`;
+    sourceInfo += `📊 Referrer: ${visitorData.referrer || "не указан"}`;
+  } else {
+    sourceInfo = `📊 Referrer: ${visitorData.referrer || "Прямой заход"}`;
+  }
+
+  // Форматируем время на сайте
+  const timeOnSite = visitorData.timeOnSite || 0;
+  const timeFormatted =
+    timeOnSite > 60
+      ? `${Math.floor(timeOnSite / 60)} мин ${timeOnSite % 60} сек`
+      : `${timeOnSite} сек`;
+
+  // Форматируем конверсии
+  const conversions = visitorData.conversions || [];
+  const conversionsText =
+    conversions.length > 0
+      ? conversions
+          .map((c) => {
+            if (c.startsWith("form_")) return `📝 ${c.replace("form_", "Форма: ")}`;
+            if (c === "quiz_completed") return "🎯 Прошел квиз";
+            if (c === "cta_clicked") return "🖱️ Кликнул CTA";
+            return `✅ ${c}`;
+          })
+          .join("\n   ")
+      : "нет";
+
+  const message = `
+🔔 <b>Новый посетитель на сайте!</b>
+
+👤 <b>Информация:</b>
+📍 Местоположение: ${visitorData.city}, ${visitorData.country}
+🌐 IP: ${visitorData.ip}
+💻 Устройство: ${visitorData.device} (${visitorData.os})
+🌍 Браузер: ${visitorData.browser}
+📱 Разрешение: ${visitorData.screen_resolution}
+
+🔗 <b>Источник трафика:</b>
+${trafficType}
+${sourceInfo}
+
+📄 <b>Поведение:</b>
+📖 Страница: ${visitorData.page}
+⏱ Время визита: ${new Date(visitorData.timestamp).toLocaleString("ru-RU", { timeZone: "Asia/Almaty" })}
+⏳ Время на сайте: ${timeFormatted}
+🖱️ Кликов по кнопкам: ${visitorData.clicks || 0}
+✅ Конверсии:
+   ${conversionsText}
+  `.trim();
+
+  try {
+    await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        chat_id: TELEGRAM_CHAT_ID,
+        text: message,
+        parse_mode: "HTML",
+      }),
+    });
+  } catch (error) {
+    console.error("Telegram send error:", error);
+  }
+}
+
+// Главная функция API Route
+export async function POST(request: NextRequest) {
+  try {
+    const body = (await request.json()) as {
+      page?: string;
+      landingPage?: string;
+      referrer?: string;
+      screenResolution?: string;
+      sessionId?: string;
+      utmSource?: string;
+      utmMedium?: string;
+      utmCampaign?: string;
+      utmTerm?: string;
+      utmContent?: string;
+    };
+
+    // Получаем данные из заголовков
+    const userAgent = request.headers.get("user-agent") || "";
+    const ip =
+      request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+      request.headers.get("x-real-ip") ||
+      "unknown";
+
+    // 1. Проверка на бота
+    if (isBot(userAgent)) {
+      console.log(`Bot detected: ${userAgent}`);
+      return NextResponse.json({ tracked: false, reason: "bot" });
+    }
+
+    // 2. Проверка IP
+    if (!isValidIP(ip)) {
+      return NextResponse.json({ tracked: false, reason: "invalid_ip" });
+    }
+
+    // 3. Получаем геолокацию
+    const geoData = await getGeoLocation(ip);
+
+    // 4. Парсим User-Agent
+    const parser = new UAParser(userAgent);
+    const uaResult = parser.getResult();
+
+    // 5. Собираем данные посетителя
+    const visitorData = {
+      id: uuidv4(),
+      // Basic info
+      ip,
+      user_agent: userAgent,
+
+      // Geo
+      country: geoData.country,
+      city: geoData.city,
+      region: geoData.region,
+      timezone: geoData.timezone,
+      isp: geoData.isp,
+
+      // Device
+      device: uaResult.device.type || "desktop",
+      browser:
+        uaResult.browser.name && uaResult.browser.version
+          ? `${uaResult.browser.name} ${uaResult.browser.version}`
+          : "Unknown",
+      os:
+        uaResult.os.name && uaResult.os.version
+          ? `${uaResult.os.name} ${uaResult.os.version}`
+          : "Unknown",
+      screen_resolution: body.screenResolution || "unknown",
+
+      // Traffic source
+      referrer: body.referrer || null,
+      utm_source: body.utmSource || null,
+      utm_medium: body.utmMedium || null,
+      utm_campaign: body.utmCampaign || null,
+      utm_term: body.utmTerm || null,
+      utm_content: body.utmContent || null,
+
+      // Behavior (инициализация)
+      page: body.page || "/",
+      landing_page: body.landingPage || "/",
+      timeOnSite: 0,
+      clicks: 0,
+      conversions: [],
+      pagesViewed: 1,
+      clickEvents: [],
+      conversionEvents: [],
+
+      timestamp: new Date().toISOString(),
+
+      // Session
+      session_id: body.sessionId || null,
+    };
+
+    // 6. Получаем дополнительные данные из Yandex.Metrika (если настроено)
+    const metrikaData = await getYandexMetrikaVisitorData(
+      visitorData.referrer,
+      visitorData.utm_source
+    );
+
+    // 7. Сохраняем в базу данных (файл JSON)
+    saveData(visitorData);
+
+    // 8. Отправляем в Telegram с данными из Metrika
+    await sendToTelegram({ ...visitorData, metrikaData });
+
+    return NextResponse.json({
+      tracked: true,
+      visitorId: visitorData.id,
+    });
+  } catch (error) {
+    console.error("Track visitor error:", error);
+    return NextResponse.json({ error: "Internal error" }, { status: 500 });
+  }
+}
+
+export async function GET() {
+  try {
+    const data = getExistingData();
+
+    return NextResponse.json(
+      {
+        success: true,
+        count: data.length,
+        visitors: data,
+      },
+      { status: 200 }
+    );
+  } catch (error) {
+    console.error("Error fetching visitors data:", error);
+    return NextResponse.json({ error: "Внутренняя ошибка сервера" }, { status: 500 });
+  }
+}

@@ -79,33 +79,42 @@ const AboutPage = () => {
           __html: JSON.stringify(pageMetadata.about.structuredData),
         }}
       />
-      
+
       <main id="main-content" role="main">
         <section className="py-32 mx-auto max-w-6xl px-5" aria-labelledby="about-heading">
           <div className="container">
             <div className="flex flex-col items-center justify-start gap-6 lg:flex-row">
               <div className="flex w-full flex-col items-start justify-start gap-24 lg:w-1/2">
                 <header ref={heroContentRef} className="pr-6">
-                  <h1 id="about-heading" className="mb-6 text-4xl font-bold md:text-5xl lg:mb-10 lg:text-6xl">
-                    Our Story
+                  <h1
+                    id="about-heading"
+                    className="mb-6 text-4xl font-bold md:text-5xl lg:mb-10 lg:text-6xl"
+                  >
+                    Наша история
                   </h1>
                   <p className="mb-9 text-lg font-medium lg:text-xl">
-                    We are driven by people and powered by AI innovation
+                    18 лет опыта в маркетинге и AI-инновациях
                   </p>
                   <p className="text-muted-foreground leading-relaxed">
-                    At Ionio, we believe great technology starts with great people.
-                    Our team brings together curious minds, builders, and
-                    problem-solvers who thrive on turning complex ideas into
-                    impactful AI solutions. Collaboration, creativity, and ownership
-                    are at the heart of our culture — we work closely with our
-                    clients and each other to deliver results that feel both
-                    innovative and practical.
+                    В AOne Agency мы верим, что великие технологии начинаются с великих людей. Наша
+                    команда объединяет любознательные умы, создателей и решателей проблем, которые
+                    превращают сложные идеи в эффективные маркетинговые решения с использованием AI.
+                    Сотрудничество, креативность и ответственность лежат в основе нашей культуры —
+                    мы тесно работаем с нашими клиентами и друг с другом, чтобы достигать
+                    результатов, которые являются как инновационными, так и практичными.
                   </p>
                 </header>
-                <figure ref={(el) => { imageGroupRefs.current[0] = el as HTMLDivElement; }} className="flex flex-col items-center justify-center gap-6 md:flex-row" role="group" aria-label="Company team and workplace images">
+                <figure
+                  ref={(el) => {
+                    imageGroupRefs.current[0] = el as HTMLDivElement;
+                  }}
+                  className="flex flex-col items-center justify-center gap-6 md:flex-row"
+                  role="group"
+                  aria-label="Company team and workplace images"
+                >
                   <img
                     src="https://res.cloudinary.com/dieth2xb3/image/upload/v1755799085/ssimage_bxr8i6.png"
-                    alt="Ionio team members collaborating on AI projects in modern office environment"
+                    alt="Команда AOne Agency работает над маркетинговыми проектами в современном офисе"
                     className="aspect-[0.7] w-full rounded-lg object-cover md:w-1/2"
                     loading="eager"
                     decoding="sync"
@@ -115,7 +124,7 @@ const AboutPage = () => {
                   <div className="flex w-full flex-col items-center justify-center gap-6 md:w-1/2">
                     <img
                       src="https://res.cloudinary.com/dieth2xb3/image/upload/v1755804235/aaaimage_zbypst.png"
-                      alt="AI technology and machine learning workspace at Ionio"
+                      alt="AI-технологии и рабочее пространство машинного обучения в AOne Agency"
                       className="aspect-[1.1] rounded-lg object-cover"
                       loading="lazy"
                       decoding="async"
@@ -124,7 +133,7 @@ const AboutPage = () => {
                     />
                     <img
                       src="https://res.cloudinary.com/dieth2xb3/image/upload/v1755804376/fasimage_skodum.png"
-                      alt="Ionio team working on innovative AI solutions and technology development"
+                      alt="Команда AOne Agency работает над инновационными AI-решениями и разработкой технологий"
                       className="aspect-[0.7] rounded-lg object-cover"
                       loading="lazy"
                       decoding="async"
@@ -133,12 +142,19 @@ const AboutPage = () => {
                     />
                   </div>
                 </figure>
-          </div>
+              </div>
               <div className="flex w-full flex-col items-center justify-center gap-12 pt-12 lg:w-1/2 lg:pt-48">
-                <figure ref={(el) => { imageGroupRefs.current[1] = el as HTMLDivElement; }} className="flex flex-col items-center justify-center gap-6 md:flex-row" role="group" aria-label="Additional workplace and team collaboration images">
+                <figure
+                  ref={(el) => {
+                    imageGroupRefs.current[1] = el as HTMLDivElement;
+                  }}
+                  className="flex flex-col items-center justify-center gap-6 md:flex-row"
+                  role="group"
+                  aria-label="Additional workplace and team collaboration images"
+                >
                   <img
                     src="https://res.cloudinary.com/dieth2xb3/image/upload/v1755799085/ssimage_bxr8i6.png"
-                    alt="Ionio team members in collaborative workspace discussing AI innovation projects"
+                    alt="Члены команды AOne Agency в совместном рабочем пространстве обсуждают AI-инновационные проекты"
                     className="aspect-[0.9] w-full rounded-lg object-cover md:w-1/2"
                     loading="lazy"
                     decoding="async"
@@ -148,7 +164,7 @@ const AboutPage = () => {
                   <div className="flex w-full flex-col items-center justify-center gap-6 md:w-1/2">
                     <img
                       src="https://res.cloudinary.com/dieth2xb3/image/upload/v1755804235/aaaimage_zbypst.png"
-                      alt="Modern AI development lab with cutting-edge technology at Ionio"
+                      alt="Современная лаборатория разработки AI с передовыми технологиями в AOne Agency"
                       className="aspect-[0.8] rounded-lg object-cover"
                       loading="lazy"
                       decoding="async"
@@ -157,7 +173,7 @@ const AboutPage = () => {
                     />
                     <img
                       src="https://res.cloudinary.com/dieth2xb3/image/upload/v1755804376/fasimage_skodum.png"
-                      alt="Ionio team brainstorming innovative AI solutions in creative workspace"
+                      alt="Команда AOne Agency проводит мозговой штурм инновационных AI-решений в креативном пространстве"
                       className="aspect-[0.9] rounded-lg object-cover"
                       loading="lazy"
                       decoding="async"
@@ -167,50 +183,95 @@ const AboutPage = () => {
                   </div>
                 </figure>
                 <article ref={workplaceContentRef} className="px-8">
-                  <h2 className="mb-8 text-2xl font-semibold lg:mb-6">
-                    Our Workplace
-                  </h2>
+                  <h2 className="mb-8 text-2xl font-semibold lg:mb-6">Наш офис</h2>
                   <p className="mb-9 text-lg font-medium lg:text-xl">
-                    Our culture is built on excellence, trust, and speed
+                    Наша культура построена на профессионализме, доверии и скорости
                   </p>
                   <p className="text-muted-foreground leading-relaxed">
-                    At Ionio, we foster an environment where innovation thrives through 
-                    collaboration and continuous learning. Our workplace culture emphasizes 
-                    open communication, creative problem-solving, and the freedom to explore 
-                    cutting-edge AI technologies. We believe that the best solutions emerge 
-                    when diverse minds come together with a shared passion for pushing the 
-                    boundaries of what's possible in artificial intelligence.
+                    В AOne Agency мы создаем среду, где инновации процветают благодаря
+                    сотрудничеству и непрерывному обучению. Культура нашего рабочего пространства
+                    подчеркивает открытое общение, креативное решение проблем и свободу исследования
+                    передовых AI-технологий. Мы верим, что лучшие решения возникают, когда
+                    разнообразные умы объединяются с общей страстью к расширению границ возможного в
+                    маркетинге и искусственном интеллекте.
                   </p>
                 </article>
               </div>
-        </div>
+            </div>
 
-            <section ref={statsSectionRef} className="container flex flex-col gap-16 mt-24" aria-labelledby="stats-heading">
+            <section
+              ref={statsSectionRef}
+              className="container flex flex-col gap-16 mt-24"
+              aria-labelledby="stats-heading"
+            >
               <header>
                 <h2 id="stats-heading" className="max-w-3xl text-4xl font-medium md:text-5xl">
-                  We excel in our field, but skill isn't everything we offer.
+                  Мы превосходим в своей области, но профессионализм — не всё, что мы предлагаем.
                 </h2>
               </header>
-              <div ref={statsGridRef} className="grid grid-cols-2 gap-6 md:grid-cols-3" role="region" aria-label="Company statistics and achievements">
-                <div className="flex flex-col gap-6 border-b pb-8" role="article" aria-labelledby="stat-1">
-                  <p id="stat-1" className="text-4xl font-medium md:text-5xl" aria-label="21 million">21M</p>
-                  <p className="text-muted-foreground">Global Reach of Users</p>
+              <div
+                ref={statsGridRef}
+                className="grid grid-cols-2 gap-6 md:grid-cols-3"
+                role="region"
+                aria-label="Статистика компании и достижения"
+              >
+                <div
+                  className="flex flex-col gap-6 border-b pb-8"
+                  role="article"
+                  aria-labelledby="stat-1"
+                >
+                  <p id="stat-1" className="text-4xl font-medium md:text-5xl" aria-label="500 плюс">
+                    500+
+                  </p>
+                  <p className="text-muted-foreground">Успешных проектов</p>
                 </div>
-                <div className="flex flex-col gap-6 border-b pb-8" role="article" aria-labelledby="stat-2">
-                  <p id="stat-2" className="text-4xl font-medium md:text-5xl" aria-label="8 plus years">8+</p>
-                  <p className="text-muted-foreground">Years of Expertise</p>
+                <div
+                  className="flex flex-col gap-6 border-b pb-8"
+                  role="article"
+                  aria-labelledby="stat-2"
+                >
+                  <p id="stat-2" className="text-4xl font-medium md:text-5xl" aria-label="18 лет">
+                    18
+                  </p>
+                  <p className="text-muted-foreground">Лет опыта</p>
                 </div>
-                <div className="flex flex-col gap-6 border-b pb-8" role="article" aria-labelledby="stat-3">
-                  <p id="stat-3" className="text-4xl font-medium md:text-5xl" aria-label="54 projects">54</p>
-                  <p className="text-muted-foreground">Projects Completed</p>
+                <div
+                  className="flex flex-col gap-6 border-b pb-8"
+                  role="article"
+                  aria-labelledby="stat-3"
+                >
+                  <p
+                    id="stat-3"
+                    className="text-4xl font-medium md:text-5xl"
+                    aria-label="30 процентов"
+                  >
+                    +30%
+                  </p>
+                  <p className="text-muted-foreground">Средний рост заявок</p>
                 </div>
-                <div className="flex flex-col gap-6 border-b pb-8" role="article" aria-labelledby="stat-4">
-                  <p id="stat-4" className="text-4xl font-medium md:text-5xl" aria-label="113 thousand plus">113k+</p>
-                  <p className="text-muted-foreground">Monthly Active Users</p>
+                <div
+                  className="flex flex-col gap-6 border-b pb-8"
+                  role="article"
+                  aria-labelledby="stat-4"
+                >
+                  <p
+                    id="stat-4"
+                    className="text-4xl font-medium md:text-5xl"
+                    aria-label="5 миллионов"
+                  >
+                    5M+
+                  </p>
+                  <p className="text-muted-foreground">Рекламный бюджет в управлении</p>
                 </div>
-                <div className="flex flex-col gap-6 border-b pb-8" role="article" aria-labelledby="stat-5">
-                  <p id="stat-5" className="text-4xl font-medium md:text-5xl" aria-label="461 thousand">461k</p>
-                  <p className="text-muted-foreground">Registered Accounts</p>
+                <div
+                  className="flex flex-col gap-6 border-b pb-8"
+                  role="article"
+                  aria-labelledby="stat-5"
+                >
+                  <p id="stat-5" className="text-4xl font-medium md:text-5xl" aria-label="50 тысяч">
+                    50K+
+                  </p>
+                  <p className="text-muted-foreground">Привлечённых лидов ежемесячно</p>
                 </div>
               </div>
             </section>

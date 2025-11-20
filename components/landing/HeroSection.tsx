@@ -2,6 +2,7 @@
 
 import { SectionHeading } from "@/components/custom/SectionHeading";
 import { Marquee } from "@/components/magicui/marquee";
+import { QuizModal } from "@/components/quiz/QuizModal";
 import { Button } from "@/components/ui/button";
 import {
   Carousel,
@@ -17,7 +18,7 @@ import Autoplay from "embla-carousel-autoplay";
 import gsap from "gsap";
 import { ScrollTrigger, SplitText } from "gsap/all";
 import { Sparkles } from "lucide-react";
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 // Register ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -25,6 +26,7 @@ gsap.registerPlugin(ScrollTrigger);
 function HomePage() {
   const heroRef = useRef<HTMLDivElement>(null);
   const caseStudiesRef = useRef(null);
+  const [isQuizOpen, setIsQuizOpen] = useState(false);
 
   useGSAP(() => {
     const headingElement = heroRef?.current?.querySelector("h1");
@@ -66,42 +68,88 @@ function HomePage() {
         ref={heroRef}
         className="hero space-y-4 pt-[116px] pb-[48px] md:pt-[128px] md:pb-[128px] md:text-center lg:pt-[140px] lg:pb-[96px]"
       >
-        <SectionHeading
-          badge="AI Strategy & Development"
-          heading="AI Transformation Partner for Growing Businesses"
-          description="We build, train, & deploy custom-LLMs (GPT4, Mistral, Llama3) and other generative AI technologies into products & services at scale — thousands of users & millions of interactions."
-          icon={Sparkles}
-          size="lg"
-          align="center"
-          as="h1"
-          className="heading max-w-4/5 mx-auto"
-          headingClassName="md:mx-auto md:w-2/3 leading-tight"
-          showDescriptionToScreenReaders={true}
-        />
+        <div className="space-y-6">
+          <div className="inline-block px-4 py-2 bg-blue-100 rounded-full text-blue-700 text-sm font-semibold">
+            🎯 AI-маркетинговое агентство в Казахстане
+          </div>
+
+          <h1 className="text-5xl lg:text-6xl font-bold text-gray-900 leading-tight md:mx-auto md:w-4/5">
+            AOne Agency — маркетинг, который <span className="text-blue-600">работает</span>
+          </h1>
+
+          <p className="text-xl text-gray-700 leading-relaxed md:mx-auto md:w-3/4">
+            Увеличьте продажи на <strong className="text-orange-500">30%</strong> с
+            AI-автоматизацией таргета, SEO и разработкой приложений
+          </p>
+        </div>
+
+        {/* SEO H2 для поисковых систем */}
+        <h2 className="sr-only">
+          Маркетинговое агентство в Алматы: таргетированная реклама, контекстная реклама,
+          SEO-продвижение
+        </h2>
 
         <div
-          aria-label="Call to action buttons"
-          className="mt-8 flex flex-col gap-3 md:flex-row md:items-center md:justify-center"
+          aria-label="Кнопки призыва к действию"
+          className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-center"
         >
           <Button
-            aria-describedby="founder-cta-description"
+            aria-describedby="quiz-cta-description"
             type="button"
-            className="cursor-pointer"
+            onClick={() => setIsQuizOpen(true)}
+            className="cursor-pointer bg-orange-500 hover:bg-orange-600 text-white px-8 py-6 text-base font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all"
           >
-            Talk to our founder
+            Узнать стоимость за 60 секунд →
           </Button>
           <Button
             aria-describedby="case-studies-cta-description"
             type="button"
-            className="cursor-pointer"
+            className="cursor-pointer border-2 border-blue-600 text-blue-600 hover:bg-blue-600 hover:text-white px-8 py-6 text-base font-semibold rounded-lg transition-all"
             variant={"outline"}
+            asChild
           >
-            View Case Studios
+            <a href="#cases">Смотреть кейсы</a>
           </Button>
         </div>
 
-        <div className="relative" role="region" aria-label="Our trusted clients">
-          <h2 className="!sr-only">Companies We've Helped Transform</h2>
+        <QuizModal isOpen={isQuizOpen} onClose={() => setIsQuizOpen(false)} />
+
+        {/* Stats */}
+        <div className="flex flex-wrap justify-center gap-6 sm:gap-8 pt-8">
+          <div className="flex items-center gap-2">
+            <svg className="w-6 h-6 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fillRule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                clipRule="evenodd"
+              />
+            </svg>
+            <span className="text-gray-700 font-semibold">18 лет опыта</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <svg className="w-6 h-6 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fillRule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                clipRule="evenodd"
+              />
+            </svg>
+            <span className="text-gray-700 font-semibold">500+ клиентов</span>
+          </div>
+          <div className="flex items-center gap-2">
+            <svg className="w-6 h-6 text-green-500" fill="currentColor" viewBox="0 0 20 20">
+              <path
+                fillRule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                clipRule="evenodd"
+              />
+            </svg>
+            <span className="text-gray-700 font-semibold">+30% заявок</span>
+          </div>
+        </div>
+
+        <div className="relative" role="region" aria-label="Наши довольные клиенты">
+          <h2 className="!sr-only">Компании, которым мы помогли вырасти</h2>
           <div className="pointer-events-none absolute top-0 left-0 z-10 h-full w-12 bg-gradient-to-r from-gray-50 via-gray-50/90 to-transparent md:w-48"></div>
 
           {/* Right fade gradient */}
@@ -137,13 +185,13 @@ function HomePage() {
               delay: 4000,
             }),
           ]}
-          aria-label="case-studies"
+          aria-label="кейсы"
           aria-labelledby="featured-case-studies-heading"
-          id="case-studies-section"
+          id="cases"
           className="relative mt-14 w-full"
         >
           <h2 id="featured-case-studies-heading" className="!sr-only">
-            Featured Case Studies
+            Примеры наших работ — кейсы маркетингового агентства в Алматы
           </h2>
           <div className="pointer-events-none absolute top-0 left-0 z-5 h-full w-12 bg-gradient-to-r from-gray-50/80 via-gray-50/20 to-transparent md:w-36"></div>
 
@@ -183,11 +231,11 @@ function HomePage() {
           </CarouselContent>
 
           <CarouselPrevious
-            aria-label="Previous case study"
+            aria-label="Предыдущий кейс"
             className="left-0 z-50 size-9 translate-x-0 border-0 bg-gray-500/50"
           />
           <CarouselNext
-            aria-label="Next case study"
+            aria-label="Следующий кейс"
             className="right-0 z-50 size-9 translate-x-0 border-0 bg-gray-500/50"
           />
         </Carousel>
