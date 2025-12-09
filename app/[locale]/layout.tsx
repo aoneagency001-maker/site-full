@@ -39,31 +39,25 @@ export default async function LocaleLayout({
   }
 
   const messages = await getMessages({ locale });
-  const gaId = process.env.NEXT_PUBLIC_GA_ID;
+  const gaId = "G-SSLRCQXX49";
   const ymId = process.env.NEXT_PUBLIC_YM_ID;
 
   return (
     <html lang={locale}>
       <head>
         {/* Google Analytics 4 */}
-        {gaId && (
-          <>
-            <Script
-              src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
-              strategy="afterInteractive"
-            />
-            <Script id="google-analytics" strategy="afterInteractive">
-              {`
-                window.dataLayer = window.dataLayer || [];
-                function gtag(){dataLayer.push(arguments);}
-                gtag('js', new Date());
-                gtag('config', '${gaId}', {
-                  page_path: window.location.pathname,
-                });
-              `}
-            </Script>
-          </>
-        )}
+        <Script
+          src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
+          strategy="afterInteractive"
+        />
+        <Script id="google-analytics" strategy="afterInteractive">
+          {`
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+            gtag('config', '${gaId}');
+          `}
+        </Script>
 
         {/* Yandex.Metrika */}
         {ymId && (
