@@ -20,10 +20,10 @@ export default function Home() {
       <TriggersSection />
       <div className="mx-auto max-w-full">
         <HeroSection />
+        <AITargetologSection />
         <PainPointsSection />
         <ServicesSection />
         <QuizSection />
-        <AITargetologSection />
         <ImprovedCaseStudiesSection />
         <ProcessSection />
         <TestimonialSection />

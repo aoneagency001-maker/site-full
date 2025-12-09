@@ -16,7 +16,7 @@ function Footer() {
   const resourceLinks = [
     { name: t("blog"), href: "/blog" },
     { name: t("about"), href: "/about" },
-    { name: t("cases"), href: "/cases" },
+    { name: t("cases"), href: "/#cases" },
     { name: t("contacts"), href: "/contacts" },
   ];
 

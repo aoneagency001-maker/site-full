@@ -88,6 +88,7 @@ export function AITargetologSection() {
   return (
     <section
       ref={sectionRef}
+      id="ai-targetolog"
       className="py-20 bg-gradient-to-br from-purple-50 via-white to-blue-50 relative overflow-hidden"
       aria-labelledby="ai-targetolog-heading"
     >

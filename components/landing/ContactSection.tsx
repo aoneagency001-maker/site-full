@@ -319,7 +319,7 @@ function ContactUs() {
                     <label htmlFor="terms" className="cursor-pointer">
                       {t("termsText")}{" "}
                       <a
-                        href="#"
+                        href="/terms-of-service"
                         className="text-primary hover:text-primary/80 underline"
                         rel="noreferrer nofollow noopener"
                         target="_blank"

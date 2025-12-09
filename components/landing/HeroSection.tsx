@@ -108,7 +108,7 @@ function HomePage() {
             variant={"outline"}
             asChild
           >
-            <a href="#cases">{t("ctaSecondary")}</a>
+            <a href="#ai-targetolog">{t("ctaSecondary")}</a>
           </Button>
         </div>
 
