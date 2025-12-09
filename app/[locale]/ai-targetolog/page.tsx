@@ -34,7 +34,7 @@ export default function AITargetologPage() {
       </header>
 
       {/* Hero Section */}
-      <section className="pt-32 pb-24 text-center bg-gradient-radial from-purple-950/30 to-[#0a0a0a]">
+      <section className="pt-32 pb-24 text-center bg-[#0a0a0a] bg-gradient-to-b from-purple-950/30 to-[#0a0a0a]">
         <div className="max-w-7xl mx-auto px-4 lg:px-8">
           <h1 className="text-5xl md:text-7xl font-bold mb-8 uppercase bg-gradient-to-b from-white to-gray-400 bg-clip-text text-transparent">
             Хватит кормить таргетологов!

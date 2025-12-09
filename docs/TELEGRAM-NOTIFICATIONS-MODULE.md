@@ -1072,3 +1072,4 @@ npx tsx scripts/test-visitor-tracking.ts
 **Версия:** 1.0  
 **Автор:** AI Assistant (Auto)
 
+
