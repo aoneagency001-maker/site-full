@@ -87,6 +87,27 @@
     "benefit4Title": "Transparency",
     "benefit4Description": "Personal dashboard with 24/7 online KPI and budget monitoring."
   },
+  "aiTargetolog": {
+    "badge": "🚀 First Marketing OS in Kazakhstan",
+    "title": "AI Targetologist — Replace your targetologist with artificial intelligence",
+    "subtitle": "The First Marketing Operating System in Kazakhstan (SaaS)",
+    "description": "We digitized the experience of managing budgets over $1M and created a multi-agent AI system that completely replaces a team of marketers, designers, and analysts",
+    "feature1Title": "No Errors",
+    "feature1Description": "Won't forget to turn off ads at night and won't mix up audiences. Human factor eliminated.",
+    "feature2Title": "No Laziness",
+    "feature2Description": "Works 24/7, optimizing bids every night while you sleep.",
+    "feature3Title": "No Days Off",
+    "feature3Description": "Doesn't need vacation, sick leave, or lunch breaks. Always on duty.",
+    "feature4Title": "Pure Mathematics",
+    "feature4Description": "Makes decisions based on thousands of signals per second, not intuition.",
+    "economicsTitle": "2.5x more clients for the same money!",
+    "beforeLabel": "Now (with human)",
+    "beforeDescription": "Targetologist salary. Half of the budget goes to employee's pocket.",
+    "afterLabel": "With AI Targetologist",
+    "afterDescription": "Subscription. All money works for attracting clients + AI efficiency.",
+    "economicsResult": "50,000 ₸/month instead of 250,000 ₸ salary — save 200,000 ₸",
+    "ctaButton": "Learn more about AI Targetologist →"
+  },
   "process": {
     "badge": "Our Proven Process",
     "title": "How We Work — Marketing Agency Process in Almaty",

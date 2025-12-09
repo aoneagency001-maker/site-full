@@ -1,3 +1,4 @@
+import { AITargetologSection } from "@/components/landing/AITargetologSection";
 import ContactSection from "@/components/landing/ContactSection";
 import FAQSection from "@/components/landing/FAQSection";
 import HeroSection from "@/components/landing/HeroSection";
@@ -8,7 +9,6 @@ import { QuizSection } from "@/components/landing/QuizSection";
 import ServicesSection from "@/components/landing/ServicesSection";
 import TestimonialSection from "@/components/landing/TestimonialSection";
 import { TriggersSection } from "@/components/landing/TriggersSection";
-import WhyUsSection from "@/components/landing/WhyUsSection";
 import { generatePageMetadata } from "@/lib/metadata";
 import type { Metadata } from "next";
 
@@ -23,7 +23,7 @@ export default function Home() {
         <PainPointsSection />
         <ServicesSection />
         <QuizSection />
-        <WhyUsSection />
+        <AITargetologSection />
         <ImprovedCaseStudiesSection />
         <ProcessSection />
         <TestimonialSection />
