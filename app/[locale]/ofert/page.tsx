@@ -27,7 +27,7 @@ export default function OfertPage() {
             <strong>г. Астана</strong>
           </p>
           <p className="text-label text-text-body/60 mt-2">
-            <em>Дата публикации: 22 декабря 2024 г.</em>
+            <em>Дата публикации: 1 ноября 2024 г.</em>
           </p>
         </div>
 
