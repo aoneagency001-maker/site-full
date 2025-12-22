@@ -246,6 +246,8 @@ function Navbar() {
             </ul>
 
             <div className="flex items-center gap-2">
+              {/* Google Translate Widget */}
+              <div id="google_translate_element" className="hidden lg:block"></div>
               <LanguageSwitcher />
               <Button
                 size={"sm"}

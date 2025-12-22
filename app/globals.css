@@ -282,3 +282,44 @@ width: 3rem;
     margin-top: 0;
   }
 }
+
+/* Google Translate Widget Styling */
+#google_translate_element {
+  display: inline-block;
+}
+
+#google_translate_element select {
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+}
+
+#google_translate_element select:hover {
+  border-color: rgba(255, 255, 255, 0.4);
+}
+
+/* Hide Google Translate top bar */
+.goog-te-banner-frame {
+  display: none !important;
+}
+
+body {
+  top: 0 !important;
+}
+
+.skiptranslate iframe {
+  visibility: hidden !important;
+  display: none !important;
+}
+
+.goog-te-gadget {
+  color: transparent !important;
+}
+
+.goog-te-gadget .goog-te-combo {
+  margin: 0 !important;
+}

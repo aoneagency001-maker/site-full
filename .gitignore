@@ -39,3 +39,6 @@ next-env.d.ts
 # quiz submissions data
 /data/
 quiz-submissions.json
+
+# local import scratch
+data-import/
