@@ -4,9 +4,6 @@ import createNextIntlPlugin from "next-intl/plugin";
 const withNextIntl = createNextIntlPlugin("./i18n/request.ts");
 
 const nextConfig: NextConfig = {
-  // Disable Turbopack for production builds
-  turbopack: undefined,
-  
   // Оптимизация для production
   compress: true,
   poweredByHeader: false,
