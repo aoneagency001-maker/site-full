@@ -147,7 +147,7 @@ export default function OfertPage() {
                 <p className="text-label font-semibold mb-2">5.1. Исполнитель обязуется:</p>
                 <ul className="text-label list-disc pl-6 space-y-1">
                   <li>Обеспечивать бесперебойную работу Сервиса и техническое сопровождение мини-приложения в Telegram.</li>
-                  <li>Оказывать консультационную поддержку по генерации сценариев для креативов.</li>
+                  <li>Оказывать техническую поддержку по продукту в рабочее время.</li>
                 </ul>
               </div>
               <div>
