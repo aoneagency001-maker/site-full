@@ -24,6 +24,7 @@ function Footer() {
     { name: t("privacy"), href: "/privacy-policy" },
     { name: t("terms"), href: "/terms-of-service" },
     { name: t("cookies"), href: "/cookie-policy" },
+    { name: t("ofert"), href: "/ofert" },
   ];
 
   const socialLinks = [
