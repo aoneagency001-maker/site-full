@@ -5,6 +5,7 @@ import { Marquee } from "@/components/magicui/marquee";
 import { ArrowUpRight, MapPin, Phone, Mail } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
+import { analyticsEvents } from "@/lib/analytics";
 
 function Footer() {
   const t = useTranslations("footer");
@@ -121,6 +122,7 @@ function Footer() {
                     href={`tel:${t("phone").replace(/\s/g, "")}`}
                     itemProp="telephone"
                     className="flex items-center gap-3 text-muted-foreground hover:text-primary transition-colors"
+                    onClick={() => analyticsEvents.phoneClick("footer")}
                   >
                     <Phone className="h-4 w-4 text-primary" />
                     <span>{t("phone")}</span>
@@ -157,7 +159,10 @@ function Footer() {
 
               {/* CTA Button */}
               <button
-                onClick={() => setIsQuizOpen(true)}
+                onClick={() => {
+                  setIsQuizOpen(true);
+                  analyticsEvents.quizStart();
+                }}
                 className="btn-secondary w-full sm:w-auto inline-flex items-center justify-center gap-2 py-3 px-6 text-base"
               >
                 {t("ctaButton")}
@@ -205,6 +210,13 @@ function Footer() {
                     className="block text-muted-foreground transition-colors duration-200 hover:text-primary"
                     rel="me noopener"
                     aria-label={`Follow us on ${link.name}`}
+                    onClick={() => {
+                      if (link.href.includes("wa.me")) {
+                        analyticsEvents.whatsappClick("footer");
+                      } else if (link.href.includes("t.me")) {
+                        analyticsEvents.telegramClick("footer");
+                      }
+                    }}
                   >
                     {link.name}
                   </a>

@@ -3,6 +3,7 @@
 import { Check, X } from "lucide-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import { analyticsEvents } from "@/lib/analytics";
 
 interface QuizData {
   currentAds?: string;
@@ -105,10 +106,18 @@ export function TargetQuiz({ onClose }: TargetQuizProps) {
       if (response.ok) {
         setIsSuccess(true);
 
+        // Отправка события о завершении квиза
+        analyticsEvents.quizComplete({
+          currentAds: data.currentAds,
+          budget: data.budget,
+          priority: data.priority,
+        });
+
         // Открыть WhatsApp с персональным сообщением
         const message = `${t("whatsappIntro")}\n\n${t("whatsappName")} ${finalData.name}\n${t("whatsappPhone")} ${finalData.phone}\n\n${t("whatsappOutro")}`;
 
         setTimeout(() => {
+          analyticsEvents.whatsappClick("quiz_complete");
           window.open(`https://wa.me/77473854493?text=${encodeURIComponent(message)}`, "_blank");
         }, 1000);
       }

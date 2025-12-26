@@ -9,6 +9,7 @@ import { ScrollTrigger, SplitText } from "gsap/all";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 import { useRef, useState } from "react";
+import { analyticsEvents } from "@/lib/analytics";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -91,7 +92,11 @@ function HomePage() {
               <Button
                 aria-describedby="quiz-cta-description"
                 type="button"
-                onClick={() => setIsQuizOpen(true)}
+                onClick={() => {
+                  setIsQuizOpen(true);
+                  analyticsEvents.ctaClick("hero_primary", "hero");
+                  analyticsEvents.quizStart();
+                }}
                 className="btn-primary cursor-pointer w-full sm:w-auto px-5 sm:px-8 py-3 sm:py-6 text-sm sm:text-lg font-semibold"
               >
                 {t("ctaPrimary")}

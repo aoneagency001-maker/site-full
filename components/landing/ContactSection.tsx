@@ -10,6 +10,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
 import { useTranslations } from "next-intl";
 import { useRef, useState } from "react";
+import { analyticsEvents } from "@/lib/analytics";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -82,18 +83,8 @@ function ContactUs() {
           form.reset();
         }
 
-        // Отправка события в Yandex.Metrika
-        if (typeof window !== "undefined" && (window as any).ym) {
-          (window as any).ym(process.env.NEXT_PUBLIC_YM_ID, "reachGoal", "contact_form_submit");
-        }
-
-        // Отправка события в Google Analytics
-        if (typeof window !== "undefined" && (window as any).gtag) {
-          (window as any).gtag("event", "form_submit", {
-            event_category: "contact",
-            event_label: "Contact Form",
-          });
-        }
+        // Отправка события в GA4 и Яндекс.Метрику
+        analyticsEvents.contactFormSubmit({ source: "contact_section" });
       } else {
         setSubmitStatus("error");
         setErrorMessage(result.error || "Произошла ошибка при отправке");
@@ -134,7 +125,10 @@ function ContactUs() {
         {/* CTA Button for Quiz */}
         <div className="text-center mb-6 sm:mb-8">
           <button
-            onClick={() => setIsQuizOpen(true)}
+            onClick={() => {
+              setIsQuizOpen(true);
+              analyticsEvents.quizStart();
+            }}
             className="btn-primary w-full sm:w-auto px-6 sm:px-8 py-4 text-base sm:text-lg font-semibold hover:scale-105 transition-all"
           >
             {t("submitButton")}

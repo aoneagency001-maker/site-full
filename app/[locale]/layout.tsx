@@ -6,6 +6,7 @@ import { locales } from "@/i18n.config";
 import Navbar from "@/components/custom/Navbar";
 import Footer from "@/components/custom/Footer";
 import { VisitorTracker } from "@/components/analytics/visitor-tracker";
+import { Analytics } from "@/components/analytics/Analytics";
 import type { Metadata } from "next";
 
 const inter = Inter({
@@ -220,6 +221,7 @@ export default async function LocaleLayout({
       <body
         className={`${inter.variable} font-sans antialiased bg-background text-foreground`}
       >
+        <Analytics />
         <NextIntlClientProvider messages={messages}>
           <VisitorTracker />
           <Navbar />
