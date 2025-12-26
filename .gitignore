@@ -36,8 +36,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# quiz submissions data
-/data/
+# quiz submissions data (json only, keep .ts files)
+/data/*.json
 quiz-submissions.json
 
 # local import scratch
