@@ -4,7 +4,7 @@
 declare global {
   interface Window {
     gtag?: (command: string, action: string, params?: Record<string, unknown>) => void;
-    ym?: (counterId: number, method: string, target: string, params?: Record<string, unknown>) => void;
+    ym?: (counterId: string | number, method: string, target: string, params?: Record<string, unknown>) => void;
   }
 }
 
