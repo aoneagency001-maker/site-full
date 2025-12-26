@@ -2,18 +2,14 @@
 
 import { QuizModal } from "@/components/quiz/QuizModal";
 import { SectionHeading } from "@/components/custom/SectionHeading";
-import { InteractiveGridPattern } from "@/components/magicui/interactive-grid-pattern";
-import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { caseStudies, type CaseStudyType } from "@/data/caseStudies";
-import { cn } from "@/lib/utils";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
 import { useTranslations } from "next-intl";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -21,20 +17,12 @@ function ContactUs() {
   const t = useTranslations("contact");
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [isQuizOpen, setIsQuizOpen] = useState(false);
-  const contentRef = useRef<HTMLDivElement>(null);
-  const imageRef = useRef<HTMLDivElement>(null);
-  const logoRef = useRef<HTMLImageElement>(null);
-  const titleRef = useRef<HTMLHeadingElement>(null);
-  const testimonialRef = useRef<HTMLDivElement>(null);
   const formRef = useRef<HTMLDivElement>(null);
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<"idle" | "success" | "error">("idle");
   const [errorMessage, setErrorMessage] = useState("");
-
-  const currentCaseStudy = caseStudies[currentIndex] as CaseStudyType;
 
   useGSAP(() => {
     if (headingRef.current) {
@@ -62,77 +50,6 @@ function ContactUs() {
       ScrollTrigger.getAll().forEach((t) => t.kill());
     };
   }, []);
-
-  const animateOut = () => {
-    const tl = gsap.timeline();
-
-    tl.to(
-      [
-        contentRef.current,
-        imageRef.current,
-        logoRef.current,
-        titleRef.current,
-        testimonialRef.current,
-      ],
-      {
-        opacity: 0,
-        y: -20,
-        duration: 0.3,
-        ease: "power2.out",
-      }
-    );
-
-    return tl;
-  };
-
-  const animateIn = () => {
-    const tl = gsap.timeline();
-
-    tl.set(
-      [
-        contentRef.current,
-        imageRef.current,
-        logoRef.current,
-        titleRef.current,
-        testimonialRef.current,
-      ],
-      {
-        opacity: 0,
-        y: 20,
-      }
-    );
-
-    tl.to(
-      [
-        contentRef.current,
-        imageRef.current,
-        logoRef.current,
-        titleRef.current,
-        testimonialRef.current,
-      ],
-      {
-        opacity: 1,
-        y: 0,
-        duration: 0.5,
-        ease: "power2.out",
-        stagger: 0.1,
-      }
-    );
-
-    return tl;
-  };
-
-  const handleNext = () => {
-    animateOut().then(() => {
-      setCurrentIndex((prev) => (prev + 1) % caseStudies.length);
-    });
-  };
-
-  const handlePrevious = () => {
-    animateOut().then(() => {
-      setCurrentIndex((prev) => (prev - 1 + caseStudies.length) % caseStudies.length);
-    });
-  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -190,12 +107,6 @@ function ContactUs() {
     }
   };
 
-  useEffect(() => {
-    if (currentIndex >= 0) {
-      animateIn();
-    }
-  }, [currentIndex]);
-
   return (
     <>
       <section
@@ -221,17 +132,17 @@ function ContactUs() {
         />
 
         {/* CTA Button for Quiz */}
-        <div className="text-center mb-8">
-          <Button
+        <div className="text-center mb-6 sm:mb-8">
+          <button
             onClick={() => setIsQuizOpen(true)}
-            className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-4 rounded-lg font-semibold transform hover:scale-105 transition-all shadow-lg hover:shadow-xl"
+            className="btn-primary w-full sm:w-auto px-6 sm:px-8 py-4 text-base sm:text-lg font-semibold hover:scale-105 transition-all"
           >
-            Узнать стоимость за 60 секунд →
-          </Button>
+            {t("submitButton")}
+          </button>
         </div>
 
-        <div className="grid grid-cols-1 gap-6 lg:grid-cols-3 lg:gap-8 xl:gap-10">
-          <div className="lg:col-span-1">
+        <div className="max-w-xl mx-auto">
+          <div>
             <div ref={formRef} className="space-y-4 sm:space-y-6">
               <h3 id="contact-form-title" className="sr-only">
                 {t("formTitle")}
@@ -250,7 +161,7 @@ function ContactUs() {
                 <div className="space-y-2">
                   <label
                     htmlFor="name"
-                    className="text-text-heading text-sm font-medium sm:text-base"
+                    className="text-foreground text-sm font-medium sm:text-base"
                   >
                     {t("nameLabel")}
                   </label>
@@ -258,7 +169,7 @@ function ContactUs() {
                     id="name"
                     type="text"
                     placeholder={t("namePlaceholder")}
-                    className="focus:border-primary focus:ring-primary w-full border-gray-200 h-10 sm:h-11"
+                    className="focus:border-primary focus:ring-primary w-full border-border bg-surface text-foreground placeholder:text-muted-foreground h-10 sm:h-11"
                     name="name"
                     autoComplete="name"
                     required
@@ -270,7 +181,7 @@ function ContactUs() {
                 <div className="space-y-2">
                   <label
                     htmlFor="email"
-                    className="text-text-heading text-sm font-medium sm:text-base"
+                    className="text-foreground text-sm font-medium sm:text-base"
                   >
                     {t("emailLabel")}
                   </label>
@@ -278,7 +189,7 @@ function ContactUs() {
                     id="email"
                     type="email"
                     placeholder={t("emailPlaceholder")}
-                    className="focus:border-primary focus:ring-primary w-full border-gray-200 h-10 sm:h-11"
+                    className="focus:border-primary focus:ring-primary w-full border-border bg-surface text-foreground placeholder:text-muted-foreground h-10 sm:h-11"
                     name="email"
                     autoComplete="email"
                     inputMode="email"
@@ -291,7 +202,7 @@ function ContactUs() {
                 <div className="space-y-2">
                   <label
                     htmlFor="message"
-                    className="text-text-heading text-sm font-medium sm:text-base"
+                    className="text-foreground text-sm font-medium sm:text-base"
                   >
                     {t("messageLabel")}
                   </label>
@@ -299,7 +210,7 @@ function ContactUs() {
                     id="message"
                     placeholder={t("messagePlaceholder")}
                     rows={4}
-                    className="focus:border-primary focus:ring-primary min-h-32 sm:min-h-40 w-full resize-none border-gray-200"
+                    className="focus:border-primary focus:ring-primary min-h-32 sm:min-h-40 w-full resize-none border-border bg-surface text-foreground placeholder:text-muted-foreground"
                     name="message"
                     required
                     aria-required="true"
@@ -310,12 +221,12 @@ function ContactUs() {
                 <div className="flex items-start space-x-3">
                   <Checkbox
                     id="terms"
-                    className="mt-1"
+                    className="mt-1 border-border"
                     required
                     aria-required="true"
                     aria-describedby="terms-description"
                   />
-                  <div className="text-label text-xs sm:text-sm">
+                  <div className="text-muted-foreground text-xs sm:text-sm">
                     <label htmlFor="terms" className="cursor-pointer">
                       {t("termsText")}{" "}
                       <a
@@ -335,7 +246,7 @@ function ContactUs() {
 
                 {submitStatus === "success" && (
                   <div
-                    className="bg-green-50 text-green-800 px-4 py-3 rounded-lg text-sm"
+                    className="bg-success/20 text-success border border-success/30 px-4 py-3 rounded-lg text-sm"
                     role="alert"
                   >
                     {t("successMessage")}
@@ -343,125 +254,20 @@ function ContactUs() {
                 )}
 
                 {submitStatus === "error" && (
-                  <div className="bg-red-50 text-red-800 px-4 py-3 rounded-lg text-sm" role="alert">
+                  <div className="bg-red-500/20 text-red-400 border border-red-500/30 px-4 py-3 rounded-lg text-sm" role="alert">
                     {t("errorPrefix")} {errorMessage}
                   </div>
                 )}
 
-                <Button
+                <button
                   type="submit"
-                  className="bg-primary hover:bg-primary/90 w-full py-3 sm:py-4 font-medium text-white text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="btn-primary w-full py-3 sm:py-4 font-medium text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed"
                   aria-label="Отправить форму обратной связи"
                   disabled={isSubmitting}
                 >
                   {isSubmitting ? t("submitting") : t("submitButton")}
-                </Button>
+                </button>
               </form>
-            </div>
-          </div>
-
-          {/* Right Column - Case Studies */}
-          <div className="relative rounded-2xl lg:col-span-2">
-            <div className="bg-primary absolute inset-0 h-full w-full rounded-2xl"></div>
-            <div
-              style={{
-                backgroundImage: `url(https://pbs.twimg.com/media/GqMIQdAXgAA_C4K?format=jpg&name=4096x4096)`,
-              }}
-              className="bg-background relative flex h-64 w-full flex-col items-center justify-center overflow-hidden rounded-2xl border bg-cover opacity-85 sm:h-80 lg:h-full"
-            >
-              <InteractiveGridPattern
-                className={cn(
-                  "[mask-image:radial-gradient(400px_circle_at_center,white,transparent)]",
-                  "inset-x-0 inset-y-[-30%] h-[200%] skew-y-12"
-                )}
-              />
-            </div>
-            <div className="absolute bottom-0 w-full">
-              <div ref={contentRef} className="relative p-4 sm:p-6 lg:p-8">
-                <div className="absolute inset-0 w-full rounded-b-2xl bg-gradient-to-t from-gray-500/40 to-transparent"></div>
-
-                {/* Testimonial Section */}
-                {currentCaseStudy.testimonial && currentCaseStudy.founder_name && (
-                  <div
-                    ref={testimonialRef}
-                    className="mt-4 rounded-lg border border-white/10 bg-white/5 p-3 backdrop-blur-sm sm:mt-6 sm:p-4"
-                    role="complementary"
-                    aria-label="Client testimonial"
-                    itemScope
-                    itemType="https://schema.org/Review"
-                  >
-                    <div className="items- mb-3 flex flex-col sm:mb-4">
-                      <div className="mb-3 flex items-center sm:mb-4">
-                        <img
-                          ref={logoRef}
-                          src={currentCaseStudy.logo_src}
-                          className="aspect-auto max-h-6 w-auto sm:max-h-8"
-                          alt={`${currentCaseStudy.name} logo`}
-                          loading="lazy"
-                          decoding="async"
-                          itemProp="itemReviewed"
-                        />
-                      </div>
-                      <blockquote
-                        className="text-sm leading-tight font-medium text-gray-200 italic sm:text-base lg:text-lg"
-                        itemProp="reviewBody"
-                      >
-                        {currentCaseStudy.testimonial}
-                      </blockquote>
-                    </div>
-                    <div className="flex items-center justify-between gap-3 sm:gap-4">
-                      <div>
-                        <p className="text-xs font-medium text-white sm:text-sm" itemProp="author">
-                          {currentCaseStudy.founder_name}
-                        </p>
-                        <p className="text-xs text-gray-300" itemProp="authorPosition">
-                          {currentCaseStudy.position}
-                        </p>
-                      </div>
-                      <div className="flex gap-1.5 sm:gap-2">
-                        <button
-                          onClick={handlePrevious}
-                          className="group flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-white/10 backdrop-blur-md transition-all duration-300 hover:bg-white/20 sm:h-8 sm:w-8"
-                          aria-label={t("previousTestimonial")}
-                        >
-                          <svg
-                            className="h-4 w-4 text-white transition-transform duration-300 group-hover:scale-110 sm:h-5 sm:w-5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M15 19l-7-7 7-7"
-                            />
-                          </svg>
-                        </button>
-                        <button
-                          onClick={handleNext}
-                          className="group flex h-7 w-7 items-center justify-center rounded-lg border border-white/10 bg-white/10 backdrop-blur-md transition-all duration-300 hover:bg-white/20 sm:h-8 sm:w-8"
-                          aria-label={t("nextTestimonial")}
-                        >
-                          <svg
-                            className="h-4 w-4 text-white transition-transform duration-300 group-hover:scale-110 sm:h-5 sm:w-5"
-                            fill="none"
-                            stroke="currentColor"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              strokeLinecap="round"
-                              strokeLinejoin="round"
-                              strokeWidth={2}
-                              d="M9 5l7 7-7 7"
-                            />
-                          </svg>
-                        </button>
-                      </div>
-                    </div>
-                  </div>
-                )}
-              </div>
             </div>
           </div>
         </div>

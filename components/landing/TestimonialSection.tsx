@@ -159,7 +159,7 @@ function Testimonial() {
             {t("statsTitle")}
           </h3>
           <div className="mx-auto max-w-7xl">
-            <div className="flex flex-col divide-y divide-gray-200 sm:divide-y-0 sm:flex-row sm:divide-x">
+            <div className="flex flex-col divide-y divide-border sm:divide-y-0 sm:flex-row sm:divide-x">
               <div
                 className="flex flex-1 flex-col items-start px-4 py-4 sm:items-center sm:px-6 sm:py-6 md:py-0"
                 data-stat-item="true"

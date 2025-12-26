@@ -1,107 +1,68 @@
-import type { MetadataRoute } from "next";
+import { MetadataRoute } from "next";
+
+const baseUrl = "https://aoneagency.kz";
+
+// All static pages
+const staticPages = [
+  "",
+  "/about",
+  "/blog",
+  "/contacts",
+  "/targetirovannaya-reklama",
+  "/seo-prodvizhenie",
+  "/kontekstnaya-reklama",
+  "/razrabotka-prilozhenij",
+  "/crm-avtomatizaciya",
+  "/ai-chatboty",
+  "/ai-targetolog",
+  "/targetolog-almaty",
+  "/chto-takoe-targetirovannaya-reklama",
+  "/privacy-policy",
+  "/terms-of-service",
+  "/cookie-policy",
+  "/ofert",
+];
+
+// Locales for the site
+const locales = ["ru", "kk", "en"];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = "https://aoneagency.kz";
+  const currentDate = new Date().toISOString();
 
-  return [
+  // Main pages without locale prefix
+  const mainPages: MetadataRoute.Sitemap = staticPages.map((page) => ({
+    url: `${baseUrl}${page}`,
+    lastModified: currentDate,
+    changeFrequency: page === "" ? "daily" : "weekly",
+    priority: page === "" ? 1.0 : page.includes("targetirovannaya") || page.includes("seo") ? 0.9 : 0.8,
+  }));
+
+  // Localized pages
+  const localizedPages: MetadataRoute.Sitemap = locales.flatMap((locale) =>
+    staticPages.map((page) => ({
+      url: `${baseUrl}/${locale}${page}`,
+      lastModified: currentDate,
+      changeFrequency: page === "" ? "daily" : "weekly" as const,
+      priority: page === "" ? 0.9 : 0.7,
+    }))
+  );
+
+  // Blog posts (add more as they become available)
+  const blogPosts: MetadataRoute.Sitemap = [
     {
-      url: baseUrl,
-      lastModified: new Date(),
-      changeFrequency: "daily",
-      priority: 1,
-    },
-    {
-      url: `${baseUrl}/about`,
-      lastModified: new Date(),
+      url: `${baseUrl}/blog/optimize-lora-qlora`,
+      lastModified: currentDate,
       changeFrequency: "monthly",
-      priority: 0.8,
+      priority: 0.6,
     },
-    {
-      url: `${baseUrl}/contacts`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/blog`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-    // Страницы услуг
-    {
-      url: `${baseUrl}/targetirovannaya-reklama`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.95,
-    },
-    {
-      url: `${baseUrl}/kontekstnaya-reklama`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.95,
-    },
-    {
-      url: `${baseUrl}/seo-prodvizhenie`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.95,
-    },
-    {
-      url: `${baseUrl}/razrabotka-prilozhenij`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.95,
-    },
-    {
-      url: `${baseUrl}/crm-avtomatizaciya`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.95,
-    },
-    {
-      url: `${baseUrl}/ai-chatboty`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.95,
-    },
-    {
-      url: `${baseUrl}/ai-targetolog`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.95,
-    },
-    // Контент-страницы
-    {
-      url: `${baseUrl}/targetolog-almaty`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-    {
-      url: `${baseUrl}/chto-takoe-targetirovannaya-reklama`,
-      lastModified: new Date(),
-      changeFrequency: "weekly",
-      priority: 0.9,
-    },
-    // Правовые страницы
-    {
-      url: `${baseUrl}/privacy-policy`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/terms-of-service`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
-    {
-      url: `${baseUrl}/cookie-policy`,
-      lastModified: new Date(),
-      changeFrequency: "monthly",
-      priority: 0.7,
-    },
+    // Localized blog posts
+    ...locales.map((locale) => ({
+      url: `${baseUrl}/${locale}/blog/optimize-lora-qlora`,
+      lastModified: currentDate,
+      changeFrequency: "monthly" as const,
+      priority: 0.5,
+    })),
   ];
+
+  return [...mainPages, ...localizedPages, ...blogPosts];
 }

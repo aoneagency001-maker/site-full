@@ -206,28 +206,32 @@ function BlogPage() {
 
             <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
               {topPicks.map((post, index) => (
-                <Link
+                <div
                   key={post.id}
-                  href={`/blog/${post.slug}`}
-                  className="group cursor-pointer space-y-4 block"
+                  className="group space-y-4 block relative"
                   role="article"
                   aria-labelledby={`top-pick-title-${post.id}`}
                   aria-describedby={`top-pick-excerpt-${post.id}`}
                 >
-                  <div className="aspect-video overflow-hidden rounded-lg bg-muted">
+                  <div className="aspect-video overflow-hidden rounded-lg bg-muted relative">
                     <img
                       src={post.image}
                       alt={`${post.title} - Featured image`}
-                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      className="h-full w-full object-cover"
                       loading={index < 2 ? "eager" : "lazy"}
                       decoding={index < 2 ? "sync" : "async"}
                     />
+                    <div className="absolute top-3 right-3">
+                      <Badge className="bg-primary/90 text-primary-foreground text-xs">
+                        Скоро
+                      </Badge>
+                    </div>
                   </div>
 
                   <div className="space-y-2">
                     <h3
                       id={`top-pick-title-${post.id}`}
-                      className="text-h5 text-text-heading font-medium leading-tight group-hover:text-primary transition-colors"
+                      className="text-h5 text-text-heading font-medium leading-tight"
                     >
                       {post.title}
                     </h3>
@@ -248,7 +252,7 @@ function BlogPage() {
                       {post.excerpt}
                     </p>
                   </div>
-                </Link>
+                </div>
               ))}
             </div>
           </section>
@@ -303,28 +307,32 @@ function BlogPage() {
               aria-labelledby={`${selectedTag.toLowerCase().replace(/\s+/g, "-")}-tab`}
             >
               {filteredPosts.map((post, index) => (
-                <Link
+                <div
                   key={post.id}
-                  href={`/blog/${post.slug}`}
-                  className="blog-card group cursor-pointer space-y-4 block"
+                  className="blog-card group space-y-4 block relative"
                   role="article"
                   aria-labelledby={`blog-title-${post.id}`}
                   aria-describedby={`blog-excerpt-${post.id}`}
                 >
-                  <div className="aspect-video overflow-hidden rounded-lg bg-muted">
+                  <div className="aspect-video overflow-hidden rounded-lg bg-muted relative">
                     <img
                       src={post.image}
                       alt={`${post.title} - Featured image`}
-                      className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      className="h-full w-full object-cover"
                       loading={index < 3 ? "eager" : "lazy"}
                       decoding={index < 3 ? "sync" : "async"}
                     />
+                    <div className="absolute top-3 right-3">
+                      <Badge className="bg-primary/90 text-primary-foreground text-xs">
+                        Скоро
+                      </Badge>
+                    </div>
                   </div>
 
                   <div className="space-y-2">
                     <h3
                       id={`blog-title-${post.id}`}
-                      className="text-h5 text-text-heading font-medium leading-tight group-hover:text-primary transition-colors"
+                      className="text-h5 text-text-heading font-medium leading-tight"
                     >
                       {post.title}
                     </h3>
@@ -345,7 +353,7 @@ function BlogPage() {
                       {post.excerpt}
                     </p>
                   </div>
-                </Link>
+                </div>
               ))}
             </div>
 

@@ -10,7 +10,11 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function POST(request: NextRequest) {
   try {
     const secret = request.headers.get('x-revalidate-secret');
-    const type = request.headers.get('x-revalidate-type') || 'page';
+    const typeHeader = request.headers.get('x-revalidate-type');
+    
+    // Валидируем тип для Next.js 15
+    const type: 'page' | 'layout' | undefined = 
+      typeHeader === 'page' || typeHeader === 'layout' ? typeHeader : 'page';
 
     // Проверка секрета
     if (secret !== process.env.REVALIDATION_SECRET) {
@@ -65,4 +69,6 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
+
 

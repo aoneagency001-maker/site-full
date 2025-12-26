@@ -1,10 +1,15 @@
-import type { ReactNode } from "react";
+import { Inter } from "next/font/google";
+import "./globals.css";
 
-type Props = {
-  children: ReactNode;
-};
+const inter = Inter({
+  subsets: ["latin", "cyrillic"],
+  variable: "--font-inter",
+});
 
-// Root layout must be minimal for next-intl to work
-export default function RootLayout({ children }: Props) {
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   return children;
 }

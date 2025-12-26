@@ -1,121 +1,133 @@
-@import url("https://fonts.googleapis.com/css2?family=Inter+Tight:ital,wght@0,100..900;1,100..900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&display=swap");
 @import "tailwindcss";
 @import "tw-animate-css";
 
 :root {
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: "Manrope", system-ui, sans-serif;
   line-height: 1.5;
   font-weight: 400;
 
-  color-scheme: light dark;
+  color-scheme: dark;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  --background: oklch(0.9816 0.0017 247.839);
-  --foreground: oklch(0.3695 0.0381 260.5001);
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.2103 0.0059 285.8852);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.2103 0.0059 285.8852);
-  --primary: rgb(29, 39, 54);
-  --primary-hover: rgb(72, 82, 97);
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.9674 0.0013 286.3752);
-  --secondary-foreground: oklch(0.2103 0.0059 285.8852);
-  --muted: oklch(0.9674 0.0013 286.3752);
-  --muted-foreground: oklch(0.5517 0.0138 285.9385);
-  --accent: oklch(0.9674 0.0013 286.3752);
-  --accent-foreground: oklch(0.2103 0.0059 285.8852);
-  --destructive: oklch(0.6368 0.2078 25.3313);
-  --destructive-foreground: oklch(0.9851 0 0);
-  --border: oklch(0.9197 0.004 286.3202);
-  --input: oklch(0.9197 0.004 286.3202);
-  --ring: oklch(0.3695 0.0381 260.5001);
-  --chart-1: oklch(0.6231 0.188 259.8145);
-  --chart-2: oklch(0.6268 0.2325 303.9004);
-  --chart-3: oklch(0.6271 0.1699 149.2138);
-  --chart-4: oklch(0.7049 0.1867 47.6044);
-  --chart-5: oklch(0.5771 0.2152 27.325);
-  --sidebar: oklch(0.9816 0.0017 247.839);
-  --sidebar-foreground: oklch(0.3695 0.0381 260.5001);
-  --sidebar-primary: oklch(0.3695 0.0381 260.5001);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.9674 0.0013 286.3752);
-  --sidebar-accent-foreground: oklch(0.2103 0.0059 285.8852);
-  --sidebar-border: oklch(0.9197 0.004 286.3202);
-  --sidebar-ring: oklch(0.3695 0.0381 260.5001);
-  --font-sans: var(--font-inter);
-  --font-serif: var(--font-source-serif-4);
-  --font-mono: var(--font-geist-mono);
-  --radius: 0.7rem;
-  --shadow-2xs: 0px 2px 4px 0px hsl(0 0% 0% / 0.05);
-  --shadow-xs: 0px 2px 4px 0px hsl(0 0% 0% / 0.05);
-  --shadow-sm: 0px 2px 4px 0px hsl(0 0% 0% / 0.1), 0px 1px 2px -1px hsl(0 0% 0% / 0.1);
-  --shadow: 0px 2px 4px 0px hsl(0 0% 0% / 0.1), 0px 1px 2px -1px hsl(0 0% 0% / 0.1);
-  --shadow-md: 0px 2px 4px 0px hsl(0 0% 0% / 0.1), 0px 2px 4px -1px hsl(0 0% 0% / 0.1);
-  --shadow-lg: 0px 2px 4px 0px hsl(0 0% 0% / 0.1), 0px 4px 6px -1px hsl(0 0% 0% / 0.1);
-  --shadow-xl: 0px 2px 4px 0px hsl(0 0% 0% / 0.1), 0px 8px 10px -1px hsl(0 0% 0% / 0.1);
-  --shadow-2xl: 0px 2px 4px 0px hsl(0 0% 0% / 0.25);
+
+  /* ========================================
+     A-ONE AGENCY — Brand Color System
+     Tactical Control Theme v2.0
+     ======================================== */
+
+  /* ========== 1. NEUTRAL (Серые/Фоны) ========== */
+  --background: #0B0C10;           /* Основной фон страницы */
+  --surface: #121418;              /* Вторичный фон, секции */
+  --surface-elevated: #1F2833;     /* Приподнятые элементы */
+
+  /* Text */
+  --foreground: #FFFFFF;           /* Заголовки H1-H6 */
+  --muted-foreground: #9CA3AF;     /* Основной текст, описания */
+  --muted: #6B7280;                /* Вспомогательный текст */
+
+  /* Cards */
+  --card: #1F2833;
+  --card-foreground: #FFFFFF;
+  --popover: #1F2833;
+  --popover-foreground: #FFFFFF;
+
+  /* ========== 2. PRIMARY — Зеленый (Кнопки, Блоки) ========== */
+  --primary: #10B981;              /* Emerald Green - основные кнопки */
+  --primary-hover: #059669;        /* Hover состояние */
+  --primary-light: #34D399;        /* Легкий акцент */
+  --primary-foreground: #0B0C10;   /* Текст на зеленом */
+
+  /* ========== 3. DATA — Голубой Неон (Цифры, Графики) ========== */
+  --data: #66FCF1;                 /* Neon Cyan - цифры, KPI */
+  --data-light: #9EFFF8;           /* Подсветка данных */
+  --data-dark: #45A29E;            /* Вторичные данные */
+
+  /* Secondary (использует data цвет) */
+  --secondary: #1F2833;
+  --secondary-foreground: #66FCF1;
+
+  /* Accent (для hover и вторичных акцентов) */
+  --accent: #45A29E;
+  --accent-foreground: #FFFFFF;
+
+  /* ========== 4. SYSTEM — Уведомления ========== */
+  --success: #14B8A6;              /* Teal - успех */
+  --success-foreground: #0B0C10;
+  --warning: #F59E0B;              /* Amber - предупреждение */
+  --warning-foreground: #0B0C10;
+  --error: #EF4444;                /* Red - ошибка */
+  --error-foreground: #FFFFFF;
+  --info: #3B82F6;                 /* Blue - информация */
+  --info-foreground: #FFFFFF;
+
+  /* Legacy: destructive = error */
+  --destructive: #EF4444;
+  --destructive-foreground: #FFFFFF;
+
+  /* ========== BORDERS & SEPARATORS ========== */
+  --border: #1F2833;
+  --border-light: #2D3748;
+  --input: #1F2833;
+  --ring: #10B981;                 /* Focus ring - зеленый */
+
+  /* ========== CHARTS (Data palette) ========== */
+  --chart-1: #66FCF1;  /* Neon Cyan */
+  --chart-2: #10B981;  /* Emerald Green */
+  --chart-3: #45A29E;  /* Teal */
+  --chart-4: #34D399;  /* Light Green */
+  --chart-5: #9EFFF8;  /* Light Cyan */
+
+  /* ========== SIDEBAR ========== */
+  --sidebar: #0B0C10;
+  --sidebar-foreground: #FFFFFF;
+  --sidebar-primary: #10B981;
+  --sidebar-primary-foreground: #0B0C10;
+  --sidebar-accent: #1F2833;
+  --sidebar-accent-foreground: #FFFFFF;
+  --sidebar-border: #1F2833;
+  --sidebar-ring: #10B981;
+
+  /* ========== TYPOGRAPHY ========== */
+  --font-sans: "Manrope", system-ui, sans-serif;
+
+  /* ========== RADIUS ========== */
+  --radius: 0.5rem;
+
+  /* ========== SHADOWS ========== */
+  --shadow-2xs: 0px 1px 2px 0px rgba(0, 0, 0, 0.4);
+  --shadow-xs: 0px 1px 3px 0px rgba(0, 0, 0, 0.5);
+  --shadow-sm: 0px 2px 4px 0px rgba(0, 0, 0, 0.5);
+  --shadow: 0px 4px 6px -1px rgba(0, 0, 0, 0.5);
+  --shadow-md: 0px 6px 10px -1px rgba(0, 0, 0, 0.5);
+  --shadow-lg: 0px 10px 15px -3px rgba(0, 0, 0, 0.5);
+  --shadow-xl: 0px 20px 25px -5px rgba(0, 0, 0, 0.5);
+  --shadow-2xl: 0px 25px 50px -12px rgba(0, 0, 0, 0.6);
+
+  /* Glow Effects */
+  --shadow-glow-green: 0 0 10px rgba(16, 185, 129, 0.3);
+  --shadow-glow-green-strong: 0 0 20px rgba(16, 185, 129, 0.4);
+  --shadow-glow-cyan: 0 0 10px rgba(102, 252, 241, 0.3);
+  --shadow-glow-cyan-strong: 0 0 20px rgba(102, 252, 241, 0.5);
+
+  /* Legacy aliases */
+  --shadow-glow-mint: var(--shadow-glow-cyan);
+  --shadow-glow-teal: var(--shadow-glow-green);
+
   --tracking-normal: 0rem;
   --spacing: 0.25rem;
 
-  /* CUSTOME */
-  --text-heading: rgb(50, 60, 77);
-  --text-label: rgb(102, 110, 125);
-  --text-tag: rgb(102, 110, 125);
-  --text-tag-bg: rgb(239, 241, 246);
+  /* Custom text vars */
+  --text-heading: #FFFFFF;
+  --text-label: #9CA3AF;
+  --text-data: #66FCF1;            /* Для цифр и данных */
+  --text-tag: #10B981;             /* Для тегов и бейджей */
+  --text-tag-bg: #1F2833;
 }
 
-.dark {
-  --background: oklch(0.1408 0.0044 285.8229);
-  --foreground: oklch(0.9851 0 0);
-  --card: oklch(0.1408 0.0044 285.8229);
-  --card-foreground: oklch(0.9851 0 0);
-  --popover: oklch(0.1408 0.0044 285.8229);
-  --popover-foreground: oklch(0.9851 0 0);
-  --primary: oklch(0.9851 0 0);
-  --primary-foreground: oklch(0.1408 0.0044 285.8229);
-  --secondary: oklch(0.2739 0.0055 286.0326);
-  --secondary-foreground: oklch(0.9851 0 0);
-  --muted: oklch(0.2739 0.0055 286.0326);
-  --muted-foreground: oklch(0.7118 0.0129 286.0665);
-  --accent: oklch(0.2739 0.0055 286.0326);
-  --accent-foreground: oklch(0.9851 0 0);
-  --destructive: oklch(0.3958 0.1331 25.723);
-  --destructive-foreground: oklch(0.9851 0 0);
-  --border: oklch(0.2739 0.0055 286.0326);
-  --input: oklch(0.2739 0.0055 286.0326);
-  --ring: oklch(0.7118 0.0129 286.0665);
-  --chart-1: oklch(0.6231 0.188 259.8145);
-  --chart-2: oklch(0.6268 0.2325 303.9004);
-  --chart-3: oklch(0.6271 0.1699 149.2138);
-  --chart-4: oklch(0.7049 0.1867 47.6044);
-  --chart-5: oklch(0.5771 0.2152 27.325);
-  --sidebar: oklch(0.1408 0.0044 285.8229);
-  --sidebar-foreground: oklch(0.9851 0 0);
-  --sidebar-primary: oklch(0.9851 0 0);
-  --sidebar-primary-foreground: oklch(0.1408 0.0044 285.8229);
-  --sidebar-accent: oklch(0.2739 0.0055 286.0326);
-  --sidebar-accent-foreground: oklch(0.9851 0 0);
-  --sidebar-border: oklch(0.2739 0.0055 286.0326);
-  --sidebar-ring: oklch(0.7118 0.0129 286.0665);
-  --font-sans: var(--font-inter);
-  --font-serif: var(--font-source-serif-4);
-  --font-mono: var(--font-geist-mono);
-  --radius: 0.5rem;
-  --shadow-2xs: 0px 2px 4px 0px hsl(0 0% 0% / 0.05);
-  --shadow-xs: 0px 2px 4px 0px hsl(0 0% 0% / 0.05);
-  --shadow-sm: 0px 2px 4px 0px hsl(0 0% 0% / 0.1), 0px 1px 2px -1px hsl(0 0% 0% / 0.1);
-  --shadow: 0px 2px 4px 0px hsl(0 0% 0% / 0.1), 0px 1px 2px -1px hsl(0 0% 0% / 0.1);
-  --shadow-md: 0px 2px 4px 0px hsl(0 0% 0% / 0.1), 0px 2px 4px -1px hsl(0 0% 0% / 0.1);
-  --shadow-lg: 0px 2px 4px 0px hsl(0 0% 0% / 0.1), 0px 4px 6px -1px hsl(0 0% 0% / 0.1);
-  --shadow-xl: 0px 2px 4px 0px hsl(0 0% 0% / 0.1), 0px 8px 10px -1px hsl(0 0% 0% / 0.1);
-  --shadow-2xl: 0px 2px 4px 0px hsl(0 0% 0% / 0.25);
-}
-
-/* Tailwind theme extensions moved to :root for compatibility */
 @keyframes marquee {
   from {
     transform: translateX(0);
@@ -146,42 +158,45 @@
 
 body {
   letter-spacing: var(--tracking-normal);
-  font-family: "Inter Tight", sans-serif;
+  font-family: "Manrope", system-ui, sans-serif;
 }
 
 @layer components {
   /* ===== HEADINGS ===== */
   .text-h1 {
     @apply text-3xl leading-tight font-bold md:text-5xl lg:text-5xl;
+    color: var(--text-heading);
   }
 
   .text-h2 {
     @apply text-2xl leading-tight font-semibold md:text-4xl lg:text-3xl;
+    color: var(--text-heading);
   }
 
   .text-h3 {
     @apply text-xl leading-snug font-semibold md:text-3xl lg:text-3xl;
+    color: var(--text-heading);
   }
 
   .text-h4 {
     @apply text-lg leading-snug font-medium md:text-2xl lg:text-2xl;
+    color: var(--text-heading);
   }
 
   .text-h5 {
     @apply text-base leading-normal font-medium md:text-xl lg:text-xl;
+    color: var(--text-heading);
   }
 
   .text-h6 {
     @apply text-sm leading-normal font-medium md:text-lg;
+    color: var(--text-heading);
   }
 
   .text-caption {
     @apply text-xs leading-normal md:text-sm;
+    color: var(--muted-foreground);
   }
-
-  /* .text-label {
-    @apply text-sm md:text-base font-medium leading-normal;
-  } */
 }
 
 @layer utilities {
@@ -189,13 +204,167 @@ body {
     line-height: 1.4;
   }
 
-  /* Subtle card gradient that matches theme */
-  .testimonial-card-bg {
-    background: var(--card);
-    box-shadow: var(--shadow-sm);
+  /* ===== TACTICAL CONTROL UTILITIES ===== */
+
+  /* Backgrounds */
+  .bg-surface {
+    background-color: var(--surface);
+  }
+  .bg-surface-elevated {
+    background-color: var(--surface-elevated);
+  }
+  .bg-tactical {
+    background-color: var(--background);
   }
 
-  /* ===== RESPONSIVE FONT WEIGHTS ===== */
+  /* NO GRADIENTS - Clean solid backgrounds */
+  .bg-gradient-ai {
+    background-color: var(--primary);
+  }
+  .bg-gradient-success {
+    background-color: var(--success);
+  }
+
+  /* Glow effects - Electric Mint */
+  .shadow-glow-mint {
+    box-shadow: var(--shadow-glow-mint);
+  }
+  .shadow-glow-teal {
+    box-shadow: var(--shadow-glow-teal);
+  }
+
+  /* Cards - Tactical style with thin borders */
+  .card-tactical {
+    background-color: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: all 0.2s ease;
+  }
+  .card-tactical:hover {
+    border-color: var(--primary);
+    box-shadow: var(--shadow-glow-green);
+  }
+
+  /* Text */
+  .text-muted {
+    color: var(--muted-foreground);
+  }
+  .text-green {
+    color: var(--primary);
+  }
+  .text-data {
+    color: var(--data);
+  }
+  .text-teal {
+    color: var(--accent);
+  }
+
+  /* PRIMARY BUTTON - Emerald Green, solid */
+  .btn-primary {
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius);
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-glow-green);
+    border: none;
+  }
+  .btn-primary:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-glow-green-strong);
+  }
+
+  /* SECONDARY BUTTON - Transparent with green border */
+  .btn-secondary {
+    background-color: transparent;
+    color: var(--primary);
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--primary);
+    transition: all 0.2s ease;
+  }
+  .btn-secondary:hover {
+    background-color: rgba(16, 185, 129, 0.1);
+    box-shadow: var(--shadow-glow-green);
+  }
+
+  /* LEGACY btn-ai - now maps to btn-primary (green) */
+  .btn-ai {
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius);
+    transition: all 0.2s ease;
+    box-shadow: var(--shadow-glow-green);
+  }
+  .btn-ai:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--shadow-glow-green-strong);
+  }
+
+  /* Success Button */
+  .btn-success {
+    background-color: var(--success);
+    color: var(--success-foreground);
+    font-weight: 600;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--radius);
+    transition: all 0.2s ease;
+  }
+  .btn-success:hover {
+    opacity: 0.9;
+    box-shadow: var(--shadow-glow-green);
+  }
+
+  /* Data highlight - for numbers (NEON CYAN) */
+  .data-highlight {
+    color: var(--data);
+    font-weight: 700;
+  }
+
+  /* Data number - large KPI displays */
+  .data-number {
+    color: var(--data);
+    font-weight: 700;
+    text-shadow: var(--shadow-glow-cyan);
+  }
+
+  /* Tactical badge - GREEN */
+  .badge-tactical {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: var(--primary);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius);
+    font-size: 0.875rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* LEGACY badge-ai - now green */
+  .badge-ai {
+    background-color: rgba(16, 185, 129, 0.1);
+    color: var(--primary);
+    border: 1px solid rgba(16, 185, 129, 0.3);
+    padding: 0.5rem 1rem;
+    border-radius: var(--radius);
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  /* Section divider */
+  .divider-tactical {
+    height: 1px;
+    background-color: var(--border);
+  }
+
+  /* Responsive font weights */
   .font-responsive {
     @apply font-normal md:font-medium;
   }
@@ -203,12 +372,35 @@ body {
   .font-responsive-bold {
     @apply font-medium md:font-semibold lg:font-bold;
   }
+
+  /* Card premium - now tactical */
+  .card-premium {
+    background-color: var(--card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    transition: all 0.2s ease;
+  }
+  .card-premium:hover {
+    border-color: var(--primary);
+    box-shadow: var(--shadow-glow-green);
+  }
+
+  /* Testimonial card */
+  .testimonial-card-bg {
+    background-color: var(--card);
+    border: 1px solid var(--border);
+  }
+
+  /* Glass effect - REMOVED blur, now solid */
+  .glass {
+    background-color: rgba(31, 40, 51, 0.9);
+    border: 1px solid var(--border);
+  }
 }
 
 .footer-slang {
   font-size: clamp(64px, 12vw, 200px);
 }
-
 
 h3 code {
   @apply !text-lg md:!text-xl;
@@ -269,13 +461,12 @@ code > [data-line]::before {
 }
 
 code[data-line-numbers-max-digits="2"] > [data-line]::before {
-width: 2rem;
+  width: 2rem;
 }
 
 code[data-line-numbers-max-digits="3"] > [data-line]::before {
-width: 3rem;
+  width: 3rem;
 }
-
 
 .tiptap {
   :first-child {
@@ -290,8 +481,8 @@ width: 3rem;
 
 #google_translate_element select {
   background-color: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: white;
+  border: 1px solid var(--border);
+  color: var(--foreground);
   padding: 4px 8px;
   border-radius: 4px;
   font-size: 14px;
@@ -299,10 +490,9 @@ width: 3rem;
 }
 
 #google_translate_element select:hover {
-  border-color: rgba(255, 255, 255, 0.4);
+  border-color: var(--primary);
 }
 
-/* Hide Google Translate top bar */
 .goog-te-banner-frame {
   display: none !important;
 }

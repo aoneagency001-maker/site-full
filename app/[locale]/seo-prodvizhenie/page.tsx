@@ -2,14 +2,68 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "SEO-продвижение сайтов в Алматы — AOne Agency",
+  title: "SEO-продвижение сайтов в Алматы — от 200 000 ₸/мес | A-One Agency",
   description:
-    "SEO-продвижение сайтов в Google и Яндекс от 200 000 ₸/мес. Выход в ТОП-10 за 30-60 дней. Белые методы, гарантия результата.",
+    "SEO-продвижение сайтов в Google и Яндекс от 200 000 ₸/мес. Выход в ТОП-10 за 30-60 дней. Белые методы, гарантия результата в Казахстане.",
+  keywords: [
+    "SEO продвижение Алматы",
+    "SEO Казахстан",
+    "продвижение сайта в Google",
+    "продвижение в Яндексе",
+    "раскрутка сайта",
+    "поисковая оптимизация",
+    "SEO аудит",
+  ],
+  openGraph: {
+    title: "SEO-продвижение сайтов в Алматы — от 200 000 ₸/мес",
+    description: "Выход в ТОП-10 Google и Яндекса за 30-60 дней. Белые методы, прозрачная отчётность.",
+    url: "https://aoneagency.kz/seo-prodvizhenie",
+    type: "website",
+    images: [
+      {
+        url: "https://res.cloudinary.com/dieth2xb3/image/upload/v1755799085/ssimage_bxr8i6.png",
+        width: 1200,
+        height: 630,
+        alt: "SEO-продвижение A-One Agency",
+      },
+    ],
+  },
+  alternates: {
+    canonical: "https://aoneagency.kz/seo-prodvizhenie",
+  },
+};
+
+// Service structured data
+const seoServiceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "SEO-продвижение сайтов",
+  description: "Продвижение сайтов в Google и Яндекс. Выход в ТОП-10 за 30-60 дней.",
+  provider: {
+    "@type": "Organization",
+    name: "A-One Agency",
+    url: "https://aoneagency.kz",
+  },
+  areaServed: {
+    "@type": "Country",
+    name: "Kazakhstan",
+  },
+  offers: {
+    "@type": "Offer",
+    price: "200000",
+    priceCurrency: "KZT",
+    priceValidUntil: "2025-12-31",
+  },
 };
 
 export default function SEOPage() {
   return (
-    <main className="py-20 bg-white">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(seoServiceSchema) }}
+      />
+      <main className="py-20 bg-white">
       <article className="max-w-4xl mx-auto px-4 lg:px-8">
         <nav className="mb-8 text-sm text-gray-600">
           <Link href="/" className="hover:text-blue-600">
@@ -96,7 +150,8 @@ export default function SEOPage() {
             </Link>
           </div>
         </section>
-      </article>
-    </main>
+        </article>
+      </main>
+    </>
   );
 }

@@ -1,19 +1,70 @@
-import { generatePageMetadata } from "@/lib/metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Таргетированная реклама в Алматы — AOne Agency",
+  title: "Таргетированная реклама в Алматы — от 200 000 ₸/мес | A-One Agency",
   description:
-    "Настройка таргетированной рекламы в Instagram, TikTok, Facebook от 200 000 ₸/мес. AI-оптимизация, гарантия +30% заявок. 18 лет опыта.",
-  keywords:
-    "таргетированная реклама алматы, таргет instagram, реклама tiktok, facebook ads казахстан",
+    "Настройка таргетированной рекламы в Instagram, TikTok, Facebook от 200 000 ₸/мес. AI-оптимизация, гарантия +30% заявок. 18 лет опыта в Казахстане.",
+  keywords: [
+    "таргетированная реклама алматы",
+    "таргет instagram казахстан",
+    "реклама tiktok алматы",
+    "facebook ads казахстан",
+    "таргетолог алматы",
+    "настройка таргета",
+    "таргетированная реклама цена",
+  ],
+  openGraph: {
+    title: "Таргетированная реклама в Алматы — от 200 000 ₸/мес",
+    description: "AI-автоматизация таргета в Instagram, TikTok, Facebook. Гарантия +30% заявок.",
+    url: "https://aoneagency.kz/targetirovannaya-reklama",
+    type: "website",
+    images: [
+      {
+        url: "https://res.cloudinary.com/dieth2xb3/image/upload/v1755799085/ssimage_bxr8i6.png",
+        width: 1200,
+        height: 630,
+        alt: "Таргетированная реклама A-One Agency",
+      },
+    ],
+  },
+  alternates: {
+    canonical: "https://aoneagency.kz/targetirovannaya-reklama",
+  },
+};
+
+// Service structured data
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  name: "Таргетированная реклама",
+  description: "Настройка таргетированной рекламы в Instagram, TikTok, Facebook с AI-оптимизацией",
+  provider: {
+    "@type": "Organization",
+    name: "A-One Agency",
+    url: "https://aoneagency.kz",
+  },
+  areaServed: {
+    "@type": "Country",
+    name: "Kazakhstan",
+  },
+  offers: {
+    "@type": "Offer",
+    price: "200000",
+    priceCurrency: "KZT",
+    priceValidUntil: "2025-12-31",
+  },
 };
 
 export default function TargetAdvertisingPage() {
   return (
-    <main className="py-20 bg-white">
-      <article className="max-w-4xl mx-auto px-4 lg:px-8">
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(serviceSchema) }}
+      />
+      <main className="py-20 bg-white">
+        <article className="max-w-4xl mx-auto px-4 lg:px-8">
         {/* Breadcrumbs */}
         <nav className="mb-8 text-sm text-gray-600">
           <Link href="/" className="hover:text-blue-600">
@@ -185,7 +236,8 @@ export default function TargetAdvertisingPage() {
             </Link>
           </div>
         </section>
-      </article>
-    </main>
+        </article>
+      </main>
+    </>
   );
 }

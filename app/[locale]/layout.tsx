@@ -1,130 +1,230 @@
-import { VisitorTracker } from "@/components/analytics/visitor-tracker";
-import Footer from "@/components/custom/Footer";
-import Navbar from "@/components/custom/Navbar";
-import "@/lib/GSAPAnimations";
-import { defaultMetadata } from "@/lib/metadata";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import { NextIntlClientProvider } from "next-intl";
-import { getMessages } from "next-intl/server";
+import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-import Script from "next/script";
-import "../globals.css";
+import { locales } from "@/i18n.config";
+import Navbar from "@/components/custom/Navbar";
+import Footer from "@/components/custom/Footer";
+import { VisitorTracker } from "@/components/analytics/visitor-tracker";
+import type { Metadata } from "next";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const inter = Inter({
+  subsets: ["latin", "cyrillic"],
+  variable: "--font-inter",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+// Global metadata for all pages
+export const metadata: Metadata = {
+  metadataBase: new URL("https://aoneagency.kz"),
+  title: {
+    default: "A-One Agency | AI-маркетинговое агентство в Казахстане",
+    template: "%s | A-One Agency",
+  },
+  description:
+    "Таргетированная реклама, контекстная реклама, SEO-продвижение, разработка приложений. От 200 000 тг/мес. Гарантия результата. Алматы, Казахстан.",
+  keywords: [
+    "таргетированная реклама Казахстан",
+    "таргетолог Алматы",
+    "контекстная реклама Алматы",
+    "SEO продвижение Казахстан",
+    "маркетинговое агентство Алматы",
+    "AI маркетинг",
+    "ИИ-Таргетолог",
+    "реклама Instagram Казахстан",
+    "реклама TikTok Алматы",
+    "Google Ads Казахстан",
+    "Яндекс Директ Алматы",
+  ],
+  authors: [{ name: "A-One Agency", url: "https://aoneagency.kz" }],
+  creator: "A-One Agency",
+  publisher: "A-One Agency",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
+  openGraph: {
+    type: "website",
+    locale: "ru_KZ",
+    url: "https://aoneagency.kz",
+    siteName: "A-One Agency",
+    title: "A-One Agency | AI-маркетинговое агентство в Казахстане",
+    description:
+      "Таргетированная реклама, контекстная реклама, SEO-продвижение. От 200 000 тг/мес. Гарантия результата.",
+    images: [
+      {
+        url: "https://res.cloudinary.com/dieth2xb3/image/upload/v1755799085/ssimage_bxr8i6.png",
+        width: 1200,
+        height: 630,
+        alt: "A-One Agency - AI-маркетинговое агентство",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "A-One Agency | AI-маркетинговое агентство в Казахстане",
+    description: "Таргетированная реклама, SEO-продвижение. От 200 000 тг/мес.",
+    images: ["https://res.cloudinary.com/dieth2xb3/image/upload/v1755799085/ssimage_bxr8i6.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-video-preview": -1,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
+  },
+  verification: {
+    google: "your-google-verification-code",
+    yandex: "your-yandex-verification-code",
+  },
+  alternates: {
+    canonical: "https://aoneagency.kz",
+    languages: {
+      "ru-KZ": "https://aoneagency.kz/ru",
+      "kk-KZ": "https://aoneagency.kz/kk",
+      "en-US": "https://aoneagency.kz/en",
+    },
+  },
+};
 
-export const metadata = defaultMetadata;
+// Organization structured data
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://aoneagency.kz/#organization",
+  name: "A-One Agency",
+  url: "https://aoneagency.kz",
+  logo: {
+    "@type": "ImageObject",
+    url: "https://aoneagency.kz/logo.png",
+    width: 200,
+    height: 60,
+  },
+  description: "AI-маркетинговое агентство в Казахстане. Таргетированная реклама, SEO-продвижение, разработка приложений.",
+  foundingDate: "2020",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "проспект Назарбаева 103",
+    addressLocality: "Алматы",
+    addressRegion: "Алматинская область",
+    postalCode: "050000",
+    addressCountry: "KZ",
+  },
+  contactPoint: {
+    "@type": "ContactPoint",
+    telephone: "+7-747-385-4493",
+    contactType: "customer service",
+    availableLanguage: ["Russian", "Kazakh", "English"],
+  },
+  sameAs: [
+    "https://instagram.com/aoneagency.kz",
+    "https://t.me/aoneagency",
+    "https://wa.me/77473854493",
+  ],
+};
 
-const locales = ["ru", "kk", "en"];
+// LocalBusiness structured data
+const localBusinessSchema = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": "https://aoneagency.kz/#localbusiness",
+  name: "A-One Agency",
+  image: "https://res.cloudinary.com/dieth2xb3/image/upload/v1755799085/ssimage_bxr8i6.png",
+  url: "https://aoneagency.kz",
+  telephone: "+7-747-385-4493",
+  email: "info@aoneagency.kz",
+  address: {
+    "@type": "PostalAddress",
+    streetAddress: "проспект Назарбаева 103",
+    addressLocality: "Алматы",
+    addressRegion: "Алматинская область",
+    postalCode: "050000",
+    addressCountry: "KZ",
+  },
+  geo: {
+    "@type": "GeoCoordinates",
+    latitude: 43.2440614,
+    longitude: 76.8999421,
+  },
+  openingHoursSpecification: [
+    {
+      "@type": "OpeningHoursSpecification",
+      dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      opens: "09:00",
+      closes: "18:00",
+    },
+  ],
+  priceRange: "$$",
+  currenciesAccepted: "KZT",
+  paymentAccepted: "Cash, Credit Card, Bank Transfer",
+  areaServed: {
+    "@type": "Country",
+    name: "Kazakhstan",
+  },
+};
+
+export function generateStaticParams() {
+  return locales.map((locale) => ({ locale }));
+}
+
+interface LocaleLayoutProps {
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+}
 
 export default async function LocaleLayout({
   children,
   params,
-}: {
-  children: React.ReactNode;
-  params: Promise<{ locale: string }>;
-}) {
+}: LocaleLayoutProps) {
   const { locale } = await params;
 
-  // Validate that the incoming `locale` parameter is valid
-  if (!locales.includes(locale)) {
+  // Validate locale
+  if (!locales.includes(locale as (typeof locales)[number])) {
     notFound();
   }
 
-  const messages = await getMessages({ locale });
-  const gaId = "G-SSLRCQXX49";
-  const ymId = process.env.NEXT_PUBLIC_YM_ID;
+  // Enable static rendering
+  setRequestLocale(locale);
+
+  // Get messages for the locale
+  const messages = await getMessages();
 
   return (
-    <html lang={locale}>
+    <html lang={locale} className="dark">
       <head>
-        <meta
-          name="google-site-verification"
-          content="LvwS5yC_Z-iDxq9_K6JDNbvxrIA0Zj0Fntv5JD0iIwk"
+        <meta name="color-scheme" content="dark" />
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/manifest.json" />
+
+        {/* Structured Data - Organization */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(organizationSchema),
+          }}
         />
-        {/* Google Analytics 4 */}
-        <Script
-          src={`https://www.googletagmanager.com/gtag/js?id=${gaId}`}
-          strategy="afterInteractive"
-        />
-        <Script id="google-analytics" strategy="afterInteractive">
-          {`
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', '${gaId}');
-          `}
-        </Script>
 
-        {/* Yandex.Metrika */}
-        {ymId && (
-          <Script id="yandex-metrika" strategy="afterInteractive">
-            {`
-              (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
-              m[i].l=1*new Date();
-              for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
-              k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
-              (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
-
-              ym(${ymId}, "init", {
-                clickmap:true,
-                trackLinks:true,
-                accurateTrackBounce:true,
-                webvisor:true,
-                trackHash:true
-              });
-            `}
-          </Script>
-        )}
-
-        {/* Google Translate */}
-        <Script id="google-translate" strategy="afterInteractive">
-          {`
-            function googleTranslateElementInit() {
-              new google.translate.TranslateElement(
-                {
-                  pageLanguage: 'ru',
-                  includedLanguages: 'ru,kk,en',
-                  layout: google.translate.TranslateElement.InlineLayout.SIMPLE,
-                  autoDisplay: false
-                },
-                'google_translate_element'
-              );
-            }
-          `}
-        </Script>
-        <Script
-          src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"
-          strategy="afterInteractive"
+        {/* Structured Data - LocalBusiness */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(localBusinessSchema),
+          }}
         />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body
+        className={`${inter.variable} font-sans antialiased bg-background text-foreground`}
+      >
         <NextIntlClientProvider messages={messages}>
           <VisitorTracker />
-          <div className="min-h-screen w-full">
-            <Navbar />
-            {children}
-            <Footer />
-          </div>
-          {/* Yandex.Metrika noscript */}
-          {ymId && (
-            <noscript>
-              <div>
-                <img
-                  src={`https://mc.yandex.ru/watch/${ymId}`}
-                  style={{ position: "absolute", left: "-9999px" }}
-                  alt=""
-                />
-              </div>
-            </noscript>
-          )}
+          <Navbar />
+          <main className="min-h-screen">{children}</main>
+          <Footer />
         </NextIntlClientProvider>
       </body>
     </html>

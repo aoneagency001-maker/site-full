@@ -13,9 +13,9 @@ import { usePathname, useRouter } from "next/navigation";
 import { useTransition } from "react";
 
 const languages = [
-  { code: "ru", name: "Русский", flag: "🇷🇺" },
-  { code: "kk", name: "Қазақша", flag: "🇰🇿" },
-  { code: "en", name: "English", flag: "🇬🇧" },
+  { code: "ru", name: "RU" },
+  { code: "kk", name: "KZ" },
+  { code: "en", name: "EN" },
 ];
 
 export function LanguageSwitcher() {
@@ -28,7 +28,6 @@ export function LanguageSwitcher() {
 
   const handleLanguageChange = (newLocale: string) => {
     startTransition(() => {
-      // Remove the current locale prefix and add the new one
       const pathWithoutLocale = pathname.replace(/^\/[a-z]{2}/, "");
       const newPath = `/${newLocale}${pathWithoutLocale}`;
       router.replace(newPath);
@@ -41,12 +40,12 @@ export function LanguageSwitcher() {
         <Button
           variant="ghost"
           size="sm"
-          className="gap-2"
+          className="gap-1 px-2"
           disabled={isPending}
           aria-label="Select language"
         >
           <Globe className="h-4 w-4" />
-          <span className="hidden md:inline">{currentLanguage?.flag}</span>
+          <span className="text-sm font-medium">{currentLanguage?.name}</span>
         </Button>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
@@ -56,7 +55,6 @@ export function LanguageSwitcher() {
             onClick={() => handleLanguageChange(lang.code)}
             className={`cursor-pointer ${locale === lang.code ? "bg-accent" : ""}`}
           >
-            <span className="mr-2">{lang.flag}</span>
             {lang.name}
           </DropdownMenuItem>
         ))}

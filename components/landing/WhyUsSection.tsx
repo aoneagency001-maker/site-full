@@ -17,29 +17,29 @@ export function WhyUsSection() {
       icon: Award,
       title: t("benefit1Title"),
       description: t("benefit1Description"),
-      color: "text-blue-500",
-      bgColor: "bg-blue-50",
+      color: "text-primary",
+      bgColor: "bg-primary/20",
     },
     {
       icon: Brain,
       title: t("benefit2Title"),
       description: t("benefit2Description"),
-      color: "text-purple-500",
-      bgColor: "bg-purple-50",
+      color: "text-purple-400",
+      bgColor: "bg-purple-500/20",
     },
     {
       icon: TrendingUp,
       title: t("benefit3Title"),
       description: t("benefit3Description"),
-      color: "text-green-500",
-      bgColor: "bg-green-50",
+      color: "text-success",
+      bgColor: "bg-success/20",
     },
     {
       icon: Eye,
       title: t("benefit4Title"),
       description: t("benefit4Description"),
-      color: "text-orange-500",
-      bgColor: "bg-orange-50",
+      color: "text-orange-400",
+      bgColor: "bg-orange-500/20",
     },
   ];
   const sectionRef = useRef<HTMLElement>(null);
@@ -73,22 +73,22 @@ export function WhyUsSection() {
   return (
     <section
       ref={sectionRef}
-      className="py-20 bg-gradient-to-br from-blue-50 via-white to-orange-50"
+      className="py-20 bg-gradient-to-br from-background via-surface to-background"
       aria-labelledby="why-us-heading"
     >
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div ref={headingRef} className="text-center mb-16">
-          <h2 id="why-us-heading" className="text-4xl font-bold text-gray-900 mb-4">
+          <h2 id="why-us-heading" className="text-4xl font-bold text-foreground mb-4">
             {t("title")}
           </h2>
-          <p className="text-xl text-gray-700">{t("subtitle")}</p>
+          <p className="text-xl text-muted-foreground">{t("subtitle")}</p>
         </div>
 
         <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {benefits.map((benefit, index) => (
             <div
               key={index}
-              className="benefit-card bg-white rounded-xl p-6 text-center hover:shadow-xl transition-all duration-300 hover:-translate-y-1"
+              className="benefit-card card-premium rounded-xl p-6 text-center hover:shadow-xl hover:shadow-primary/10 transition-all duration-300 hover:-translate-y-1"
               role="article"
               aria-labelledby={`benefit-${index}-title`}
             >
@@ -98,11 +98,11 @@ export function WhyUsSection() {
                 <benefit.icon className={`w-8 h-8 ${benefit.color}`} />
               </div>
 
-              <h3 id={`benefit-${index}-title`} className="text-xl font-bold text-gray-900 mb-3">
+              <h3 id={`benefit-${index}-title`} className="text-xl font-bold text-foreground mb-3">
                 {benefit.title}
               </h3>
 
-              <p className="text-gray-700">{benefit.description}</p>
+              <p className="text-muted-foreground">{benefit.description}</p>
             </div>
           ))}
         </div>

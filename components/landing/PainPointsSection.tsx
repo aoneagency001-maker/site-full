@@ -60,29 +60,29 @@ export function PainPointsSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-20 bg-gray-50" aria-labelledby="pain-points-heading">
+    <section ref={sectionRef} className="py-20 bg-surface" aria-labelledby="pain-points-heading">
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div ref={headingRef} className="text-center mb-16">
-          <h2 id="pain-points-heading" className="text-4xl font-bold text-gray-900 mb-4">
+          <h2 id="pain-points-heading" className="text-4xl font-bold text-foreground mb-4">
             {t("title")}
           </h2>
-          <p className="text-xl text-gray-700">{t("subtitle")}</p>
+          <p className="text-xl text-muted-foreground">{t("subtitle")}</p>
         </div>
 
-        <div ref={cardsRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div ref={cardsRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {painPoints.map((point, index) => (
             <div
               key={index}
-              className="pain-card bg-white rounded-xl p-8 border-2 border-red-200 hover:border-red-500 transition-all hover:shadow-lg"
+              className="pain-card bg-card rounded-lg p-6 border border-border hover:border-primary transition-all duration-200 hover:shadow-glow-mint"
               role="article"
               aria-labelledby={`pain-${index}-title`}
             >
               <div className="text-4xl mb-4">{point.emoji}</div>
-              <h3 id={`pain-${index}-title`} className="text-xl font-bold text-gray-900 mb-4">
+              <h3 id={`pain-${index}-title`} className="text-lg font-bold text-white mb-3">
                 {point.title}
               </h3>
-              <p className="text-gray-700 mb-6">{point.description}</p>
-              <p className="text-blue-600 font-semibold">{point.solution}</p>
+              <p className="text-muted-foreground text-sm mb-4">{point.description}</p>
+              <p className="text-primary font-semibold text-sm">{point.solution}</p>
             </div>
           ))}
         </div>

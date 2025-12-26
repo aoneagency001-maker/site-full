@@ -19,8 +19,9 @@ export function ServicesSection() {
       title: t("service1Title"),
       description: t("service1Description"),
       price: "200 000",
-      color: "text-orange-500",
-      bgColor: "bg-orange-50",
+      color: "text-primary",
+      bgColor: "bg-primary/10",
+      borderColor: "border-primary/30",
       slug: "/targetirovannaya-reklama",
     },
     {
@@ -28,8 +29,9 @@ export function ServicesSection() {
       title: t("service2Title"),
       description: t("service2Description"),
       price: "200 000",
-      color: "text-blue-500",
-      bgColor: "bg-blue-50",
+      color: "text-accent",
+      bgColor: "bg-accent/10",
+      borderColor: "border-accent/30",
       slug: "/seo-prodvizhenie",
     },
     {
@@ -37,8 +39,9 @@ export function ServicesSection() {
       title: t("service3Title"),
       description: t("service3Description"),
       price: "250 000",
-      color: "text-purple-500",
-      bgColor: "bg-purple-50",
+      color: "text-primary",
+      bgColor: "bg-primary/10",
+      borderColor: "border-primary/30",
       slug: "/razrabotka-prilozhenij",
     },
     {
@@ -46,8 +49,9 @@ export function ServicesSection() {
       title: t("service4Title"),
       description: t("service4Description"),
       price: "200 000",
-      color: "text-green-500",
-      bgColor: "bg-green-50",
+      color: "text-accent",
+      bgColor: "bg-accent/10",
+      borderColor: "border-accent/30",
       slug: "/kontekstnaya-reklama",
     },
     {
@@ -55,8 +59,9 @@ export function ServicesSection() {
       title: t("service5Title"),
       description: t("service5Description"),
       price: "150 000",
-      color: "text-indigo-500",
-      bgColor: "bg-indigo-50",
+      color: "text-primary",
+      bgColor: "bg-primary/10",
+      borderColor: "border-primary/30",
       slug: "/crm-avtomatizaciya",
     },
     {
@@ -64,8 +69,9 @@ export function ServicesSection() {
       title: t("service6Title"),
       description: t("service6Description"),
       price: "150 000",
-      color: "text-pink-500",
-      bgColor: "bg-pink-50",
+      color: "text-accent",
+      bgColor: "bg-accent/10",
+      borderColor: "border-accent/30",
       slug: "/ai-chatboty",
     },
   ];
@@ -98,48 +104,48 @@ export function ServicesSection() {
   }, []);
 
   return (
-    <section ref={sectionRef} className="py-20 bg-white" aria-labelledby="services-heading">
+    <section ref={sectionRef} className="py-20 bg-background" aria-labelledby="services-heading">
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
         <div ref={headingRef} className="text-center mb-16">
-          <h2 id="services-heading" className="text-4xl font-bold text-gray-900 mb-4">
+          <h2 id="services-heading" className="text-4xl font-bold text-foreground mb-4">
             {t("title")}
           </h2>
-          <p className="text-xl text-gray-700">{t("subtitle")}</p>
+          <p className="text-xl text-muted-foreground">{t("subtitle")}</p>
         </div>
 
-        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div ref={gridRef} className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {services.map((service) => (
             <Link
               key={service.title}
               href={service.slug}
-              className="service-card group bg-white rounded-xl p-8 border-2 border-gray-200 hover:border-blue-500 hover:-translate-y-2 transition-all duration-300 hover:shadow-2xl"
+              className="service-card group bg-card border border-border rounded-lg p-6 hover:border-primary hover:-translate-y-1 transition-all duration-200 hover:shadow-glow-mint"
               aria-labelledby={`service-${service.slug}-title`}
             >
               {/* Icon */}
               <div
-                className={`w-16 h-16 ${service.bgColor} rounded-lg flex items-center justify-center mb-6`}
+                className={`w-14 h-14 ${service.bgColor} ${service.borderColor} border rounded-lg flex items-center justify-center mb-5`}
               >
-                <service.icon className={`w-8 h-8 ${service.color}`} />
+                <service.icon className={`w-7 h-7 ${service.color}`} />
               </div>
 
               {/* Title */}
               <h3
                 id={`service-${service.slug}-title`}
-                className="text-2xl font-bold text-gray-900 mb-4 group-hover:text-blue-600 transition-colors"
+                className="text-xl font-bold text-white mb-3 group-hover:text-primary transition-colors"
               >
                 {service.title}
               </h3>
 
               {/* Description */}
-              <p className="text-gray-700 mb-6">{service.description}</p>
+              <p className="text-muted-foreground text-sm mb-5">{service.description}</p>
 
               {/* Price */}
-              <p className="text-orange-500 font-bold text-lg mb-4">
+              <p className="text-primary font-bold text-lg mb-4">
                 {t("priceFrom")} {service.price} {t("pricePerMonth")}
               </p>
 
               {/* CTA */}
-              <span className="text-blue-600 font-semibold group-hover:text-blue-700 transition-colors inline-flex items-center">
+              <span className="text-accent font-semibold group-hover:text-primary transition-colors inline-flex items-center text-sm">
                 {t("learnMore")}
                 <svg
                   className="w-4 h-4 ml-2 transform group-hover:translate-x-1 transition-transform"

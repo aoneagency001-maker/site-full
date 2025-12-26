@@ -108,6 +108,20 @@
     "economicsResult": "50,000 ₸/month instead of 250,000 ₸ salary — save 200,000 ₸",
     "ctaButton": "Learn more about AI Targetologist →"
   },
+  "dashboard": {
+    "badge": "Live Analytics",
+    "title": "Real-time Results",
+    "description": "This is what the AI-Targetologist dashboard looks like. All data is updated automatically every day.",
+    "cplTitle": "Cost per Lead",
+    "leadsTitle": "Leads per Month",
+    "savingsTitle": "Monthly Savings",
+    "optimizationTitle": "Optimizations",
+    "cplChartTitle": "Cost per Lead Reduction",
+    "leadsChartTitle": "Lead Growth",
+    "comparisonTitle": "Comparison: Before and After AI-Targetologist",
+    "ctaText": "Want the same results for your business?",
+    "ctaButton": "Get Demo Access"
+  },
   "process": {
     "badge": "Our Proven Process",
     "title": "How We Work — Marketing Agency Process in Almaty",
@@ -254,7 +268,7 @@
     "socialProofTime": "2 minutes ago"
   },
   "footer": {
-    "companyName": "AOne Agency",
+    "companyName": "AI-Targetologist",
     "copyright": "© 2025 AOne Agency. All rights reserved.",
     "phone": "+7 747 385 4493",
     "email": "info@aoneagency.kz",
@@ -262,13 +276,13 @@
     "city": "Almaty",
     "region": "Almaty Region",
     "postalCode": "050000",
-    "ctaButton": "Contact Us",
-    "resourcesHeading": "Resources",
+    "ctaButton": "Get AI-Targetologist",
+    "resourcesHeading": "Product",
     "connectHeading": "Connect",
     "legalHeading": "Legal",
-    "blog": "Blog",
+    "blog": "Cases",
     "about": "About",
-    "cases": "Cases",
+    "cases": "Results",
     "contacts": "Contacts",
     "privacy": "Privacy Policy",
     "terms": "Terms of Service",
@@ -276,7 +290,57 @@
     "ofert": "Public Offer",
     "instagram": "Instagram",
     "telegram": "Telegram",
-    "whatsapp": "WhatsApp"
+    "whatsapp": "WhatsApp",
+    "youtube": "YouTube",
+    "allRightsReserved": "All rights reserved",
+    "systemOnline": "System online",
+    "mapBadge": "Our Office",
+    "mapTitle": "Find us on the map",
+    "mapDescription": "Visit our office or contact us online",
+    "openInMaps": "Open in Google Maps"
+  },
+  "map": {
+    "badge": "Our Office",
+    "title": "Visit Us",
+    "description": "We are located in the center of Almaty. Come for a consultation or system demo.",
+    "addressTitle": "Address",
+    "addressLine1": "Nazarbayev Avenue 103",
+    "addressLine2": "Almaty, Kazakhstan",
+    "phoneTitle": "Phone",
+    "emailTitle": "Email",
+    "hoursTitle": "Working Hours",
+    "hoursWeekdays": "Mon-Fri: 09:00 - 18:00",
+    "hoursWeekend": "Sat-Sun: closed"
+  },
+  "video": {
+    "badge": "How It Works",
+    "title": "Watch AI-Targetologist Demo",
+    "description": "In 3 minutes you will see how the system launches ads, optimizes budget and generates reports"
+  },
+  "creativeStudio": {
+    "badge": "AI-Creative Studio v3.0",
+    "title": "AI Creates Your Ads",
+    "description": "Upload a product photo — AI generates banners, carousels, and copy in 1 minute",
+    "bannerTitle": "Banner Generation",
+    "bannerDescription": "Upload product photo — AI creates ad banner in 5 styles",
+    "carouselTitle": "Smart Carousels",
+    "carouselDescription": "Automatic Stories and Instagram posts (2-10 cards)",
+    "copyTitle": "AI Copywriter",
+    "copyDescription": "Sales copy trained on thousands of successful campaigns",
+    "outputReady": "→ 3 variants ready in 60 sec",
+    "analyticsTitle": "End-to-End Analytics",
+    "analyticsDescription": "See customer journey from click to payment. WhatsApp + AmoCRM integration."
+  },
+  "cases": {
+    "badge": "Real Results",
+    "title": "AI-Targetologist Client Cases",
+    "subtitle": "See how businesses in Kazakhstan automate advertising and save on targetologists",
+    "showMore": "Show all cases →",
+    "results": "Results",
+    "budget": "Budget",
+    "leads": "Leads",
+    "cpl": "Cost per lead",
+    "period": "Period"
   },
   "about": {
     "heroHeading": "About Us",

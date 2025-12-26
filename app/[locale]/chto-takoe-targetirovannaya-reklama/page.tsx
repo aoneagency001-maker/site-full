@@ -1,4 +1,3 @@
-import { generatePageMetadata } from "@/lib/metadata";
 import type { Metadata } from "next";
 import Link from "next/link";
 
