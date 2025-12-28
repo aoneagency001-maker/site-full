@@ -2,7 +2,7 @@
 
 import { Check, X } from "lucide-react";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { analyticsEvents } from "@/lib/analytics";
 
 interface QuizData {
@@ -25,43 +25,65 @@ export function TargetQuiz({ onClose }: TargetQuizProps) {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const [isNotQualified, setIsNotQualified] = useState(false);
+  const hasTrackedStart = useRef(false);
+
+  // Отслеживание начала квиза
+  useEffect(() => {
+    if (!hasTrackedStart.current) {
+      analyticsEvents.quizStart();
+      hasTrackedStart.current = true;
+    }
+
+    // Отслеживание отказа при закрытии
+    return () => {
+      if (!isSuccess && currentStep < 3) {
+        analyticsEvents.quizAbandon({
+          step: currentStep + 1,
+          answeredQuestions: Object.keys(data).length,
+        });
+      }
+    };
+  }, []);
 
   const steps = [
     {
       id: "currentAds",
       title: t("step1Title"),
+      hint: t("step1Hint"),
       options: [
-        { label: t("step1Option1"), value: "self" },
-        { label: t("step1Option2"), value: "targetologist" },
-        { label: t("step1Option3"), value: "agency" },
-        { label: t("step1Option4"), value: "none" },
+        { label: t("step1Option1"), value: "self", hint: t("step1Option1Hint") },
+        { label: t("step1Option2"), value: "targetologist", hint: t("step1Option2Hint") },
+        { label: t("step1Option3"), value: "agency", hint: t("step1Option3Hint") },
+        { label: t("step1Option4"), value: "none", hint: t("step1Option4Hint") },
       ],
     },
     {
       id: "budget",
       title: t("step2Title"),
       subtitle: t("step2Subtitle"),
+      hint: t("step2Hint"),
       options: [
-        { label: t("step2Option1"), value: "under300" },
-        { label: t("step2Option2"), value: "300-2000" },
-        { label: t("step2Option3"), value: "2000-10000" },
-        { label: t("step2Option4"), value: "over10000" },
+        { label: t("step2Option1"), value: "under300", hint: t("step2Option1Hint") },
+        { label: t("step2Option2"), value: "300-2000", hint: t("step2Option2Hint") },
+        { label: t("step2Option3"), value: "2000-10000", hint: t("step2Option3Hint") },
+        { label: t("step2Option4"), value: "over10000", hint: t("step2Option4Hint") },
       ],
     },
     {
       id: "priority",
       title: t("step3Title"),
-      subtitle: t("step3Subtitle"),
+      hint: t("step3Hint"),
       options: [
-        { label: t("step3Option1"), value: "control" },
-        { label: t("step3Option2"), value: "stability" },
-        { label: t("step3Option3"), value: "independence" },
-        { label: t("step3Option4"), value: "savings" },
+        { label: t("step3Option1"), value: "control", hint: t("step3Option1Hint") },
+        { label: t("step3Option2"), value: "stability", hint: t("step3Option2Hint") },
+        { label: t("step3Option3"), value: "independence", hint: t("step3Option3Hint") },
+        { label: t("step3Option4"), value: "savings", hint: t("step3Option4Hint") },
       ],
     },
     {
       id: "contact",
-      title: t("step3Title"),
+      title: t("step4Title"),
+      hint: t("step4Hint"),
       type: "form",
     },
   ];
@@ -71,6 +93,14 @@ export function TargetQuiz({ onClose }: TargetQuizProps) {
 
   const handleSelect = (value: string) => {
     setData({ ...data, [step.id]: value });
+
+    // Отправка аналитики о выборе ответа
+    analyticsEvents.quizStepComplete({
+      step: currentStep + 1,
+      question: step.id,
+      answer: value,
+    });
+
     setTimeout(() => setCurrentStep(currentStep + 1), 300);
   };
 
@@ -205,6 +235,12 @@ export function TargetQuiz({ onClose }: TargetQuizProps) {
       <div className="mb-8">
         <h2 className="text-3xl font-bold text-foreground mb-2">{step.title}</h2>
         {step.subtitle && <p className="text-muted-foreground">{step.subtitle}</p>}
+        {step.hint && (
+          <p className="text-sm text-primary/80 mt-3 flex items-center gap-2">
+            <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-primary/20 text-primary text-xs">💡</span>
+            {step.hint}
+          </p>
+        )}
       </div>
 
       {/* Options */}
@@ -215,7 +251,7 @@ export function TargetQuiz({ onClose }: TargetQuizProps) {
               key={option.value}
               onClick={() => handleSelect(option.value)}
               className={`
-                w-full flex items-center gap-4 p-6 rounded-xl border-2 transition-all
+                w-full flex flex-col gap-1 p-5 rounded-xl border-2 transition-all text-left
                 ${
                   data[step.id as keyof QuizData] === option.value
                     ? "border-primary bg-primary/20"
@@ -223,9 +259,14 @@ export function TargetQuiz({ onClose }: TargetQuizProps) {
                 }
               `}
             >
-              <span className="flex-1 text-left font-semibold text-foreground">{option.label}</span>
-              {data[step.id as keyof QuizData] === option.value && (
-                <Check className="w-6 h-6 text-primary" />
+              <div className="flex items-center gap-4 w-full">
+                <span className="flex-1 font-semibold text-foreground">{option.label}</span>
+                {data[step.id as keyof QuizData] === option.value && (
+                  <Check className="w-6 h-6 text-primary flex-shrink-0" />
+                )}
+              </div>
+              {option.hint && (
+                <span className="text-xs text-muted-foreground pl-0">{option.hint}</span>
               )}
             </button>
           ))}

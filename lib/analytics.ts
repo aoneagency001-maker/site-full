@@ -39,6 +39,12 @@ export const analyticsEvents = {
   quizStart: () =>
     sendEvent("quiz_start"),
 
+  quizStepComplete: (stepData?: Record<string, unknown>) =>
+    sendEvent("quiz_step_complete", stepData),
+
+  quizAbandon: (stepData?: Record<string, unknown>) =>
+    sendEvent("quiz_abandon", stepData),
+
   quizComplete: (answers?: Record<string, unknown>) =>
     sendEvent("quiz_complete", answers),
 
