@@ -9,11 +9,16 @@ import { cn } from "@/lib/utils";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
-import { ArrowLeft, Filter, Search } from "lucide-react";
+import { ArrowLeft, Filter, Hand, Search } from "lucide-react";
 import Link from "next/link";
-import { useMemo, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 
 gsap.registerPlugin(ScrollTrigger);
+
+// Форматирование чисел без зависимости от локали (для избежания hydration mismatch)
+const formatNumber = (num: number) => {
+  return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+};
 
 // Получаем уникальные ниши
 const allNiches = [...new Set(aiTargetologCases.map((c) => c.niche))];
@@ -22,11 +27,14 @@ export default function CasesPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedNiche, setSelectedNiche] = useState<string | null>(null);
   const [showPending, setShowPending] = useState(false);
+  const [showSwipeHint, setShowSwipeHint] = useState(true);
 
   const headingRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
+  const mobileScrollRef = useRef<HTMLDivElement>(null);
+  const swipeIndicatorRef = useRef<HTMLDivElement>(null);
 
-  // Фильтрация кейсов
+  // Фильтрация кейсов с сортировкой (сначала с изображениями)
   const filteredCases = useMemo(() => {
     let cases = showPending ? aiTargetologCases : getCasesWithData();
 
@@ -44,7 +52,12 @@ export default function CasesPage() {
       );
     }
 
-    return cases;
+    // Сортировка: сначала с изображениями
+    return cases.sort((a, b) => {
+      const aHasImages = a.images && a.images.length > 0 ? 1 : 0;
+      const bHasImages = b.images && b.images.length > 0 ? 1 : 0;
+      return bHasImages - aHasImages;
+    });
   }, [searchQuery, selectedNiche, showPending]);
 
   // Статистика
@@ -74,7 +87,33 @@ export default function CasesPage() {
         childSelector: ".case-card",
       });
     }
-  }, [filteredCases]);
+
+    // Анимация индикатора свайпа
+    if (swipeIndicatorRef.current && showSwipeHint) {
+      gsap.to(swipeIndicatorRef.current, {
+        x: 30,
+        duration: 0.8,
+        ease: "power2.inOut",
+        repeat: -1,
+        yoyo: true,
+      });
+    }
+  }, [filteredCases, showSwipeHint]);
+
+  // Скрыть индикатор при скролле
+  useEffect(() => {
+    const scrollContainer = mobileScrollRef.current;
+    if (!scrollContainer) return;
+
+    const handleScroll = () => {
+      if (scrollContainer.scrollLeft > 20) {
+        setShowSwipeHint(false);
+      }
+    };
+
+    scrollContainer.addEventListener("scroll", handleScroll);
+    return () => scrollContainer.removeEventListener("scroll", handleScroll);
+  }, []);
 
   return (
     <main className="min-h-screen bg-background py-12">
@@ -103,7 +142,7 @@ export default function CasesPage() {
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto">
             <div className="bg-surface rounded-xl p-4 text-center">
               <p className="text-2xl md:text-3xl font-bold text-primary">
-                {stats.totalLeads.toLocaleString()}+
+                {formatNumber(stats.totalLeads)}+
               </p>
               <p className="text-sm text-muted-foreground">Лидов привлечено</p>
             </div>
@@ -197,10 +236,52 @@ export default function CasesPage() {
           Найдено: <span className="text-foreground font-medium">{filteredCases.length}</span> кейсов
         </p>
 
-        {/* Cases Grid */}
+        {/* Mobile Horizontal Scroll */}
+        <div className="md:hidden mb-8 relative">
+          {/* Swipe Hint Indicator */}
+          {showSwipeHint && (
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-none">
+              <div
+                ref={swipeIndicatorRef}
+                className="flex items-center gap-2 bg-black/40 backdrop-blur-sm px-4 py-2 rounded-full"
+              >
+                <Hand className="w-5 h-5 text-white/80 rotate-90" />
+                <span className="text-white/80 text-sm font-medium">Листайте</span>
+              </div>
+            </div>
+          )}
+          <div
+            ref={mobileScrollRef}
+            className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide"
+            style={{
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
+            }}
+          >
+            {filteredCases.map((caseStudy) => (
+              <div key={caseStudy.id} className="flex-shrink-0 w-[85vw] max-w-[340px]">
+                <CaseCard caseStudy={caseStudy} compact showDetails={false} />
+              </div>
+            ))}
+          </div>
+          {/* Scroll Indicator Dots */}
+          <div className="flex justify-center gap-1.5 mt-4">
+            {filteredCases.slice(0, 6).map((_, idx) => (
+              <div
+                key={idx}
+                className="w-2 h-2 rounded-full bg-primary/30"
+              />
+            ))}
+            {filteredCases.length > 6 && (
+              <span className="text-xs text-muted-foreground ml-1">+{filteredCases.length - 6}</span>
+            )}
+          </div>
+        </div>
+
+        {/* Desktop Grid - hidden on mobile */}
         <div
           ref={gridRef}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+          className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
           {filteredCases.map((caseStudy) => (
             <CaseCard key={caseStudy.id} caseStudy={caseStudy} />

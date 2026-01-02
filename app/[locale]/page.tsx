@@ -4,6 +4,7 @@ import ContactSection from "@/components/landing/ContactSection";
 import FAQSection from "@/components/landing/FAQSection";
 import HeroSection from "@/components/landing/HeroSection";
 import { InteractiveDashboard } from "@/components/landing/InteractiveDashboard";
+import { PromoBlock } from "@/components/landing/PromoBlock";
 import { VideoSection } from "@/components/landing/VideoSection";
 import { TriggersSection } from "@/components/landing/TriggersSection";
 import { generatePageMetadata } from "@/lib/metadata";
@@ -24,6 +25,7 @@ export default function Home() {
         <FAQSection />
         <ContactSection />
       </div>
+      <PromoBlock />
     </main>
   );
 }

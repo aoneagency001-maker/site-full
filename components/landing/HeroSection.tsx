@@ -75,8 +75,8 @@ function HomePage() {
             <div className="block lg:hidden py-4">
               <div className="relative w-full aspect-[4/3] max-w-md mx-auto">
                 <Image
-                  src="/images/hero-dashboard.svg"
-                  alt="AI Dashboard Preview"
+                  src="/images/hero-dashboard.png"
+                  alt="AI-Таргетолог - панель управления рекламными кампаниями"
                   fill
                   className="object-contain"
                   priority
@@ -151,8 +151,8 @@ function HomePage() {
           <div className="hidden lg:block flex-1">
             <div className="relative w-full aspect-[4/3]">
               <Image
-                src="/images/hero-dashboard.svg"
-                alt="AI Dashboard Preview"
+                src="/images/hero-dashboard.png"
+                alt="AI-Таргетолог - панель управления рекламными кампаниями"
                 fill
                 className="object-contain"
                 priority

@@ -4,10 +4,10 @@ import { getFeaturedCases } from "@/data/aiTargetologCases";
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Hand } from "lucide-react";
 import { useTranslations } from "next-intl";
 import Link from "next/link";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { CaseCard } from "./CaseCard";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -15,96 +15,98 @@ gsap.registerPlugin(ScrollTrigger);
 export function CasesSection() {
   const t = useTranslations("cases");
   const sectionRef = useRef<HTMLElement>(null);
-  const headingRef = useRef<HTMLDivElement>(null);
-  const gridRef = useRef<HTMLDivElement>(null);
+  const mobileScrollRef = useRef<HTMLDivElement>(null);
+  const swipeIndicatorRef = useRef<HTMLDivElement>(null);
+  const [showSwipeHint, setShowSwipeHint] = useState(true);
 
-  // Показываем только featured кейсы с данными (максимум 6)
   const featuredCases = getFeaturedCases().slice(0, 6);
 
   useGSAP(() => {
-    if (headingRef.current) {
-      gsap.effects.fadeUpOnScroll(headingRef.current, {
-        start: "top 80%",
+    // Анимация индикатора свайпа
+    if (swipeIndicatorRef.current && showSwipeHint) {
+      gsap.to(swipeIndicatorRef.current, {
+        x: 30,
         duration: 0.8,
-        markers: false,
-      });
-    }
-
-    if (gridRef.current) {
-      gsap.effects.staggerFadeUpOnScroll(gridRef.current, {
-        start: "top 85%",
-        duration: 0.6,
-        stagger: 0.1,
-        childSelector: ".case-card",
-        markers: false,
+        ease: "power2.inOut",
+        repeat: -1,
+        yoyo: true,
       });
     }
 
     return () => {
       ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     };
+  }, [showSwipeHint]);
+
+  // Скрыть индикатор при скролле
+  useEffect(() => {
+    const scrollContainer = mobileScrollRef.current;
+    if (!scrollContainer) return;
+
+    const handleScroll = () => {
+      if (scrollContainer.scrollLeft > 20) {
+        setShowSwipeHint(false);
+      }
+    };
+
+    scrollContainer.addEventListener("scroll", handleScroll);
+    return () => scrollContainer.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
     <section
       ref={sectionRef}
       id="cases"
-      className="py-20 bg-surface"
-      aria-labelledby="cases-heading"
+      className="py-16 bg-surface"
     >
       <div className="max-w-7xl mx-auto px-4 lg:px-8">
-        {/* Header */}
-        <div ref={headingRef} className="text-center mb-16">
-          <div className="badge-ai inline-block mb-4">{t("badge")}</div>
-          <h2
-            id="cases-heading"
-            className="text-4xl md:text-5xl font-bold text-foreground mb-6"
+        {/* Mobile Horizontal Scroll */}
+        <div className="relative">
+          {/* Swipe Hint Indicator - только на мобильной */}
+          {showSwipeHint && (
+            <div className="md:hidden absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 z-20 pointer-events-none">
+              <div
+                ref={swipeIndicatorRef}
+                className="flex items-center gap-2 bg-black/40 backdrop-blur-sm px-4 py-2 rounded-full"
+              >
+                <Hand className="w-5 h-5 text-white/80 rotate-90" />
+                <span className="text-white/80 text-sm font-medium">Листайте</span>
+              </div>
+            </div>
+          )}
+
+          {/* Слайдер карточек */}
+          <div
+            ref={mobileScrollRef}
+            className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide"
+            style={{
+              scrollbarWidth: "none",
+              msOverflowStyle: "none",
+            }}
           >
-            {t("title")}
-          </h2>
-          <p className="text-xl text-muted-foreground max-w-3xl mx-auto">
-            {t("subtitle")}
-          </p>
-        </div>
+            {featuredCases.map((caseStudy) => (
+              <div
+                key={caseStudy.id}
+                className="flex-shrink-0 w-[85vw] max-w-[340px] md:w-[320px]"
+              >
+                <CaseCard caseStudy={caseStudy} compact showDetails={false} />
+              </div>
+            ))}
+          </div>
 
-        {/* Stats Summary */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-          <div className="bg-background/50 rounded-xl p-4 text-center">
-            <p className="text-3xl md:text-4xl font-bold text-primary mb-1">
-              3,300+
-            </p>
-            <p className="text-sm text-muted-foreground">Лидов привлечено</p>
-          </div>
-          <div className="bg-background/50 rounded-xl p-4 text-center">
-            <p className="text-3xl md:text-4xl font-bold text-success mb-1">
-              $1.15
-            </p>
-            <p className="text-sm text-muted-foreground">Мин. CPL</p>
-          </div>
-          <div className="bg-background/50 rounded-xl p-4 text-center">
-            <p className="text-3xl md:text-4xl font-bold text-data mb-1">57%</p>
-            <p className="text-sm text-muted-foreground">Макс. качество</p>
-          </div>
-          <div className="bg-background/50 rounded-xl p-4 text-center">
-            <p className="text-3xl md:text-4xl font-bold text-foreground mb-1">
-              15+
-            </p>
-            <p className="text-sm text-muted-foreground">Ниш охвачено</p>
+          {/* Dots - только мобильная */}
+          <div className="flex justify-center gap-1.5 mt-4 md:hidden">
+            {featuredCases.map((_, idx) => (
+              <div
+                key={idx}
+                className="w-2 h-2 rounded-full bg-primary/30"
+              />
+            ))}
           </div>
         </div>
 
-        {/* Cases Grid */}
-        <div
-          ref={gridRef}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12"
-        >
-          {featuredCases.map((caseStudy) => (
-            <CaseCard key={caseStudy.id} caseStudy={caseStudy} />
-          ))}
-        </div>
-
-        {/* View More Button */}
-        <div className="text-center">
+        {/* Кнопка на страницу кейсов */}
+        <div className="text-center mt-8">
           <Link
             href="/cases"
             className="btn-ai inline-flex items-center gap-2 px-8 py-4 rounded-lg font-semibold transform hover:scale-105 transition-all"

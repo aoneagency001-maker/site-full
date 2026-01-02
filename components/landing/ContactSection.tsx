@@ -61,6 +61,7 @@ function ContactUs() {
     const formData = new FormData(e.currentTarget);
     const data = {
       name: formData.get("name") as string,
+      phone: formData.get("phone") as string,
       email: formData.get("email") as string,
       message: formData.get("message") as string,
     };
@@ -169,6 +170,27 @@ function ContactUs() {
                     required
                     aria-required="true"
                     itemProp="name"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label
+                    htmlFor="phone"
+                    className="text-foreground text-sm font-medium sm:text-base"
+                  >
+                    {t("phoneLabel")}
+                  </label>
+                  <Input
+                    id="phone"
+                    type="tel"
+                    placeholder={t("phonePlaceholder")}
+                    className="focus:border-primary focus:ring-primary w-full border-border bg-surface text-foreground placeholder:text-muted-foreground h-10 sm:h-11"
+                    name="phone"
+                    autoComplete="tel"
+                    inputMode="tel"
+                    required
+                    aria-required="true"
+                    itemProp="telephone"
                   />
                 </div>
 

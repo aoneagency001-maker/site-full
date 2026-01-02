@@ -30,10 +30,7 @@ export const aiTargetologCases: AITargetologCase[] = [
     id: "beine-optics",
     name: "Beine Optics",
     niche: "Оптика / Медицина",
-    images: [
-      "/images/cases/beine-optics/screen-1.png",
-      "/images/cases/beine-optics/screen-2.png",
-    ],
+    images: [],
     budget: "$517",
     budgetRaw: 517,
     leads: 431,
@@ -55,10 +52,7 @@ export const aiTargetologCases: AITargetologCase[] = [
     id: "evvi",
     name: "EVVI",
     niche: "Системы безопасности",
-    images: [
-      "/images/cases/evvi/screen-1.png",
-      "/images/cases/evvi/screen-2.png",
-    ],
+    images: [],
     budget: "$1,414",
     budgetRaw: 1414,
     leads: 750,
@@ -80,22 +74,20 @@ export const aiTargetologCases: AITargetologCase[] = [
     id: "rocketgo",
     name: "RocketGo",
     niche: "Внутренний туризм",
-    images: [
-      "/images/cases/rocketgo/screen-1.png",
-    ],
-    budget: "$1,500",
-    budgetRaw: 1500,
-    leads: 1303,
-    cpl: "$1.15",
-    cplRaw: 1.15,
+    images: ["/images/cases/rocketgo/screen-1.png"],
+    budget: "$2,382",
+    budgetRaw: 2382,
+    leads: 2137,
+    cpl: "$1.11",
+    cplRaw: 1.11,
     quality: 46,
-    impressions: 274692,
+    impressions: 490503,
     period: "Ноя-Дек 2025",
     task: "Привлечение туристов на туры по Казахстану",
     description: "Туры на Байконур, горнолыжные курорты, экскурсии.",
     results: [
-      "1,303 лида — рекорд по количеству",
-      "CPL $1.15 — самый низкий в туризме",
+      "2,137 лидов — рекорд по количеству",
+      "CPL $1.11 — самый низкий в туризме",
       "AI автопилот работает ежедневно"
     ],
     featured: true
@@ -104,9 +96,7 @@ export const aiTargetologCases: AITargetologCase[] = [
     id: "august-water",
     name: "August Water Clean",
     niche: "Очистные сооружения (B2B)",
-    images: [
-      "/images/cases/august-water/screen-1.png",
-    ],
+    images: [],
     budget: "$320",
     budgetRaw: 320,
     leads: 57,
@@ -128,23 +118,21 @@ export const aiTargetologCases: AITargetologCase[] = [
     id: "nnn-detailing",
     name: "NNN Detailing",
     niche: "Автоаксессуары",
-    images: [
-      "/images/cases/nnn-detailing/screen-1.png",
-    ],
-    budget: "$4,400",
-    budgetRaw: 4400,
-    leads: 777,
-    cpl: "$5.66",
-    cplRaw: 5.66,
-    quality: 57,
-    impressions: 570796,
+    images: ["/images/cases/nnn-detailing/screen-1.png"],
+    budget: "$4,931",
+    budgetRaw: 4931,
+    leads: 860,
+    cpl: "$5.73",
+    cplRaw: 5.73,
+    quality: 56,
+    impressions: 630488,
     period: "Ноя-Дек 2025",
     task: "Продажа авточехлов, кожухов на руль и аксессуаров",
     description: "Детейлинг и автоаксессуары для автомобилей.",
     results: [
-      "57% качественных лидов — лучший показатель",
-      "777 заявок за месяц",
-      "570K показов — широкий охват"
+      "56% качественных лидов — отличный показатель",
+      "860 заявок за 2 месяца",
+      "630K показов — широкий охват"
     ],
     featured: true
   },
@@ -152,33 +140,29 @@ export const aiTargetologCases: AITargetologCase[] = [
     id: "kardankraft",
     name: "KardanKraft",
     niche: "Автозапчасти",
-    images: [
-      "/images/cases/kardankraft/screen-1.png",
-    ],
-    budget: "$62",
-    budgetRaw: 62,
-    leads: 18,
-    cpl: "$3.43",
-    cplRaw: 3.43,
-    quality: 17,
-    impressions: 11253,
-    period: "Ноябрь 2025",
+    images: ["/images/cases/kardankraft/screen-1.png"],
+    budget: "$312",
+    budgetRaw: 312,
+    leads: 79,
+    cpl: "$3.95",
+    cplRaw: 3.95,
+    quality: 24,
+    impressions: 42648,
+    period: "Ноя-Дек 2025",
     task: "Привлечение клиентов на покупку автозапчастей",
-    description: "Тестовая кампания с минимальным бюджетом.",
+    description: "Автозапчасти и карданы.",
     results: [
-      "CPL $3.43 — потенциал для масштабирования",
-      "18 лидов при бюджете $62",
-      "Тест ниши автозапчастей"
+      "CPL $3.95 — хороший для B2B ниши",
+      "79 лидов за месяц",
+      "Стабильный поток заявок"
     ],
-    featured: false
+    featured: true
   },
   {
     id: "astone",
     name: "A.Stone",
     niche: "Натуральный камень",
-    images: [
-      "/images/cases/astone/screen-1.png",
-    ],
+    images: [],
     budget: "—",
     budgetRaw: 0,
     leads: 0,
@@ -371,8 +355,16 @@ export const aiTargetologCases: AITargetologCase[] = [
 ];
 
 // Получить только featured кейсы для главной страницы
+// Сортировка: сначала с изображениями, потом без
 export const getFeaturedCases = () =>
-  aiTargetologCases.filter(c => c.featured && c.leads > 0);
+  aiTargetologCases
+    .filter(c => c.featured && c.leads > 0)
+    .sort((a, b) => {
+      // Сначала кейсы с изображениями
+      const aHasImages = a.images && a.images.length > 0 ? 1 : 0;
+      const bHasImages = b.images && b.images.length > 0 ? 1 : 0;
+      return bHasImages - aHasImages;
+    });
 
 // Получить все кейсы с данными
 export const getCasesWithData = () =>

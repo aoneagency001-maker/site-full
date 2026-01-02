@@ -114,7 +114,7 @@
     "beforeDescription": "Targetologist salary. Half of the budget goes to employee's pocket.",
     "afterLabel": "With AI Targetologist",
     "afterDescription": "Subscription. All money works for attracting clients + AI efficiency.",
-    "economicsResult": "50,000 ₸/month instead of 250,000 ₸ salary — save 200,000 ₸",
+    "economicsResult": "100,000 ₸/month — pays for itself in the first month",
     "ctaButton": "Learn more about AI Targetologist →"
   },
   "dashboard": {
@@ -129,7 +129,7 @@
     "leadsChartTitle": "Lead Growth",
     "comparisonTitle": "Comparison: Before and After AI-Targetologist",
     "ctaText": "Want the same results for your business?",
-    "ctaButton": "Get Demo Access"
+    "ctaButton": "Submit request"
   },
   "process": {
     "badge": "Our Proven Process",
@@ -189,6 +189,8 @@
     "formDescription": "Use this form to contact AOne Agency. All fields are required.",
     "nameLabel": "Name",
     "namePlaceholder": "Enter your name",
+    "phoneLabel": "Phone",
+    "phonePlaceholder": "+7 (___) ___-__-__",
     "emailLabel": "Email",
     "emailPlaceholder": "Enter your email",
     "messageLabel": "Message",

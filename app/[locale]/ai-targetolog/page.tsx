@@ -4,7 +4,7 @@ import Link from "next/link";
 export const metadata: Metadata = {
   title: "ИИ-Таргетолог | Первая Маркетинговая ОС в Казахстане — AOne Agency",
   description:
-    "Замените таргетолога на искусственный интеллект. Получайте в 2,5 раза больше клиентов за те же деньги. Подписка 49 000 ₸/месяц вместо зарплаты 200 000 ₸.",
+    "Замените таргетолога на искусственный интеллект. Получайте в 2,5 раза больше клиентов за те же деньги. Подписка 100 000 ₸/месяц вместо зарплаты 200 000 ₸.",
   keywords:
     "ИИ таргетолог, AI маркетинг, автоматизация рекламы, таргетированная реклама ИИ, маркетинговая ОС, SaaS маркетинг, Алматы",
   openGraph: {
@@ -382,7 +382,7 @@ export default function AITargetologPage() {
 
           <div className="bg-[#1a1a1a] border-2 border-purple-600 rounded-3xl p-12 md:p-16 max-w-3xl mx-auto text-center">
             <h3 className="text-2xl font-bold mb-6">Подписка на Маркетинговую ОС</h3>
-            <div className="text-7xl md:text-8xl font-extrabold text-purple-500 mb-4">49 000 ₸</div>
+            <div className="text-7xl md:text-8xl font-extrabold text-purple-500 mb-4">100 000 ₸</div>
             <div className="text-xl text-gray-400 mb-10">в месяц</div>
 
             <ul className="text-left max-w-md mx-auto space-y-4 mb-12">
@@ -456,11 +456,11 @@ export default function AITargetologPage() {
             operatingSystem: "Web",
             offers: {
               "@type": "Offer",
-              price: "49000",
+              price: "100000",
               priceCurrency: "KZT",
               priceSpecification: {
                 "@type": "UnitPriceSpecification",
-                price: "49000",
+                price: "100000",
                 priceCurrency: "KZT",
                 billingDuration: "P1M",
               },

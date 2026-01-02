@@ -151,7 +151,7 @@ export function AITargetologSection() {
                 {t("afterLabel")}
               </div>
               <div className="text-2xl sm:text-3xl md:text-4xl font-bold mb-3 sm:mb-4 text-primary">
-                49 000 <span className="text-primary/70 text-lg sm:text-xl md:text-2xl">₸</span>
+                100 000 <span className="text-primary/70 text-lg sm:text-xl md:text-2xl">₸</span>
               </div>
               <p className="text-muted-foreground text-xs sm:text-sm">{t("afterDescription")}</p>
             </div>
