@@ -1,31 +1,52 @@
 "use client";
 
-import Script from "next/script";
 import { usePathname } from "next/navigation";
+import Script from "next/script";
 import { useEffect, useRef } from "react";
 
+const DEFAULT_GA_MEASUREMENT_ID = "G-SSLRCQXX49";
+
 export function Analytics() {
-  const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;
+  const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID || DEFAULT_GA_MEASUREMENT_ID;
   const ymId = process.env.NEXT_PUBLIC_YM_ID;
   const pathname = usePathname();
-  const ymFirstHitSkipped = useRef(false);
+  const isInitialYandexPage = useRef(true);
 
-  // SPA: Яндекс.Метрика инициализирована с defer:true (см. init ниже),
-  // поэтому просмотры на клиентских переходах надо слать вручную.
-  // Самый первый просмотр уже отправил init — его пропускаем.
+  useEffect(() => {
+    if (!gaId) return;
+
+    const pagePath = `${pathname}${window.location.search}`;
+    let attempts = 0;
+    const sendPageView = () => {
+      if (window.gtag) {
+        window.gtag("event", "page_view", {
+          page_location: window.location.href,
+          page_path: pagePath,
+          page_title: document.title,
+        });
+        return;
+      }
+
+      attempts++;
+      if (attempts < 20) {
+        window.setTimeout(sendPageView, 250);
+      }
+    };
+
+    sendPageView();
+  }, [gaId, pathname]);
+
   useEffect(() => {
     if (!ymId) return;
-    if (!ymFirstHitSkipped.current) {
-      ymFirstHitSkipped.current = true;
+    if (isInitialYandexPage.current) {
+      isInitialYandexPage.current = false;
       return;
     }
-    const url = window.location.pathname + window.location.search;
-    if (typeof (window as any).ym === "function") {
-      (window as any).ym(Number(ymId), "hit", url, {
-        referer: document.referrer,
-        title: document.title,
-      });
-    }
+
+    window.ym?.(Number(ymId), "hit", `${pathname}${window.location.search}`, {
+      title: document.title,
+      referer: document.referrer,
+    });
   }, [pathname, ymId]);
 
   return (
@@ -43,7 +64,7 @@ export function Analytics() {
               function gtag(){dataLayer.push(arguments);}
               gtag('js', new Date());
               gtag('config', '${gaId}', {
-                page_path: window.location.pathname,
+                send_page_view: false,
               });
             `}
           </Script>
@@ -61,7 +82,6 @@ export function Analytics() {
             (window, document, "script", "https://mc.yandex.ru/metrika/tag.js", "ym");
 
             ym(${ymId}, "init", {
-              defer:true,
               clickmap:true,
               trackLinks:true,
               accurateTrackBounce:true,
@@ -69,7 +89,6 @@ export function Analytics() {
               trackHash:true,
               ecommerce:"dataLayer"
             });
-            ym(${ymId}, "hit", window.location.pathname + window.location.search);
           `}
         </Script>
       )}
